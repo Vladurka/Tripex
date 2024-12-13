@@ -5,11 +5,10 @@ namespace Tripex.Core.Domain.Entities
 {
     public class Comment : BaseEntity
     {
-        [ForeignKey("User")]
         public Guid UserId { get; set; }
-
-        [ForeignKey("Post")]
+        public User User { get; set; }
         public Guid PostId { get; set; }
+        public Post Post { get; set; }
 
         [Required]
         public string ContentUrl { get; set; } = string.Empty;

@@ -3,7 +3,7 @@ using Tripex.Core.Domain.Entities;
 
 namespace Tripex.Core.Domain.Interfaces.Repositories
 {
-    public interface IUserRepository
+    public interface IUsersRepository
     {
         public Task<User?> GetUserByEmailAsync(string email);
         public Task<ResponseOptions> AddUserAsync(UserRegister user);

@@ -6,6 +6,7 @@ namespace Tripex.Core.Domain.Entities
     {
         [Key]
         public Guid Id { get; set; } = new Guid();
-        public DateTime PublishingDate { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     }
 }

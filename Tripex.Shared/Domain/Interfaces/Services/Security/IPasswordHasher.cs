@@ -1,4 +1,4 @@
-﻿namespace Tripex.Core.Domain.Interfaces.Security
+﻿namespace Tripex.Core.Domain.Interfaces.Services.Security
 {
     public interface IPasswordHasher
     {

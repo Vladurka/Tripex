@@ -2,6 +2,6 @@
 {
     public enum ResponseOptions
     {
-        Exists, NotFound, Ok
+        Exists, NotFound, Ok, BadRequest
     }
 }

@@ -12,11 +12,14 @@ namespace Tripex.Core.Domain.Entities
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
-        [StringLength(16, MinimumLength = 8)]
+        [MinLength(8)]
         public string Pass { get; set; } = string.Empty;
-
-        public User(string userName, string email, string pass) 
-        { 
+        public IEnumerable<Post> Posts { get; set; } = new List<Post>();
+        public IEnumerable<Like> Likes { get; set; } = new List<Like>();
+        public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
+        public User() { }
+        public User(string userName, string email, string pass)
+        {
             UserName = userName;
             Email = email;
             Pass = pass;
