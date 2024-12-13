@@ -2,7 +2,7 @@
 
 namespace Tripex.Core.Domain.Interfaces.Services
 {
-    public interface IUserService
+    public interface IUsersService
     {
         public Task<ResponseOptions> LoginAsync(UserLogin userLogin);
         public Task<ResponseOptions> RegisterAsync(UserRegister userRegister);

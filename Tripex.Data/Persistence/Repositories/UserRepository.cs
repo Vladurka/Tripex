@@ -5,7 +5,7 @@ using Tripex.Core.Domain.Interfaces.Repositories;
 
 namespace Tripex.Infrastructure.Persistence.Repositories
 {
-    public class UserRepository(AppDbContext context) : IUserRepository
+    public class UserRepository(AppDbContext context) : IUsersRepository
     {
         public async Task<User?> GetUserByEmailAsync(string email) =>
             await context.Users.FirstOrDefaultAsync(x => x.Email == email);

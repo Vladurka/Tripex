@@ -1,11 +1,11 @@
 ﻿using Tripex.Application.DTOs.User;
 using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Security;
 using Tripex.Core.Domain.Interfaces.Services;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services
 {
-    public class UserService(IUserRepository repo, IPasswordHasher passwordHasher) : IUserService
+    public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher) : IUsersService
     {
         public async Task<ResponseOptions> LoginAsync(UserLogin userLogin)
         {
@@ -22,7 +22,7 @@ namespace Tripex.Core.Services
             var user = await repo.GetUserByEmailAsync(userRegister.Email);
 
             if (user != null)
-                return ResponseOptions.NotFound;
+                return ResponseOptions.Exists;
 
             if (await repo.UsernameExistsAsync(userRegister.UserName))
                 return ResponseOptions.Exists;

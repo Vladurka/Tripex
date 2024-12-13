@@ -1,4 +1,4 @@
-﻿using Tripex.Core.Domain.Interfaces.Security;
+﻿using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services.Security
 {

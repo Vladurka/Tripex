@@ -15,6 +15,9 @@ namespace Tripex.Infrastructure.Persistence.Repositories
         public async Task<IReadOnlyList<T>> ListAllAsync() =>
             await context.Set<T>().ToListAsync();
 
+        public async Task<IReadOnlyList<T>> ListAllAsyncById(Guid id) =>
+            await context.Set<T>().Where(entity => entity.Id == id).ToListAsync();
+
         public async Task<T?> GetByIdAsync(Guid id) =>
               await context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
 
