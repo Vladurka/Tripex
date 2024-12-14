@@ -46,15 +46,15 @@ namespace Tripex.Infrastructure.Persistence
         private void ConfigureLikeEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Like>()
-                .HasOne(l => l.User)               
-                .WithMany(u => u.Likes)            
-                .HasForeignKey(l => l.UserId)      
+                .HasOne(l => l.User)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(l => l.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Like>()
-                .HasOne(l => l.Post)              
-                .WithMany(p => p.Likes)            
-                .HasForeignKey(l => l.PostId)      
+                .HasOne(l => l.Post)
+                .WithMany(p => p.Likes)
+                .HasForeignKey(l => l.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 

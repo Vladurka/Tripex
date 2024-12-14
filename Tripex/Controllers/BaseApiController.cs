@@ -6,7 +6,7 @@ namespace Tripex.Controllers
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
-        protected IActionResult CheckResponse(ResponseOptions options)
+        protected ActionResult CheckResponse(ResponseOptions options)
         {
             switch (options)
             {

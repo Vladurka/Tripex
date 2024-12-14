@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Tripex.Core.Domain.Entities;
+using Tripex.Core.Domain.Interfaces.Contracts;
 using Tripex.Core.Domain.Interfaces.Repositories;
 
 namespace Tripex.Infrastructure.Persistence.Repositories
@@ -12,11 +14,17 @@ namespace Tripex.Infrastructure.Persistence.Repositories
             await SaveChangesAsync();
         }
 
-        public async Task<IReadOnlyList<T>> ListAllAsync() =>
+        public async Task<IEnumerable<T>> GetListAllAsync() =>
             await context.Set<T>().ToListAsync();
 
-        public async Task<IReadOnlyList<T>> ListAllAsyncById(Guid id) =>
+        public async Task<IEnumerable<T>> GetListAllByIdAsync(Guid id) =>
             await context.Set<T>().Where(entity => entity.Id == id).ToListAsync();
+
+        public async Task<IEnumerable<T>> GetByUserKeyAsync<T>(Guid userId) where T : BaseEntity, IUserForeignKey =>
+            await context.Set<T>().Where(entity => entity.UserId == userId).ToListAsync();
+
+        public async Task<IEnumerable<T>> GetByPostKeyAsync<T>(Guid postId) where T : BaseEntity, IPostForeignKey =>
+            await context.Set<T>().Where(entity => entity.PostId == postId).ToListAsync();
 
         public async Task<T?> GetByIdAsync(Guid id) =>
               await context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
