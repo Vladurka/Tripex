@@ -5,7 +5,8 @@ namespace Tripex.Core.Domain.Entities
 {
     public class User : BaseEntity
     {
-        public string? AvatarUrl { get; set; }
+        [Url]
+        public string? AvatarUrl { get; set; } = "https://www.default.com";
 
         [StringLength(25, MinimumLength = 2)]
         public string UserName { get; set; } = string.Empty;
@@ -15,6 +16,7 @@ namespace Tripex.Core.Domain.Entities
 
         [MinLength(8)]
         public string Pass { get; set; } = string.Empty;
+
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
 
         [JsonIgnore]
@@ -22,6 +24,7 @@ namespace Tripex.Core.Domain.Entities
 
         [JsonIgnore]
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
+
         public User() { }
         public User(string userName, string email, string pass)
         {

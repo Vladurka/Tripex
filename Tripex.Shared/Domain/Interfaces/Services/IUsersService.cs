@@ -8,6 +8,7 @@ namespace Tripex.Core.Domain.Interfaces.Services
         public Task<ResponseOptions> LoginAsync(UserLogin userLogin);
         public Task<ResponseOptions> RegisterAsync(UserRegister userRegister);
         public Task<IEnumerable<User>> GetUsersAsync();
+        public Task<User> GetUserInfoByIdAsync(Guid id);
         public Task<User> GetUserByIdAsync(Guid id);
     }
 }

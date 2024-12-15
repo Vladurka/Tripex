@@ -21,5 +21,12 @@ namespace Tripex.Core.Domain.Entities
 
         public int LikesCount => Likes.Count();
         public int CommentsCount => Comments.Count();
+
+        public Post(Guid userId, string contentUrl, string? description)
+        {
+            UserId = userId;
+            ContentUrl = contentUrl;
+            Description = description;
+        }
     }
 }

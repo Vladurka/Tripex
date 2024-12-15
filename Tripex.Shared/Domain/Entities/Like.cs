@@ -8,11 +8,17 @@ namespace Tripex.Core.Domain.Entities
         public Guid UserId { get; set; }
 
         [JsonIgnore]
-        public User? User { get; set; }   
+        public User? User { get; set; }
 
         public Guid PostId { get; set; }
 
         [JsonIgnore]
         public Post? Post { get; set; } 
+
+        public Like(Guid userId, Guid postId)
+        {
+            UserId= userId;
+            PostId= postId;
+        }
     }
 }

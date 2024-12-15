@@ -46,7 +46,7 @@ namespace Tripex.Core.Services
             return users;
         }
 
-        public async Task<User> GetUserByIdAsync(Guid id)
+        public async Task<User> GetUserInfoByIdAsync(Guid id)
         {
             var user = await crudUserRepo.GetByIdAsync(id);
 
@@ -54,6 +54,16 @@ namespace Tripex.Core.Services
                 throw new KeyNotFoundException($"User with id {id} not found");
 
             user.Posts = await postsService.GetPostsByUserIdAsync(user.Id);
+
+            return user;
+        }
+
+        public async Task<User> GetUserByIdAsync(Guid id)
+        {
+            var user = await crudUserRepo.GetByIdAsync(id);
+
+            if (user == null)
+                throw new KeyNotFoundException($"User with id {id} not found");
 
             return user;
         }

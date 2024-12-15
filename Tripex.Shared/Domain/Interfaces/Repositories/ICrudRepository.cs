@@ -11,7 +11,8 @@ namespace Tripex.Core.Domain.Interfaces.Repositories
         public Task<T?> GetByIdAsync(Guid id);
         public Task<ResponseOptions> UpdateAsync(T entity);
         public Task<ResponseOptions> RemoveAsync(Guid id);
-        public Task<IEnumerable<T>> GetByUserKeyAsync<T>(Guid userId) where T : BaseEntity, IUserForeignKey;
-        public Task<IEnumerable<T>> GetByPostKeyAsync<T>(Guid postId) where T : BaseEntity, IPostForeignKey;
+        public Task<IEnumerable<T>> GetByUserIdAsync<T>(Guid userId) where T : BaseEntity, IUserForeignKey;
+        public Task<IEnumerable<T>> GetByPostIdAsync<T>(Guid postId) where T : BaseEntity, IPostForeignKey;
+        public Task<T> GetByPostAndUserIdAsync<T>(Guid postId, Guid userId) where T : BaseEntity, IUserForeignKey, IPostForeignKey;
     }
 }

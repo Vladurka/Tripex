@@ -29,7 +29,13 @@ namespace Tripex.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<User>> GetUserById(Guid id)
         {
-            return Ok(await service.GetUserByIdAsync(id));
+            return Ok(await service.GetUserInfoByIdAsync(id));
+        }
+
+        [HttpDelete("{id:Guid}")]
+        public async Task<ActionResult<User>> DeleteUserById(Guid id)
+        {
+            return CheckResponse(await repo.RemoveAsync(id));
         }
     }
 }

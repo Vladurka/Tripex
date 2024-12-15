@@ -17,6 +17,13 @@ namespace Tripex.Core.Domain.Entities
         public Post? Post { get; set; }
 
         [Required]
-        public string ContentUrl { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+
+        public Comment(Guid userId, Guid postId, string content)
+        {
+            UserId = userId;
+            PostId = postId;
+            Content = content;
+        }
     }
 }

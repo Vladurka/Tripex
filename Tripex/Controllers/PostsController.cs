@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Tripex.Application.DTOs.Post;
 using Tripex.Core.Domain.Entities;
+using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Controllers
 {
-    public class PostsController(IPostsService service) : BaseApiController
+    public class PostsController(IPostsService service, ICrudRepository<Post> repo) : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult> AddPost(Post post)
+        public async Task<ActionResult> AddPost(PostAdd post)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -31,7 +33,7 @@ namespace Tripex.Controllers
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult> DeletePost(Guid id)
         {
-            return CheckResponse(await service.RemovePostByIdAsync(id));
+            return CheckResponse(await repo.RemoveAsync(id));
         }
     }
 }
