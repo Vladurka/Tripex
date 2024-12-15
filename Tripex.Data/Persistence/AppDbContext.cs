@@ -28,35 +28,33 @@ namespace Tripex.Infrastructure.Persistence
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
+        private void ConfigureLikeEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.Likes)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Cascade); 
+            modelBuilder.Entity<Like>()
+                .HasOne(l => l.Post)
+                .WithMany(p => p.Likes)
+                .HasForeignKey(l => l.PostId)
+                .OnDelete(DeleteBehavior.Cascade); 
+        }
+
         private void ConfigureCommentEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
-                .WithMany(p => p.Comments)
+                .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade); 
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.Post)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade); 
         }
-
-        private void ConfigureLikeEntity(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Like>()
-                .HasOne(l => l.User)               
-                .WithMany(u => u.Likes)            
-                .HasForeignKey(l => l.UserId)      
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Like>()
-                .HasOne(l => l.Post)              
-                .WithMany(p => p.Likes)            
-                .HasForeignKey(l => l.PostId)      
-                .OnDelete(DeleteBehavior.Cascade);
-        }
-
     }
 }
