@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Post;
+using Tripex.Application.DTOs.Likes;
+using Tripex.Application.DTOs.Posts;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -9,25 +10,35 @@ namespace Tripex.Controllers
     public class PostsController(IPostsService service, ICrudRepository<Post> repo) : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult> AddPost(PostAdd post)
+        public async Task<ActionResult> AddPost(PostAdd postAdd)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await service.AddPostAsync(post);
+            var post = new Post(postAdd.UserId, postAdd.ContentUrl, postAdd.Description);
+
+            await repo.AddAsync(post);
             return Ok();
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<Post>> GetPostById(Guid id)
+        public async Task<ActionResult<PostGet>> GetPostById(Guid id)
         {
-            return Ok(await service.GetPostByIdAsync(id));
+            var post = await service.GetPostByIdAsync(id);
+            var postGet = new PostGet(post);
+            return Ok(postGet);
         }
 
         [HttpGet("more/{userId:Guid}")]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPostsById(Guid userId)
+        public async Task<ActionResult<IEnumerable<PostGet>>> GetPostsById(Guid userId)
         {
-            return Ok(await service.GetPostsByUserIdAsync(userId));
+            var posts = await service.GetPostsByUserIdAsync(userId);
+            var postsGet = new List<PostGet>(posts.Count());
+
+            foreach (var post in posts)
+                postsGet.Add(new PostGet(post));
+
+            return Ok(postsGet);
         }
 
         [HttpDelete("{id:Guid}")]

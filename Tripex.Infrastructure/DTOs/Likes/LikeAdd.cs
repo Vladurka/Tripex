@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tripex.Application.DTOs.Like
+namespace Tripex.Application.DTOs.Likes
 {
     public class LikeAdd
     {

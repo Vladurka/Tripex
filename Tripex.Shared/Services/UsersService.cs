@@ -1,4 +1,4 @@
-﻿using Tripex.Application.DTOs.User;
+﻿using Microsoft.EntityFrameworkCore;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -8,7 +8,7 @@ namespace Tripex.Core.Services
 {
     public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, ICrudRepository<User> crudUserRepo, IPostsService postsService) : IUsersService
     {
-        public async Task<ResponseOptions> LoginAsync(UserLogin userLogin)
+        public async Task<ResponseOptions> LoginAsync(User userLogin)
         {
             var user = await repo.GetUserByEmailAsync(userLogin.Email);
 
@@ -18,7 +18,7 @@ namespace Tripex.Core.Services
             return ResponseOptions.Ok;
         }
 
-        public async Task<ResponseOptions> RegisterAsync(UserRegister userRegister)
+        public async Task<ResponseOptions> RegisterAsync(User userRegister)
         {
             var user = await repo.GetUserByEmailAsync(userRegister.Email);
 
@@ -60,12 +60,15 @@ namespace Tripex.Core.Services
 
         public async Task<User> GetUserByIdAsync(Guid id)
         {
-            var user = await crudUserRepo.GetByIdAsync(id);
+            var user = await crudUserRepo.GetQueryable<User>() 
+                .AsNoTracking()                                 
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (user == null)
                 throw new KeyNotFoundException($"User with id {id} not found");
 
             return user;
         }
+
     }
 }

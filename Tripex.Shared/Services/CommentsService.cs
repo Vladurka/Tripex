@@ -1,10 +1,11 @@
-﻿using Tripex.Core.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
-    public class CommentsService(ICrudRepository<Comment> repo) : ICommentsService
+    public class CommentsService(ICrudRepository<Comment> repo, IUsersService usersService, IPostsService postsService) : ICommentsService
     {
         public async Task<Comment> GetComment(Guid id)
         {
@@ -13,14 +14,19 @@ namespace Tripex.Core.Services
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with id {id} not found");
 
+            comment.User = await usersService.GetUserByIdAsync(comment.UserId);
+
             return comment;
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(Guid userId)
         {
-            var comments = await repo.GetByUserIdAsync<Comment>(userId);
+            var comments = await repo.GetQueryable<Comment>()
+                .Where(comment => comment.UserId == userId)
+                .Include(comment => comment.User)
+                .ToListAsync();
 
-            if (comments.Count() == 0)
+            if (!comments.Any())
                 throw new KeyNotFoundException($"Comments with user id {userId} not found");
 
             return comments;
@@ -28,9 +34,13 @@ namespace Tripex.Core.Services
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId)
         {
-            var comments = await repo.GetByPostIdAsync<Comment>(postId);
+            var post = await postsService.GetPostByIdAsync(postId);
+            var comments = await repo.GetQueryable<Comment>()
+                 .Where(comment => comment.PostId == postId) 
+                .Include(comment => comment.User)
+                .ToListAsync();
 
-            if (comments.Count() == 0)
+            if (!comments.Any())
                 throw new KeyNotFoundException($"Comments with post id {postId} not found");
 
             return comments;

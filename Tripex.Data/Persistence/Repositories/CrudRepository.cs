@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Contracts;
 using Tripex.Core.Domain.Interfaces.Repositories;
@@ -19,6 +18,9 @@ namespace Tripex.Infrastructure.Persistence.Repositories
 
         public async Task<IEnumerable<T>> GetListAllByIdAsync(Guid id) =>
             await context.Set<T>().Where(entity => entity.Id == id).ToListAsync();
+
+        public IQueryable<T> GetQueryable<T>() where T : class =>
+             context.Set<T>();
 
         public async Task<IEnumerable<T>> GetByUserIdAsync<T>(Guid userId) where T : BaseEntity, IUserForeignKey =>
             await context.Set<T>().Where(entity => entity.UserId == userId).ToListAsync();

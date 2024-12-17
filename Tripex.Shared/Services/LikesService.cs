@@ -1,41 +1,43 @@
-﻿using Tripex.Application.DTOs;
-using Tripex.Application.DTOs.Like;
+﻿using Microsoft.EntityFrameworkCore;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
-    public class LikesService(ICrudRepository<Like> likesRepo) : ILikesService
+    public class LikesService(ICrudRepository<Like> repo, IUsersService usersService, IPostsService postsService) : ILikesService
     {
-        public async Task<ResponseOptions> AddLike(LikeAdd likeAdd)
+        public async Task<ResponseOptions> AddLike(Like likeAdd)
         {
-            var likeGet = await likesRepo.GetByPostAndUserIdAsync<Like>(likeAdd.PostId, likeAdd.UserId);
+            var likeGet = await repo.GetByPostAndUserIdAsync<Like>(likeAdd.PostId, likeAdd.UserId);
 
             if(likeGet != null)
                 return ResponseOptions.Exists;
 
-            var like = new Like(likeAdd.UserId, likeAdd.PostId);
-
-            await likesRepo.AddAsync(like);
+            await repo.AddAsync(likeAdd);
             return ResponseOptions.Ok;
         }
 
         public async Task<Like> GetLike(Guid id)
         {
-            var like = await likesRepo.GetByIdAsync(id);
+            var like = await repo.GetByIdAsync(id);
 
             if(like == null)
                 throw new KeyNotFoundException($"Like with id {id} not found");
+
+            like.User = await usersService.GetUserByIdAsync(like.UserId);
 
             return like;
         }
 
         public async Task<IEnumerable<Like>> GetLikesByUserIdAsync(Guid userId)
         {
-            var likes = await likesRepo.GetByUserIdAsync<Like>(userId);
+            var likes = await repo.GetQueryable<Like>()
+                .Where(like => like.UserId == userId)
+                .Include(like => like.User)
+                .ToListAsync();
 
-            if (likes.Count() == 0)
+            if (!likes.Any())
                 throw new KeyNotFoundException($"Likes with user id {userId} not found");
 
             return likes;
@@ -43,9 +45,13 @@ namespace Tripex.Core.Services
 
         public async Task<IEnumerable<Like>> GetLikesByPostIdAsync(Guid postId)
         {
-            var likes = await likesRepo.GetByPostIdAsync<Like>(postId);
+            var post = await postsService.GetPostByIdAsync(postId);
+            var likes = await repo.GetQueryable<Like>()
+                .Where(like => like.PostId == post.Id)
+                .Include(like => like.User)
+                .ToListAsync();
 
-            if (likes.Count() == 0)
+            if (!likes.Any())
                 throw new KeyNotFoundException($"Likes with post id {postId} not found");
 
             return likes;

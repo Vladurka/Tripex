@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tripex.Application.DTOs.Comment
+namespace Tripex.Application.DTOs.Comments
 {
     public class CommentAdd
     {

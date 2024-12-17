@@ -32,5 +32,10 @@ namespace Tripex.Core.Domain.Entities
             Email = email;
             Pass = pass;
         }
+        public User(string email, string pass)
+        {
+            Email = email;
+            Pass = pass;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tripex.Application.DTOs.Post
+namespace Tripex.Application.DTOs.Posts
 {
     public class PostAdd
     {

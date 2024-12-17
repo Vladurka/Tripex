@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Like;
-using Tripex.Application.DTOs.Post;
+using Tripex.Application.DTOs.Likes;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -10,27 +9,45 @@ namespace Tripex.Controllers
     public class LikesController(ILikesService service, ICrudRepository<Like> repo) : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult> AddLike(LikeAdd like)
+        public async Task<ActionResult> AddLike(LikeAdd likeAdd)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var like = new Like(likeAdd.UserId, likeAdd.PostId);
             return CheckResponse(await service.AddLike(like));
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<Like>> GetLike(Guid id)
+        public async Task<ActionResult<LikeGet>> GetLike(Guid id)
         {
-            return Ok(await service.GetLike(id));
+            var like = await service.GetLike(id);
+            var likeGet = new LikeGet(like);
+            return Ok(likeGet);
         }
 
         [HttpGet("more/post/{postId:Guid}")]
-        public async Task<ActionResult<IEnumerable<Like>>> GetLikesByPost(Guid postId)
+        public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByPost(Guid postId)
         {
-            return Ok(await service.GetLikesByPostIdAsync(postId));
+            var likes = await service.GetLikesByPostIdAsync(postId);
+            var likesGet = new List<LikeGet>(likes.Count());
+
+            foreach (var like in likes)
+                likesGet.Add(new LikeGet(like));
+
+            return Ok(likesGet);
         }
 
         [HttpGet("more/user/{userId:Guid}")]
-        public async Task<ActionResult<IEnumerable<Like>>> GetLikesByUser(Guid userId)
+        public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByUser(Guid userId)
         {
-            return Ok(await service.GetLikesByUserIdAsync(userId));
+            var likes = await service.GetLikesByUserIdAsync(userId);
+            var likesGet = new List<LikeGet>(likes.Count());
+
+            foreach (var like in likes)
+                likesGet.Add(new LikeGet(like));
+
+            return Ok(likesGet);
         }
 
         [HttpDelete("{id:Guid}")]

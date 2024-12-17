@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using Tripex.Core.Domain.Interfaces.Contracts;
 
 namespace Tripex.Core.Domain.Entities
@@ -8,9 +7,7 @@ namespace Tripex.Core.Domain.Entities
     {
         [Required]
         public Guid UserId { get; set; }
-
-        [JsonIgnore]
-        public User? User { get; set; }
+        public User User { get; set; }
         
         [Url]
         public string ContentUrl { get; set; } = string.Empty;
