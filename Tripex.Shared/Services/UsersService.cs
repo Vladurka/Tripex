@@ -6,7 +6,7 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services
 {
-    public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, ICrudRepository<User> crudUserRepo, IPostsService postsService) : IUsersService
+    public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, ICrudRepository<User> crudUserRepo) : IUsersService
     {
         public async Task<ResponseOptions> LoginAsync(User userLogin)
         {
@@ -47,12 +47,12 @@ namespace Tripex.Core.Services
 
         public async Task<User> GetUserInfoByIdAsync(Guid id)
         {
-            var user = await crudUserRepo.GetByIdAsync(id);
+            var user = await crudUserRepo.GetQueryable<User>()
+                .Include(u => u.Posts)
+                .SingleOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
                 throw new KeyNotFoundException($"User with id {id} not found");
-
-            user.Posts = await postsService.GetPostsByUserIdAsync(user.Id);
 
             return user;
         }

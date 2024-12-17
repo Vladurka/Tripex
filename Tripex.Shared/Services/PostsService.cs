@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Tripex.Core.Services
 {
-    public class PostsService(ICrudRepository<Post> repo, ICrudRepository<User> usersRepo) : IPostsService
+    public class PostsService(ICrudRepository<Post> repo) : IPostsService
     {
         public async Task<Post> GetPostByIdAsync(Guid postId)
         {
@@ -16,7 +16,7 @@ namespace Tripex.Core.Services
                     .ThenInclude(c => c.User)    
                 .Include(p => p.Likes)
                     .ThenInclude(l => l.User)
-                .FirstOrDefaultAsync();
+                .SingleOrDefaultAsync();
 
             if (post == null)
                 throw new KeyNotFoundException($"Post with id {postId} not found");

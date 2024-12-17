@@ -10,11 +10,11 @@ using Tripex.Infrastructure.Persistence.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers()
-    .AddNewtonsoftJson(options =>
-    {
-        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-    });
+builder.Services.AddControllers();
+//    .AddNewtonsoftJson(options =>
+//    {
+//        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+//    });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
