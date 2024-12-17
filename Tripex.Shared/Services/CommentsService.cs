@@ -5,16 +5,17 @@ using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
-    public class CommentsService(ICrudRepository<Comment> repo, IUsersService usersService, IPostsService postsService) : ICommentsService
+    public class CommentsService(ICrudRepository<Comment> repo, IPostsService postsService) : ICommentsService
     {
         public async Task<Comment> GetComment(Guid id)
         {
-            var comment = await repo.GetByIdAsync(id);
+            var comment = await repo.GetQueryable<Comment>()
+               .Where(comment => comment.Id == id)
+               .Include(comment => comment.User)
+               .FirstOrDefaultAsync();
 
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with id {id} not found");
-
-            comment.User = await usersService.GetUserByIdAsync(comment.UserId);
 
             return comment;
         }

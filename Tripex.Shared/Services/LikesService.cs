@@ -5,7 +5,7 @@ using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
-    public class LikesService(ICrudRepository<Like> repo, IUsersService usersService, IPostsService postsService) : ILikesService
+    public class LikesService(ICrudRepository<Like> repo, IPostsService postsService) : ILikesService
     {
         public async Task<ResponseOptions> AddLike(Like likeAdd)
         {
@@ -20,12 +20,13 @@ namespace Tripex.Core.Services
 
         public async Task<Like> GetLike(Guid id)
         {
-            var like = await repo.GetByIdAsync(id);
+            var like = await repo.GetQueryable<Like>()
+                .Where(like => like.Id == id)
+                .Include(like => like.User)
+                .FirstOrDefaultAsync();
 
-            if(like == null)
+            if (like == null)
                 throw new KeyNotFoundException($"Like with id {id} not found");
-
-            like.User = await usersService.GetUserByIdAsync(like.UserId);
 
             return like;
         }

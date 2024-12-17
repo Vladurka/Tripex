@@ -7,7 +7,7 @@ namespace Tripex.Application.DTOs.Comments
         public Guid UserId { get; set; }
         public Guid PostId { get; set; }
 
-        [Required]
+        [StringLength(1)]
         public string Content { get; set; } = string.Empty;
     }
 }

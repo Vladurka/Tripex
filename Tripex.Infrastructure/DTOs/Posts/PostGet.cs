@@ -40,6 +40,5 @@ namespace Tripex.Application.DTOs.Posts
             LikesCount = post.LikesCount;
             CommentsCount = post.CommentsCount;
         }
-
     }
 }

@@ -38,10 +38,9 @@ namespace Tripex.Core.Services
 
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
-            var users = await crudUserRepo.GetListAllAsync();
-
-            foreach (var user in users)
-                user.Posts = await postsService.GetPostsByUserIdAsync(user.Id);
+            var users = await crudUserRepo.GetQueryable<User>()
+               .Include(user => user.Posts)
+               .ToListAsync();
 
             return users;
         }
@@ -69,6 +68,5 @@ namespace Tripex.Core.Services
 
             return user;
         }
-
     }
 }
