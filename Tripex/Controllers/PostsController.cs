@@ -33,10 +33,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<PostGet>>> GetPostsById(Guid userId)
         {
             var posts = await service.GetPostsByUserIdAsync(userId);
-            var postsGet = new List<PostGet>(posts.Count());
-
-            foreach (var post in posts)
-                postsGet.Add(new PostGet(post));
+            var postsGet = posts.Select(post => new PostGet(post));
 
             return Ok(postsGet);
         }

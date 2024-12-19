@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tripex.Application.DTOs.Likes;
+using Tripex.Application.DTOs.Posts;
+using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -30,10 +32,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByPost(Guid postId)
         {
             var likes = await service.GetLikesByPostIdAsync(postId);
-            var likesGet = new List<LikeGet>(likes.Count());
-
-            foreach (var like in likes)
-                likesGet.Add(new LikeGet(like));
+            var likesGet = likes.Select(like => new LikeGet(like));
 
             return Ok(likesGet);
         }
@@ -42,10 +41,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByUser(Guid userId)
         {
             var likes = await service.GetLikesByUserIdAsync(userId);
-            var likesGet = new List<LikeGet>(likes.Count());
-
-            foreach (var like in likes)
-                likesGet.Add(new LikeGet(like));
+            var likesGet = likes.Select(like => new LikeGet(like));
 
             return Ok(likesGet);
         }

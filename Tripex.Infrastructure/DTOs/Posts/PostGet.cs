@@ -20,12 +20,7 @@ namespace Tripex.Application.DTOs.Posts
         {
             Id = post.Id;
             CreatedAt = post.CreatedAt;
-
-            if (post.User == null)
-                throw new ArgumentNullException(nameof(post.User), $"User is null");
-
             User = new UserGetMin(post.User);
-
             ContentUrl = post.ContentUrl;
             Description = post.Description;
 
@@ -37,8 +32,8 @@ namespace Tripex.Application.DTOs.Posts
                 .Where(comment => comment.User != null)
                 .Select(comment => new CommentGet(comment));
 
-            LikesCount = post.LikesCount;
-            CommentsCount = post.CommentsCount;
+            LikesCount = Likes.Count();
+            CommentsCount = Comments.Count();
         }
     }
 }

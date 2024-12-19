@@ -35,24 +35,25 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             var users = await service.GetUsersAsync();
-            var usersGet = new List<UserGet>(users.Count());
-
-            foreach (var user in users)
-                usersGet.Add(new UserGet(user));
+            var usersGet = users.Select(user => new UserGet(user));
 
             return Ok(usersGet);
         }
 
-        [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<User>> GetUserById(Guid id)
+        [HttpGet("{userName}")]
+        public async Task<ActionResult<IEnumerable<UserGet>>> GetUsersByName(string userName)
         {
-            var user = await service.GetUserInfoByIdAsync(id);
-            var userGet = new UserGet(user);
-            return Ok(userGet);
+            if (string.IsNullOrWhiteSpace(userName))
+                return BadRequest("User name cannot be empty");
+
+            var users = await service.GetUsersInfoByNameAsync(userName);
+            var usersGet = users.Select(user => new UserGet(user));
+
+            return Ok(users);
         }
 
         [HttpDelete("{id:Guid}")]
-        public async Task<ActionResult<User>> DeleteUserById(Guid id)
+        public async Task<ActionResult<IEnumerable<User>>> DeleteUserById(Guid id)
         {
             return CheckResponse(await repo.RemoveAsync(id));
         }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Tripex.Application.DTOs.Comments;
 using Tripex.Application.DTOs.Likes;
+using Tripex.Application.DTOs.Posts;
+using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -33,10 +35,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<CommentGet>>> GetLikesByPost(Guid postId)
         {
             var comments = await service.GetCommentsByPostIdAsync(postId);
-            var commentsGet = new List<CommentGet>(comments.Count());
-
-            foreach (var comment in comments)
-                commentsGet.Add(new CommentGet(comment));
+            var commentsGet = comments.Select(comments => new CommentGet(comments));
 
             return Ok(commentsGet);
         }
@@ -44,13 +43,10 @@ namespace Tripex.Controllers
         [HttpGet("more/user/{userId:Guid}")]
         public async Task<ActionResult<IEnumerable<CommentGet>>> GetLikesByUser(Guid userId)
         {
-            var likes = await service.GetCommentsByUserIdAsync(userId);
-            var likesGet = new List<CommentGet>(likes.Count());
+            var comments = await service.GetCommentsByUserIdAsync(userId);
+            var commentsGet = comments.Select(comments => new CommentGet(comments));
 
-            foreach (var like in likes)
-                likesGet.Add(new CommentGet(like));
-
-            return Ok(likesGet);
+            return Ok(commentsGet);
         }
 
         [HttpDelete("{id:Guid}")]

@@ -39,34 +39,25 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             var users = await crudUserRepo.GetQueryable<User>()
-               .Include(user => user.Posts)
+               .Include(u => u.Posts)
+               .Include(u => u.Followers)
+               .Include(u => u.Following)
                .ToListAsync();
 
             return users;
         }
 
-        public async Task<User> GetUserInfoByIdAsync(Guid id)
+        public async Task<IEnumerable<User>> GetUsersInfoByNameAsync(string userName)
         {
-            var user = await crudUserRepo.GetQueryable<User>()
+            var users = await crudUserRepo.GetQueryable<User>()
+                .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
                 .Include(u => u.Posts)
-                .SingleOrDefaultAsync(u => u.Id == id);
+                .Include(u => u.Followers)
+                .Include(u => u.Following)
+                .ToListAsync();
 
-            if (user == null)
-                throw new KeyNotFoundException($"User with id {id} not found");
-
-            return user;
+            return users;
         }
 
-        public async Task<User> GetUserByIdAsync(Guid id)
-        {
-            var user = await crudUserRepo.GetQueryable<User>() 
-                .AsNoTracking()                                 
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (user == null)
-                throw new KeyNotFoundException($"User with id {id} not found");
-
-            return user;
-        }
     }
 }
