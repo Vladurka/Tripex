@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Linq;
-using Tripex.Application.DTOs.Comments;
-using Tripex.Application.DTOs.Followers;
-using Tripex.Application.DTOs.Posts;
+﻿using Tripex.Application.DTOs.Posts;
 using Tripex.Core.Domain.Entities;
 
 namespace Tripex.Application.DTOs.Users
@@ -11,7 +7,7 @@ namespace Tripex.Application.DTOs.Users
     {
         public string UserName { get; set; } = string.Empty;
         public string? Avatar { get; set; }
-        public IEnumerable<PostGetMin> Posts { get; set; } = new List<PostGetMin>();
+        public IEnumerable<PostGet> Posts { get; set; } = new List<PostGet>();
         public IEnumerable<UserGetMin> Followers { get; set; } = new List<UserGetMin>();
         public IEnumerable<UserGetMin> Following { get; set; } = new List<UserGetMin>();
 
@@ -25,7 +21,8 @@ namespace Tripex.Application.DTOs.Users
             Avatar = user.AvatarUrl;
 
             Posts = user.Posts
-                .Select(post => new PostGetMin(post));
+                .Select(post => new PostGet(post));
+
             Following = user.Followers
                 .Select(follower => new UserGetMin(follower.FollowingEntity));
             Followers = user.Following

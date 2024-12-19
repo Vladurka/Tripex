@@ -40,6 +40,11 @@ namespace Tripex.Core.Services
         {
             var users = await crudUserRepo.GetQueryable<User>()
                .Include(u => u.Posts)
+                   .ThenInclude(p => p.Comments)
+                       .ThenInclude(p => p.User)
+                .Include(u => u.Posts)
+                   .ThenInclude(p => p.Likes)
+                       .ThenInclude(p => p.User)
                .Include(u => u.Followers)
                .Include(u => u.Following)
                .ToListAsync();
@@ -52,10 +57,14 @@ namespace Tripex.Core.Services
             var users = await crudUserRepo.GetQueryable<User>()
                 .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
                 .Include(u => u.Posts)
-                .Include(u => u.Followers)
-                .Include(u => u.Following)
-                .ToListAsync();
-
+                   .ThenInclude(p => p.Comments)
+                       .ThenInclude(p => p.User)
+                .Include(u => u.Posts)
+                   .ThenInclude(p => p.Likes)
+                       .ThenInclude(p => p.User)
+               .Include(u => u.Followers)
+               .Include(u => u.Following)
+               .ToListAsync();
             return users;
         }
 

@@ -25,11 +25,9 @@ namespace Tripex.Application.DTOs.Posts
             Description = post.Description;
 
             Likes = post.Likes
-                .Where(like => like.User != null)
                 .Select(like => new LikeGet(like));
 
             Comments = post.Comments
-                .Where(comment => comment.User != null)
                 .Select(comment => new CommentGet(comment));
 
             LikesCount = Likes.Count();

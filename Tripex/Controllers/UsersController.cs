@@ -49,7 +49,7 @@ namespace Tripex.Controllers
             var users = await service.GetUsersInfoByNameAsync(userName);
             var usersGet = users.Select(user => new UserGet(user));
 
-            return Ok(users);
+            return Ok(usersGet);
         }
 
         [HttpDelete("{id:Guid}")]
