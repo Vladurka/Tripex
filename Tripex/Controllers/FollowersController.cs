@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Tripex.Application.DTOs.Followers;
 using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
@@ -6,6 +7,7 @@ using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Controllers
 {
+    [Authorize]
     public class FollowersController(IFollowersService service) : BaseApiController
     {
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -6,14 +7,20 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services
 {
-    public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, ICrudRepository<User> crudUserRepo) : IUsersService
+    public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, 
+        ICrudRepository<User> crudUserRepo, ITokenService tokenService, 
+        IOptions<JwtOptions> options) : IUsersService
     {
+        private JwtOptions _options => options.Value;
+
         public async Task<ResponseOptions> LoginAsync(User userLogin)
         {
             var user = await repo.GetUserByEmailAsync(userLogin.Email);
 
             if (user == null || !passwordHasher.VerifyPassword(user.Pass, userLogin.Pass))
                 return ResponseOptions.NotFound;
+
+            tokenService.SetTokenWithId(user.Id, _options.TokenName, _options.ExpiresHours);  
 
             return ResponseOptions.Ok;
         }

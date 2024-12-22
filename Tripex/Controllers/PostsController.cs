@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Likes;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Tripex.Application.DTOs.Posts;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
@@ -7,7 +7,8 @@ using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Controllers
 {
-    public class PostsController(IPostsService service, ICrudRepository<Post> repo) : BaseApiController
+    [Authorize]
+    public class PostsController(IPostsService service) : BaseApiController
     {
         [HttpPost]
         public async Task<ActionResult> AddPost(PostAdd postAdd)
@@ -15,18 +16,10 @@ namespace Tripex.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var post = new Post(postAdd.UserId, postAdd.ContentUrl, postAdd.Description);
+            var post = new Post(postAdd.ContentUrl, postAdd.Description);
 
-            await repo.AddAsync(post);
+            await service.AddPostAsync(post);
             return Ok();
-        }
-
-        [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<PostGet>> GetPostById(Guid id)
-        {
-            var post = await service.GetPostByIdAsync(id);
-            var postGet = new PostGet(post);
-            return Ok(postGet);
         }
 
         [HttpGet("more/{userId:Guid}")]
@@ -41,7 +34,7 @@ namespace Tripex.Controllers
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult> DeletePost(Guid id)
         {
-            return CheckResponse(await repo.RemoveAsync(id));
+            return CheckResponse(await service.DeletePostAsync(id));
         }
     }
 }

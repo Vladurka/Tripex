@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using Tripex.Core.Domain.Interfaces.Contracts;
 
 namespace Tripex.Core.Domain.Entities

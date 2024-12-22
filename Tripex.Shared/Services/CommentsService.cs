@@ -10,9 +10,8 @@ namespace Tripex.Core.Services
         public async Task<Comment> GetComment(Guid id)
         {
             var comment = await repo.GetQueryable<Comment>()
-               .Where(comment => comment.Id == id)
                .Include(comment => comment.User)
-               .SingleOrDefaultAsync();
+               .SingleOrDefaultAsync(comment => comment.Id == id);
 
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with id {id} not found");

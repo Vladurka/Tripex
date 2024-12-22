@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Likes;
 using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
@@ -8,7 +7,8 @@ using Tripex.Core.Domain.Interfaces.Services;
 namespace Tripex.Controllers
 {
     public class UsersController(IUsersService service, ICrudRepository<User> repo) : BaseApiController
-    {
+    {   
+
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(UserRegister userRegister)
         {
@@ -28,7 +28,9 @@ namespace Tripex.Controllers
 
             var user = new User(userLogin.Email, userLogin.Pass);
 
-            return CheckResponse(await service.LoginAsync(user));
+            var result = await service.LoginAsync(user);
+
+            return CheckResponse(result);
         }
 
         [HttpGet]
