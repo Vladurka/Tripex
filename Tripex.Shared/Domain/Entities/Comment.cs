@@ -4,7 +4,7 @@ using Tripex.Core.Domain.Interfaces.Contracts;
 
 namespace Tripex.Core.Domain.Entities
 {
-    public class Comment : BaseEntity, IUserForeignKey, IPostForeignKey
+    public class Comment : BaseEntity, IPostForeignKey
     {
         [Required]
         public Guid UserId { get; set; }

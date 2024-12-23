@@ -12,15 +12,12 @@ namespace Tripex.Controllers
             {
                 case ResponseOptions.Ok:
                     return Ok(param);
-                    break;
 
                 case ResponseOptions.NotFound:
                     return NotFound();
-                    break;
 
                 case ResponseOptions.Exists:
                     return BadRequest("Exists");
-                    break;
 
                 default:
                     return BadRequest(param);

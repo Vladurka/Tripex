@@ -9,7 +9,8 @@ namespace Tripex.Core.Services
     {
         public async Task<ResponseOptions> AddLike(Like likeAdd)
         {
-            var likeGet = await repo.GetByPostAndUserIdAsync<Like>(likeAdd.PostId, likeAdd.UserId);
+            var likeGet = await repo.GetQueryable<Like>()
+                .SingleOrDefaultAsync(l => l.UserId == likeAdd.UserId && l.PostId == likeAdd.PostId);
 
             if(likeGet != null)
                 return ResponseOptions.Exists;

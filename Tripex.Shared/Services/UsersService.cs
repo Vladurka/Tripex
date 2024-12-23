@@ -43,7 +43,7 @@ namespace Tripex.Core.Services
             return ResponseOptions.Ok;
         }
 
-        public async Task<IEnumerable<User>> GetUsersAsync()
+        public async Task<IEnumerable<User>> GetUsersProfileAsync()
         {
             var users = await crudRepo.GetQueryable<User>()
                .Include(u => u.Posts)
@@ -55,46 +55,42 @@ namespace Tripex.Core.Services
                .Include(u => u.Followers)
                .Include(u => u.Following)
                .ToListAsync();
+
             return users;
         }
 
-        public async Task<IEnumerable<User>> GetUsersByNameAsync(string userName)
+        public async Task<User> GetUserProfileByIdAsync(Guid id)
         {
-            var users = await crudRepo.GetQueryable<User>()
-                .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
+            var user = await crudRepo.GetQueryable<User>()
                 .Include(u => u.Posts)
                    .ThenInclude(p => p.Comments)
-                       .ThenInclude(c => c.User)
+                      .ThenInclude(с => с.User)
                 .Include(u => u.Posts)
                    .ThenInclude(p => p.Likes)
                        .ThenInclude(l => l.User)
                 .Include(u => u.Followers)
-                   .ThenInclude(u => u.FollowingEntity)
-               .Include(u => u.Following)
-                   .ThenInclude(u => u.FollowerEntity)
-               .ToListAsync();
-            return users;
-        }
-
-        public async Task<User> GetUserByIdAsync(Guid id)
-        {
-            var user = await crudRepo.GetQueryable<User>()
-               .Include(u => u.Posts)
-                  .ThenInclude(p => p.Comments)
-                      .ThenInclude(с => с.User)
-               .Include(u => u.Posts)
-                  .ThenInclude(p => p.Likes)
-                      .ThenInclude(l => l.User)
-               .Include(u => u.Followers)
-                   .ThenInclude(u => u.FollowingEntity)
-               .Include(u => u.Following)
-                   .ThenInclude(u => u.FollowerEntity)
-              .SingleOrDefaultAsync(u => u.Id == id);
+                    .ThenInclude(u => u.FollowingEntity)
+                .Include(u => u.Following)
+                    .ThenInclude(u => u.FollowerEntity)
+               .SingleOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
                 throw new KeyNotFoundException("User not found");
 
             return user;
+        }
+        public async Task<IEnumerable<User>> GetUsersByNameAsync(string userName)
+        {
+            var users = await crudRepo.GetQueryable<User>()
+                .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
+                .Include(u => u.Followers)
+                .OrderByDescending(x => x.UserName.StartsWith(userName) ? 1 : 0) 
+                .ThenByDescending(x => EF.Functions.TrigramsSimilarity(x.UserName, userName))
+                .ThenByDescending(x => x.Followers.Count()) 
+                .AsNoTracking()
+                .ToListAsync();
+
+            return users;
         }
 
     }

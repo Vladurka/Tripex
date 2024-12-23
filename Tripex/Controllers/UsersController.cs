@@ -29,42 +29,49 @@ namespace Tripex.Controllers
                 return BadRequest(ModelState);
 
             var user = new User(userLogin.Email, userLogin.Pass);
-
             var result = await service.LoginAsync(user);
 
             return CheckResponse(result);
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        [HttpGet("profiles")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsersProfile()
         {
-            var users = await service.GetUsersAsync();
+            var users = await service.GetUsersProfileAsync();
             var usersGet = users.Select(user => new UserGet(user))
                 .ToList();
 
             return Ok(usersGet);
         }
 
-        [HttpGet("my")]
+        [HttpGet("profile/my")]
         public async Task<ActionResult<IEnumerable<User>>> GetMyProfile()
         {
             var id = tokenService.GetUserIdByToken();
-            var user = await service.GetUserByIdAsync(id);
+            var user = await service.GetUserProfileByIdAsync(id);
 
             return Ok(new UserGet(user));
         }
 
         [HttpGet("{userName}")]
-        public async Task<ActionResult<IEnumerable<UserGet>>> GetUsersByName(string userName)
+        public async Task<ActionResult<IEnumerable<UserGetMin>>> GetUsersByName(string userName)
         {
             if (string.IsNullOrWhiteSpace(userName))
                 return BadRequest("User name cannot be empty");
 
             var users = await service.GetUsersByNameAsync(userName);
-            var usersGet = users.Select(user => new UserGet(user))
+            var usersGet = users.Select(user => new UserGetMin(user))
                 .ToList();
 
             return Ok(usersGet);
+        }
+
+        [HttpGet("profile/{id:Guid}")]
+        public async Task<ActionResult<UserGet>> GetUsersProfileByName(Guid id)
+        {
+            var user = await service.GetUserProfileByIdAsync(id);
+
+            return Ok(new UserGet(user));
         }
 
         [HttpDelete("{id:Guid}")]
