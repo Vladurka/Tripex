@@ -84,9 +84,7 @@ namespace Tripex.Core.Services
             var users = await crudRepo.GetQueryable<User>()
                 .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
                 .Include(u => u.Followers)
-                .OrderByDescending(x => x.UserName.StartsWith(userName) ? 1 : 0) 
-                .ThenByDescending(x => EF.Functions.TrigramsSimilarity(x.UserName, userName))
-                .ThenByDescending(x => x.Followers.Count()) 
+                .OrderByDescending(x => x.Followers.Count()) 
                 .AsNoTracking()
                 .ToListAsync();
 
