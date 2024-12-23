@@ -1,24 +1,22 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 using Tripex.Core.Domain.Interfaces.Contracts;
-
 namespace Tripex.Core.Domain.Entities
 {
-    public class Like : BaseEntity, IUserForeignKey, IPostForeignKey
+    public class Like : BaseEntity, IPostForeignKey
     {
+        [Required]
         public Guid UserId { get; set; }
+        public User User { get; set; }
 
-        [JsonIgnore]
-        public User? User { get; set; }
-
+        [Required]
         public Guid PostId { get; set; }
+        public Post? Post { get; set; }
 
-        [JsonIgnore]
-        public Post? Post { get; set; } 
-
+        public Like() { }
         public Like(Guid userId, Guid postId)
         {
-            UserId= userId;
-            PostId= postId;
+            UserId = userId;
+            PostId = postId;
         }
     }
 }

@@ -1,39 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Post;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Tripex.Application.DTOs.Posts;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Controllers
 {
-    public class PostsController(IPostsService service, ICrudRepository<Post> repo) : BaseApiController
+    [Authorize]
+    public class PostsController(IPostsService service, ICrudRepository<Post> repo,
+        ITokenService tokenService) : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult> AddPost(PostAdd post)
+        public async Task<ActionResult> AddPost(PostAdd postAdd)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await service.AddPostAsync(post);
+            var id = tokenService.GetUserIdByToken();
+
+            var post = new Post(id, postAdd.ContentUrl, postAdd.Description);
+
+            await repo.AddAsync(post);  
             return Ok();
         }
 
-        [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<Post>> GetPostById(Guid id)
-        {
-            return Ok(await service.GetPostByIdAsync(id));
-        }
-
         [HttpGet("more/{userId:Guid}")]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPostsById(Guid userId)
+        public async Task<ActionResult<IEnumerable<PostGet>>> GetPostsById(Guid userId)
         {
-            return Ok(await service.GetPostsByUserIdAsync(userId));
+            var posts = await service.GetPostsByUserIdAsync(userId);
+            var postsGet = posts.Select(post => new PostGet(post))
+                .ToList();
+
+            return Ok(postsGet);
         }
 
         [HttpDelete("{id:Guid}")]
         public async Task<ActionResult> DeletePost(Guid id)
         {
-            return CheckResponse(await repo.RemoveAsync(id));
+            return CheckResponse(await service.DeletePostAsync(id));
         }
     }
 }

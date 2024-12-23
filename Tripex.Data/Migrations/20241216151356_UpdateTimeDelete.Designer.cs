@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tripex.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Tripex.Infrastructure.Persistence;
 namespace Tripex.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241216151356_UpdateTimeDelete")]
+    partial class UpdateTimeDelete
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,30 +51,6 @@ namespace Tripex.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Comments");
-                });
-
-            modelBuilder.Entity("Tripex.Core.Domain.Entities.Follower", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("FollowerId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("FollowingPersonId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FollowerId");
-
-                    b.HasIndex("FollowingPersonId");
-
-                    b.ToTable("Followers");
                 });
 
             modelBuilder.Entity("Tripex.Core.Domain.Entities.Like", b =>
@@ -173,25 +152,6 @@ namespace Tripex.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Tripex.Core.Domain.Entities.Follower", b =>
-                {
-                    b.HasOne("Tripex.Core.Domain.Entities.User", "FollowerEntity")
-                        .WithMany("Followers")
-                        .HasForeignKey("FollowerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Tripex.Core.Domain.Entities.User", "FollowingEntity")
-                        .WithMany("Following")
-                        .HasForeignKey("FollowingPersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FollowerEntity");
-
-                    b.Navigation("FollowingEntity");
-                });
-
             modelBuilder.Entity("Tripex.Core.Domain.Entities.Like", b =>
                 {
                     b.HasOne("Tripex.Core.Domain.Entities.Post", "Post")
@@ -232,10 +192,6 @@ namespace Tripex.Infrastructure.Migrations
             modelBuilder.Entity("Tripex.Core.Domain.Entities.User", b =>
                 {
                     b.Navigation("Comments");
-
-                    b.Navigation("Followers");
-
-                    b.Navigation("Following");
 
                     b.Navigation("Likes");
 

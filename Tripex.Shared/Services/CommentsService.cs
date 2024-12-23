@@ -1,4 +1,5 @@
-﻿using Tripex.Core.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 
@@ -8,7 +9,9 @@ namespace Tripex.Core.Services
     {
         public async Task<Comment> GetComment(Guid id)
         {
-            var comment = await repo.GetByIdAsync(id);
+            var comment = await repo.GetQueryable<Comment>()
+               .Include(comment => comment.User)
+               .SingleOrDefaultAsync(comment => comment.Id == id);
 
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with id {id} not found");
@@ -18,20 +21,20 @@ namespace Tripex.Core.Services
 
         public async Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(Guid userId)
         {
-            var comments = await repo.GetByUserIdAsync<Comment>(userId);
-
-            if (comments.Count() == 0)
-                throw new KeyNotFoundException($"Comments with user id {userId} not found");
+            var comments = await repo.GetQueryable<Comment>()
+                .Where(comment => comment.UserId == userId)
+                .Include(comment => comment.User)
+                .ToListAsync();
 
             return comments;
         }
 
         public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId)
         {
-            var comments = await repo.GetByPostIdAsync<Comment>(postId);
-
-            if (comments.Count() == 0)
-                throw new KeyNotFoundException($"Comments with post id {postId} not found");
+            var comments = await repo.GetQueryable<Comment>()
+                .Where(comment => comment.PostId == postId) 
+                .Include(comment => comment.User)
+                .ToListAsync();
 
             return comments;
         }

@@ -8,11 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-    <PackageReference Include="OneOf" Version="3.0.271" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Tripex.Infrastructure\Tripex.Application.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
   </ItemGroup>
 
 </Project>

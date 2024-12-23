@@ -6,24 +6,21 @@ namespace Tripex.Controllers
     [Route("api/[controller]")]
     public class BaseApiController : ControllerBase
     {
-        protected ActionResult CheckResponse(ResponseOptions options)
+        protected ActionResult CheckResponse(ResponseOptions options, string param = "")
         {
             switch (options)
             {
                 case ResponseOptions.Ok:
-                    return Ok();
-                    break;
+                    return Ok(param);
 
                 case ResponseOptions.NotFound:
                     return NotFound();
-                    break;
 
                 case ResponseOptions.Exists:
                     return BadRequest("Exists");
-                    break;
 
                 default:
-                    return BadRequest();
+                    return BadRequest(param);
             }
         }
     }

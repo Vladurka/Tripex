@@ -13,4 +13,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tripex.Shared\Tripex.Core.csproj" />
+  </ItemGroup>
+
 </Project>

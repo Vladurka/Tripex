@@ -1,36 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Like;
-using Tripex.Application.DTOs.Post;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Tripex.Application.DTOs.Likes;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Controllers
 {
-    public class LikesController(ILikesService service, ICrudRepository<Like> repo) : BaseApiController
+    [Authorize]
+    public class LikesController(ILikesService service, ICrudRepository<Like> repo,
+        ITokenService tokenService) : BaseApiController
     {
-        [HttpPost]
-        public async Task<ActionResult> AddLike(LikeAdd like)
+        [HttpPost("{postId:Guid}")]
+        public async Task<ActionResult> AddLike(Guid postId)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var id = tokenService.GetUserIdByToken();
+
+            var like = new Like(id, postId);
             return CheckResponse(await service.AddLike(like));
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<Like>> GetLike(Guid id)
+        public async Task<ActionResult<LikeGet>> GetLike(Guid id)
         {
-            return Ok(await service.GetLike(id));
+            var like = await service.GetLike(id);
+            var likeGet = new LikeGet(like);
+            return Ok(likeGet);
         }
 
         [HttpGet("more/post/{postId:Guid}")]
-        public async Task<ActionResult<IEnumerable<Like>>> GetLikesByPost(Guid postId)
+        public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByPost(Guid postId)
         {
-            return Ok(await service.GetLikesByPostIdAsync(postId));
-        }
+            var likes = await service.GetLikesByPostIdAsync(postId);
+            var likesGet = likes.Select(like => new LikeGet(like))
+                .ToList();
 
-        [HttpGet("more/user/{userId:Guid}")]
-        public async Task<ActionResult<IEnumerable<Like>>> GetLikesByUser(Guid userId)
-        {
-            return Ok(await service.GetLikesByUserIdAsync(userId));
+            return Ok(likesGet);
         }
 
         [HttpDelete("{id:Guid}")]

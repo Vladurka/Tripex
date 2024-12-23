@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Tripex.Core.Domain.Entities
 {
@@ -18,17 +17,20 @@ namespace Tripex.Core.Domain.Entities
         public string Pass { get; set; } = string.Empty;
 
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
-
-        [JsonIgnore]
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
-
-        [JsonIgnore]
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
+        public IEnumerable<Follower> Followers { get; set; } = new List<Follower>();
+        public IEnumerable<Follower> Following { get; set; } = new List<Follower>();
 
         public User() { }
         public User(string userName, string email, string pass)
         {
             UserName = userName;
+            Email = email;
+            Pass = pass;
+        }
+        public User(string email, string pass)
+        {
             Email = email;
             Pass = pass;
         }

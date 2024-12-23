@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tripex.Application.DTOs.User
+namespace Tripex.Application.DTOs.Users
 {
     public class UserLogin
     {
