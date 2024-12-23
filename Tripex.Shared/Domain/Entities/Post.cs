@@ -17,8 +17,9 @@ namespace Tripex.Core.Domain.Entities
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
 
         public Post() { }
-        public Post(string contentUrl, string? description)
+        public Post(Guid userId, string contentUrl, string? description)
         {
+            UserId = userId;
             ContentUrl = contentUrl;
             Description = description;
         }

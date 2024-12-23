@@ -54,6 +54,5 @@ namespace Tripex.Core.Services
             return await repo.GetQueryable<Follower>()
                 .SingleOrDefaultAsync(f => f.FollowerId == followerId && f.FollowingPersonId == followingPersonId);
         }
-
     }
 }

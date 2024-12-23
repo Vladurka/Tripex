@@ -3,10 +3,12 @@ using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Controllers
 {
-    public class UsersController(IUsersService service, ICrudRepository<User> repo) : BaseApiController
+    public class UsersController(IUsersService service, ICrudRepository<User> repo,
+        ITokenService tokenService) : BaseApiController
     {   
 
         [HttpPost("register")]
@@ -37,9 +39,19 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             var users = await service.GetUsersAsync();
-            var usersGet = users.Select(user => new UserGet(user));
+            var usersGet = users.Select(user => new UserGet(user))
+                .ToList();
 
             return Ok(usersGet);
+        }
+
+        [HttpGet("my")]
+        public async Task<ActionResult<IEnumerable<User>>> GetMyProfile()
+        {
+            var id = tokenService.GetUserIdByToken();
+            var user = await service.GetUserByIdAsync(id);
+
+            return Ok(new UserGet(user));
         }
 
         [HttpGet("{userName}")]
@@ -48,8 +60,9 @@ namespace Tripex.Controllers
             if (string.IsNullOrWhiteSpace(userName))
                 return BadRequest("User name cannot be empty");
 
-            var users = await service.GetUsersInfoByNameAsync(userName);
-            var usersGet = users.Select(user => new UserGet(user));
+            var users = await service.GetUsersByNameAsync(userName);
+            var usersGet = users.Select(user => new UserGet(user))
+                .ToList();
 
             return Ok(usersGet);
         }

@@ -4,7 +4,6 @@ namespace Tripex.Application.DTOs.Comments
 {
     public class CommentAdd
     {
-        public Guid UserId { get; set; }
         public Guid PostId { get; set; }
 
         [MinLength(1)]

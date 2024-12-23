@@ -4,19 +4,23 @@ using Tripex.Application.DTOs.Likes;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class LikesController(ILikesService service, ICrudRepository<Like> repo) : BaseApiController
+    public class LikesController(ILikesService service, ICrudRepository<Like> repo,
+        ITokenService tokenService) : BaseApiController
     {
-        [HttpPost]
-        public async Task<ActionResult> AddLike(LikeAdd likeAdd)
+        [HttpPost("{postId:Guid}")]
+        public async Task<ActionResult> AddLike(Guid postId)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var like = new Like(likeAdd.UserId, likeAdd.PostId);
+            var id = tokenService.GetUserIdByToken();
+
+            var like = new Like(id, postId);
             return CheckResponse(await service.AddLike(like));
         }
 
@@ -32,7 +36,8 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByPost(Guid postId)
         {
             var likes = await service.GetLikesByPostIdAsync(postId);
-            var likesGet = likes.Select(like => new LikeGet(like));
+            var likesGet = likes.Select(like => new LikeGet(like))
+                .ToList();
 
             return Ok(likesGet);
         }

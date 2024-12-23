@@ -25,11 +25,13 @@ namespace Tripex.Application.DTOs.Posts
             Description = post.Description;
 
             Likes = post.Likes
-                .Select(like => new LikeGet(like));
+                .Select(like => new LikeGet(like))
+                .ToList();
 
             Comments = post.Comments
-                .Select(comment => new CommentGet(comment));
-
+                .Select(comment => new CommentGet(comment))
+                .ToList();
+            
             LikesCount = Likes.Count();
             CommentsCount = Comments.Count();
         }

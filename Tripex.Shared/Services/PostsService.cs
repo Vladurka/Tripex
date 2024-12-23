@@ -8,12 +8,6 @@ namespace Tripex.Core.Services
 {
     public class PostsService(ICrudRepository<Post> repo, ITokenService tokenService) : IPostsService
     {
-        public async Task AddPostAsync(Post post)
-        {
-            post.UserId = tokenService.GetUserIdByToken();
-            await repo.AddAsync(post);    
-        }
-
         public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId)
         {
             var posts = await repo.GetQueryable<Post>()
@@ -35,7 +29,7 @@ namespace Tripex.Core.Services
             if(post.UserId != tokenService.GetUserIdByToken())
                 return ResponseOptions.BadRequest;
 
-            await repo.RemoveAsync(postId);
+            await repo.RemoveAsync(postId);      
             return ResponseOptions.Ok;
         }
 

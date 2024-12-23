@@ -4,11 +4,13 @@ using Tripex.Application.DTOs.Posts;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class PostsController(IPostsService service) : BaseApiController
+    public class PostsController(IPostsService service, ICrudRepository<Post> repo,
+        ITokenService tokenService) : BaseApiController
     {
         [HttpPost]
         public async Task<ActionResult> AddPost(PostAdd postAdd)
@@ -16,9 +18,11 @@ namespace Tripex.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var post = new Post(postAdd.ContentUrl, postAdd.Description);
+            var id = tokenService.GetUserIdByToken();
 
-            await service.AddPostAsync(post);
+            var post = new Post(id, postAdd.ContentUrl, postAdd.Description);
+
+            await repo.AddAsync(post);  
             return Ok();
         }
 
@@ -26,7 +30,8 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<PostGet>>> GetPostsById(Guid userId)
         {
             var posts = await service.GetPostsByUserIdAsync(userId);
-            var postsGet = posts.Select(post => new PostGet(post));
+            var postsGet = posts.Select(post => new PostGet(post))
+                .ToList();
 
             return Ok(postsGet);
         }

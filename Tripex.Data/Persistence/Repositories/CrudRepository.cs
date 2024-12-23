@@ -22,9 +22,6 @@ namespace Tripex.Infrastructure.Persistence.Repositories
         public IQueryable<T> GetQueryable<T>() where T : class =>
              context.Set<T>();
 
-        public async Task<IEnumerable<T>> GetByUserIdAsync<T>(Guid userId) where T : BaseEntity, IUserForeignKey =>
-            await context.Set<T>().Where(entity => entity.UserId == userId).ToListAsync();
-
         public async Task<IEnumerable<T>> GetByPostIdAsync<T>(Guid postId) where T : BaseEntity, IPostForeignKey =>
             await context.Set<T>().Where(entity => entity.PostId == postId).ToListAsync();
 

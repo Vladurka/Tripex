@@ -21,12 +21,16 @@ namespace Tripex.Application.DTOs.Users
             Avatar = user.AvatarUrl;
 
             Posts = user.Posts
-                .Select(post => new PostGet(post));
+                .Select(post => new PostGet(post))
+                .ToList();
 
             Following = user.Followers
-                .Select(follower => new UserGetMin(follower.FollowingEntity));
+                .Select(follower => new UserGetMin(follower.FollowingEntity))
+                .ToList();
+
             Followers = user.Following
-                .Select(following => new UserGetMin(following.FollowerEntity));
+                .Select(following => new UserGetMin(following.FollowerEntity))
+                .ToList();
 
             FollowersCount = Followers.Count();
             FollowingCount = Following.Count();
