@@ -37,7 +37,7 @@ namespace Tripex.Controllers
         [HttpGet("profiles")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersProfile()
         {
-            var users = await service.GetUsersProfileAsync();
+            var users = await service.GetUsersAsync();
             var usersGet = users.Select(user => new UserGet(user))
                 .ToList();
 
@@ -48,7 +48,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetMyProfile()
         {
             var id = tokenService.GetUserIdByToken();
-            var user = await service.GetUserProfileByIdAsync(id);
+            var user = await service.GetUserByIdAsync(id);
 
             return Ok(new UserGet(user));
         }
@@ -59,7 +59,7 @@ namespace Tripex.Controllers
             if (string.IsNullOrWhiteSpace(userName))
                 return BadRequest("User name cannot be empty");
 
-            var users = await service.GetUsersByNameAsync(userName);
+            var users = await service.SearchUsersByNameAsync(userName);
             var usersGet = users.Select(user => new UserGetMin(user))
                 .ToList();
 
@@ -69,7 +69,7 @@ namespace Tripex.Controllers
         [HttpGet("profile/{id:Guid}")]
         public async Task<ActionResult<UserGet>> GetUsersProfileByName(Guid id)
         {
-            var user = await service.GetUserProfileByIdAsync(id);
+            var user = await service.GetUserByIdAsync(id);
 
             return Ok(new UserGet(user));
         }

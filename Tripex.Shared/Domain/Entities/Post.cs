@@ -15,6 +15,9 @@ namespace Tripex.Core.Domain.Entities
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
 
+        public int LikesCount { get; set; } = 0;
+        public int CommentsCount { get; set; } = 0;
+
         public Post() { }
         public Post(Guid userId, string contentUrl, string? description)
         {

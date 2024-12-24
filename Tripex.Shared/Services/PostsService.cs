@@ -6,17 +6,24 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services
 {
-    public class PostsService(ICrudRepository<Post> repo, ITokenService tokenService) : IPostsService
+    public class PostsService(ICrudRepository<Post> repo, ICrudRepository<User> usersCrudRepo, 
+        ITokenService tokenService, IUsersService usersService) : IPostsService
     {
+        public async Task AddPostAsync(Post post) 
+        {
+            await repo.AddAsync(post);
+            var user = await usersService.GetUserByIdAsync(post.UserId);
+
+            user.PostsCount++;
+            await usersCrudRepo.UpdateAsync(user);
+        }
+
         public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId)
         {
             var posts = await repo.GetQueryable<Post>()
                 .Where(p => p.UserId == userId)
-                .Include(p => p.User)                    
-                .Include(p => p.Comments)                
-                    .ThenInclude(c => c.User)           
-                .Include(p => p.Likes)               
-                    .ThenInclude(l => l.User)
+                .Include(p => p.User)
+                .AsNoTracking()
                 .ToListAsync();
 
             return posts;
@@ -29,7 +36,11 @@ namespace Tripex.Core.Services
             if(post.UserId != tokenService.GetUserIdByToken())
                 return ResponseOptions.BadRequest;
 
-            await repo.RemoveAsync(postId);      
+            var user = await usersService.GetUserByIdAsync(post.UserId);
+            user.PostsCount--;
+
+            await repo.RemoveAsync(postId);
+            await usersCrudRepo.UpdateAsync(user);
             return ResponseOptions.Ok;
         }
 
@@ -37,10 +48,7 @@ namespace Tripex.Core.Services
         {
             var post = await repo.GetQueryable<Post>()
                .Include(p => p.User)
-               .Include(p => p.Comments)
-                   .ThenInclude(c => c.User)
-               .Include(p => p.Likes)
-                   .ThenInclude(l => l.User)
+               .AsNoTracking()
                .SingleOrDefaultAsync(p => p.Id == postId);
 
             if (post == null)

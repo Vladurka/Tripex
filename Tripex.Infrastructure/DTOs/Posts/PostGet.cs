@@ -1,6 +1,4 @@
-﻿using Tripex.Application.DTOs.Comments;
-using Tripex.Application.DTOs.Likes;
-using Tripex.Application.DTOs.Users;
+﻿using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
 
 namespace Tripex.Application.DTOs.Posts
@@ -10,8 +8,6 @@ namespace Tripex.Application.DTOs.Posts
         public UserGetMin User { get; set; }
         public string ContentUrl { get; set; } = string.Empty;
         public string? Description { get; set; }
-        public IEnumerable<LikeGet> Likes { get; set; } = new List<LikeGet>();
-        public IEnumerable<CommentGet> Comments { get; set; } = new List<CommentGet>();
 
         public int LikesCount;
         public int CommentsCount;
@@ -23,17 +19,9 @@ namespace Tripex.Application.DTOs.Posts
             User = new UserGetMin(post.User);
             ContentUrl = post.ContentUrl;
             Description = post.Description;
-
-            Likes = post.Likes
-                .Select(like => new LikeGet(like))
-                .ToList();
-
-            Comments = post.Comments
-                .Select(comment => new CommentGet(comment))
-                .ToList();
             
-            LikesCount = Likes.Count();
-            CommentsCount = Comments.Count();
+            LikesCount = post.LikesCount;
+            CommentsCount = post.CommentsCount;
         }
     }
 }

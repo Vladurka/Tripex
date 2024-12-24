@@ -9,7 +9,7 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class PostsController(IPostsService service, ICrudRepository<Post> repo,
+    public class PostsController(IPostsService service,
         ITokenService tokenService) : BaseApiController
     {
         [HttpPost]
@@ -22,7 +22,7 @@ namespace Tripex.Controllers
 
             var post = new Post(id, postAdd.ContentUrl, postAdd.Description);
 
-            await repo.AddAsync(post);  
+            await service.AddPostAsync(post);  
             return Ok();
         }
 

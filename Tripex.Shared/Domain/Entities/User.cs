@@ -16,6 +16,10 @@ namespace Tripex.Core.Domain.Entities
         [MinLength(8)]
         public string Pass { get; set; } = string.Empty;
 
+        public int FollowersCount { get; set; } = 0;
+        public int FollowingCount { get; set; } = 0;
+        public int PostsCount { get; set; } = 0;
+
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
