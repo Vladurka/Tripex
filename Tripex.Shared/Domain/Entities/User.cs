@@ -9,16 +9,16 @@ namespace Tripex.Core.Domain.Entities
 
         [StringLength(25, MinimumLength = 2)]
         public string UserName { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public int FollowersCount { get; set; } = 0;
+        public int FollowingCount { get; set; } = 0;
+        public int PostsCount { get; set; } = 0;
 
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
         [MinLength(8)]
         public string Pass { get; set; } = string.Empty;
-
-        public int FollowersCount { get; set; } = 0;
-        public int FollowingCount { get; set; } = 0;
-        public int PostsCount { get; set; } = 0;
 
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
@@ -40,3 +40,4 @@ namespace Tripex.Core.Domain.Entities
         }
     }
 }
+

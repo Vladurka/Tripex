@@ -6,6 +6,7 @@ namespace Tripex.Application.DTOs.Users
     {
         public string UserName { get; set; } = string.Empty;
         public string? Avatar { get; set; }
+        public string? Description { get; set; }
 
         public int FollowersCount {  get; set; }
         public int FollowingCount { get; set; }
@@ -16,6 +17,7 @@ namespace Tripex.Application.DTOs.Users
             CreatedAt = user.CreatedAt;
             UserName = user.UserName;
             Avatar = user.AvatarUrl;
+            Description = user.Description;
 
             FollowersCount = user.FollowersCount;
             FollowingCount = user.FollowingCount;

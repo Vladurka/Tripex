@@ -72,6 +72,5 @@ namespace Tripex.Core.Services
 
             return users;
         }
-
     }
 }
