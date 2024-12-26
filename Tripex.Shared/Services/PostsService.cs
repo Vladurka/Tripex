@@ -3,6 +3,7 @@ using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Tripex.Core.Domain.Interfaces.Services.Security;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Tripex.Core.Services
 {
@@ -18,12 +19,14 @@ namespace Tripex.Core.Services
             await usersCrudRepo.UpdateAsync(user);
         }
 
-        public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId)
+        public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId, int pageIndex, int pageSize = 20)
         {
             var posts = await repo.GetQueryable<Post>()
                 .Where(p => p.UserId == userId)
                 .Include(p => p.User)
                 .AsNoTracking()
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             return posts;

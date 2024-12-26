@@ -33,21 +33,13 @@ namespace Tripex.Core.Services
             return comment;
         }
 
-        public async Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(Guid userId)
-        {
-            var comments = await repo.GetQueryable<Comment>()
-                .Where(comment => comment.UserId == userId)
-                .Include(comment => comment.User)
-                .ToListAsync();
-
-            return comments;
-        }
-
-        public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId)
+        public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId, int pageIndex, int pageSize = 20)
         {
             var comments = await repo.GetQueryable<Comment>()
                 .Where(comment => comment.PostId == postId) 
                 .Include(comment => comment.User)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             return comments;

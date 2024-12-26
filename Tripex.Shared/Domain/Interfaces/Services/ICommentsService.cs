@@ -6,7 +6,6 @@ namespace Tripex.Core.Domain.Interfaces.Services
     {
         public Task<ResponseOptions> AddCommentAsync(Comment comment);
         public Task<Comment> GetCommentAsync(Guid id);
-        public Task<IEnumerable<Comment>> GetCommentsByUserIdAsync(Guid userId);
-        public Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId);
+        public Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId, int pageIndex, int pageSize = 20);
     }
 }

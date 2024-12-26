@@ -58,20 +58,20 @@ namespace Tripex.Controllers
             return Ok(new UserGet(user));
         }
 
-        [HttpGet("{userName}")]
-        public async Task<ActionResult<IEnumerable<UserGetMin>>> GetUsersByName(string userName)
+        [HttpGet("{userName}/{pageIndex:int}")]
+        public async Task<ActionResult<IEnumerable<UserGetMin>>> GetUsersByName(string userName, int pageIndex)
         {
             if (string.IsNullOrWhiteSpace(userName))
                 return BadRequest("User name cannot be empty");
 
-            var users = await service.SearchUsersByNameAsync(userName);
+            var users = await service.SearchUsersByNameAsync(userName, pageIndex);
             var usersGet = users.Select(user => new UserGetMin(user))
                 .ToList();
 
             return Ok(usersGet);
         }
 
-        [HttpGet("profile/{id:Guid}")]
+        [HttpGet("profile/{id:guid}")]
         public async Task<ActionResult<UserGet>> GetUsersProfileByName(Guid id)
         {
             var user = await service.GetUserByIdAsync(id);
@@ -123,7 +123,7 @@ namespace Tripex.Controllers
             return Ok(new UserGet(user));
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult<IEnumerable<User>>> DeleteUserById(Guid id) =>
             CheckResponse(await crudRepo.RemoveAsync(id));
 

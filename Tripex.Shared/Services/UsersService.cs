@@ -63,12 +63,14 @@ namespace Tripex.Core.Services
 
             return user;
         }
-        public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName)
+        public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName, int pageIndex, int pageSize = 20)
         {
             var users = await crudRepo.GetQueryable<User>()
                 .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
                 .OrderByDescending(x => x.FollowersCount) 
                 .AsNoTracking()
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             return users;

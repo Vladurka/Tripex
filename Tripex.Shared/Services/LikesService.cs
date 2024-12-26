@@ -42,21 +42,13 @@ namespace Tripex.Core.Services
             return like;
         }
 
-        public async Task<IEnumerable<Like>> GetLikesByUserIdAsync(Guid userId)
-        {
-            var likes = await repo.GetQueryable<Like>()
-                .Where(like => like.UserId == userId)
-                .Include(like => like.User)
-                .ToListAsync();
-
-            return likes;
-        }
-
-        public async Task<IEnumerable<Like>> GetLikesByPostIdAsync(Guid postId)
+        public async Task<IEnumerable<Like>> GetLikesByPostIdAsync(Guid postId, int pageIndex, int pageSize = 20)
         {
             var likes = await repo.GetQueryable<Like>()
                 .Where(like => like.PostId == postId)
                 .Include(like => like.User)
+                .Skip((pageIndex - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
 
             return likes;

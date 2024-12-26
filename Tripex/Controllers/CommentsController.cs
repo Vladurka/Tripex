@@ -32,7 +32,7 @@ namespace Tripex.Controllers
             return CheckResponse(response);
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<CommentGet>> GetLike(Guid id)
         {
             var comment = await service.GetCommentAsync(id);
@@ -40,17 +40,17 @@ namespace Tripex.Controllers
             return Ok(commentGet);
         }
 
-        [HttpGet("more/post/{postId:Guid}")]
-        public async Task<ActionResult<IEnumerable<CommentGet>>> GetCommentsByPost(Guid postId)
+        [HttpGet("more/post/{postId:guid}/{pageIndex:int}")]
+        public async Task<ActionResult<IEnumerable<CommentGet>>> GetCommentsByPost(Guid postId, int pageIndex)
         {
-            var comments = await service.GetCommentsByPostIdAsync(postId);
+            var comments = await service.GetCommentsByPostIdAsync(postId, pageIndex);
             var commentsGet = comments.Select(comments => new CommentGet(comments))
                 .ToList();
 
             return Ok(commentsGet);
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteComment(Guid id)
         {
             return CheckResponse(await repo.RemoveAsync(id));

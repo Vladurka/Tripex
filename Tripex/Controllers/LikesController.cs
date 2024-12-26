@@ -12,7 +12,7 @@ namespace Tripex.Controllers
     public class LikesController(ILikesService service, ICrudRepository<Like> repo,
         ITokenService tokenService) : BaseApiController
     {
-        [HttpPost("{postId:Guid}")]
+        [HttpPost("{postId:guid}")]
         public async Task<ActionResult> AddLike(Guid postId)
         {
             if (!ModelState.IsValid)
@@ -24,7 +24,7 @@ namespace Tripex.Controllers
             return CheckResponse(await service.AddLikeAsync(like));
         }
 
-        [HttpGet("{id:Guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<LikeGet>> GetLike(Guid id)
         {
             var like = await service.GetLikeAsync(id);
@@ -32,17 +32,17 @@ namespace Tripex.Controllers
             return Ok(likeGet);
         }
 
-        [HttpGet("more/post/{postId:Guid}")]
-        public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByPost(Guid postId)
+        [HttpGet("more/post/{postId:guid}/{pageIndex:int}")]
+        public async Task<ActionResult<IEnumerable<LikeGet>>> GetLikesByPost(Guid postId, int pageIndex)
         {
-            var likes = await service.GetLikesByPostIdAsync(postId);
+            var likes = await service.GetLikesByPostIdAsync(postId, pageIndex);
             var likesGet = likes.Select(like => new LikeGet(like))
                 .ToList();
 
             return Ok(likesGet);
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteLike(Guid id)
         {
             return CheckResponse(await repo.RemoveAsync(id));
