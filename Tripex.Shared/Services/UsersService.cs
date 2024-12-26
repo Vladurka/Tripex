@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FuzzySharp;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
@@ -55,7 +56,6 @@ namespace Tripex.Core.Services
         public async Task<User> GetUserByIdAsync(Guid id)
         {
             var user = await crudRepo.GetQueryable<User>()
-                .AsNoTracking()
                 .SingleOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
@@ -65,13 +65,19 @@ namespace Tripex.Core.Services
         }
         public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName, int pageIndex, int pageSize = 20)
         {
-            var users = await crudRepo.GetQueryable<User>()
-                .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
-                .OrderByDescending(x => x.FollowersCount) 
+            var id = tokenService.GetUserIdByToken();
+
+            var usersFromDb = await crudRepo.GetQueryable<User>()
                 .AsNoTracking()
+                .ToListAsync();
+
+            var users = usersFromDb
+                .Where(x => Fuzz.PartialRatio(x.UserName, userName) >= 80) 
+                .OrderBy(x => x.Followers.Any(f => f.Id == id))
+                .ThenByDescending(x => x.FollowersCount) 
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .ToListAsync();
+                .ToList();
 
             return users;
         }

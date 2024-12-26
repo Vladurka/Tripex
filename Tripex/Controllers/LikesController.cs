@@ -9,7 +9,7 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class LikesController(ILikesService service, ICrudRepository<Like> repo,
+    public class LikesController(ILikesService service,
         ITokenService tokenService) : BaseApiController
     {
         [HttpPost("{postId:guid}")]
@@ -45,7 +45,7 @@ namespace Tripex.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteLike(Guid id)
         {
-            return CheckResponse(await repo.RemoveAsync(id));
+            return CheckResponse(await service.DeleteLikeAsync(id));
         }
     }
 }

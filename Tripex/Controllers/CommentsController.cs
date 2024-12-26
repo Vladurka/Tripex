@@ -9,7 +9,7 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class CommentsController(ICommentsService service, ICrudRepository<Comment> repo,
+    public class CommentsController(ICommentsService service,
         ITokenService tokenService) : BaseApiController
     {
         [HttpPost]
@@ -53,7 +53,7 @@ namespace Tripex.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeleteComment(Guid id)
         {
-            return CheckResponse(await repo.RemoveAsync(id));
+            return CheckResponse(await service.DeleteCommentAsync(id));
         }
     }
 }

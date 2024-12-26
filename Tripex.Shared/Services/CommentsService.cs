@@ -2,10 +2,12 @@
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services
 {
-    public class CommentsService(ICrudRepository<Comment> repo, ICrudRepository<Post> postsRepo) : ICommentsService
+    public class CommentsService(ICrudRepository<Comment> repo, ICrudRepository<Post> postsRepo,
+        ITokenService tokenService) : ICommentsService
     {
         public async Task<ResponseOptions> AddCommentAsync(Comment commentAdd)
         {
@@ -43,6 +45,29 @@ namespace Tripex.Core.Services
                 .ToListAsync();
 
             return comments;
+        }
+
+        public async Task<ResponseOptions> DeleteCommentAsync(Guid id)
+        {
+            var comment = await repo.GetByIdAsync(id);
+
+            if (comment == null)
+                return ResponseOptions.NotFound;
+
+            if (comment.UserId != tokenService.GetUserIdByToken())
+                return ResponseOptions.BadRequest;
+
+            await repo.RemoveAsync(id);
+
+            var post = await postsRepo.GetByIdAsync(comment.PostId);
+
+            if (post == null)
+                return ResponseOptions.NotFound;
+
+            post.CommentsCount--;
+            await postsRepo.UpdateAsync(post);
+
+            return ResponseOptions.Ok;
         }
     }
 }

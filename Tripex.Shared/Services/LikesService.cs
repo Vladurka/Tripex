@@ -3,7 +3,6 @@ using Microsoft.Extensions.Hosting;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services
 {
@@ -14,18 +13,21 @@ namespace Tripex.Core.Services
             var likeGet = await repo.GetQueryable<Like>()
                 .SingleOrDefaultAsync(l => l.UserId == likeAdd.UserId && l.PostId == likeAdd.PostId);
 
-            if(likeGet != null)
-                return ResponseOptions.Exists;
-
-            await repo.AddAsync(likeAdd);
-
             var post = await postsRepo.GetByIdAsync(likeAdd.PostId);
 
-            if(post == null)
+            if (post == null)
                 return ResponseOptions.NotFound;
 
-            post.LikesCount++;
-            await postsRepo.UpdateAsync(post);
+            if (likeGet != null)
+                return ResponseOptions.Exists;
+
+            else
+            {
+                await repo.AddAsync(likeAdd);
+                post.LikesCount++;
+                await postsRepo.UpdateAsync(post);
+            }
+
             return ResponseOptions.Ok;
         }
 
@@ -52,6 +54,25 @@ namespace Tripex.Core.Services
                 .ToListAsync();
 
             return likes;
+        }
+
+        public async Task<ResponseOptions> DeleteLikeAsync(Guid id)
+        {
+            var like = await repo.GetByIdAsync(id);
+
+            if (like == null)
+                return ResponseOptions.NotFound;
+
+            var post = await postsRepo.GetByIdAsync(like.PostId);
+
+            if (post == null)
+                return ResponseOptions.NotFound;
+
+            await repo.RemoveAsync(id);
+            post.LikesCount--;
+            await postsRepo.UpdateAsync(post);
+
+            return ResponseOptions.Ok;
         }
     }
 }

@@ -2,13 +2,17 @@
 using Tripex.Core.Domain.Interfaces.Services;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
+using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Core.Services
 {
-    public class FollowersService(ICrudRepository<Follower> repo) : IFollowersService
+    public class FollowersService(ICrudRepository<Follower> repo, ICrudRepository<User> usersCrudRepo) : IFollowersService
     {
         public async Task<ResponseOptions> FollowPerson(Follower followingAdd)
         {
+            if (followingAdd.FollowerId == followingAdd.FollowingPersonId)
+                return ResponseOptions.BadRequest;
+
             var exists = await repo.GetQueryable<Follower>()
                 .AnyAsync(f => f.FollowerId == followingAdd.FollowerId && f.FollowingPersonId == followingAdd.FollowingPersonId);
 
@@ -16,15 +20,48 @@ namespace Tripex.Core.Services
                 return ResponseOptions.Exists;
 
             await repo.AddAsync(followingAdd);
+
+            var userFollowing = await usersCrudRepo.GetByIdAsync(followingAdd.FollowingPersonId);
+
+            if(userFollowing == null)
+                return ResponseOptions.NotFound;
+
+            userFollowing.FollowersCount++;
+            await usersCrudRepo.UpdateAsync(userFollowing);
+
+            var follower = await usersCrudRepo.GetByIdAsync(followingAdd.FollowerId);
+
+            if (follower == null)
+                return ResponseOptions.NotFound;
+
+            follower.FollowingCount++;
+            await usersCrudRepo.UpdateAsync(follower);
+
             return ResponseOptions.Ok;
         }
 
-        public async Task<ResponseOptions> Unfollow(Follower follower)
+        public async Task<ResponseOptions> Unfollow(Follower followerDelete)
         {
-            var followerGet = await GetFollowerAsync(follower.FollowerId, follower.FollowingPersonId);
+            var followerGet = await GetFollowerAsync(followerDelete.FollowerId, followerDelete.FollowingPersonId);
 
             if (followerGet == null)
                 return ResponseOptions.NotFound;
+
+            var userFollowing = await usersCrudRepo.GetByIdAsync(followerDelete.FollowingPersonId);
+
+            if (userFollowing == null)
+                return ResponseOptions.NotFound;
+
+            userFollowing.FollowersCount--;
+            await usersCrudRepo.UpdateAsync(userFollowing);
+
+            var follower = await usersCrudRepo.GetByIdAsync(followerDelete.FollowerId);
+
+            if (follower == null)
+                return ResponseOptions.NotFound;
+
+            follower.FollowingCount--;
+            await usersCrudRepo.UpdateAsync(follower);
 
             return await repo.RemoveAsync(followerGet.Id);
         }
