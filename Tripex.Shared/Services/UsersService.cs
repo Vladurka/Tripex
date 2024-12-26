@@ -55,6 +55,7 @@ namespace Tripex.Core.Services
         public async Task<User> GetUserByIdAsync(Guid id)
         {
             var user = await crudRepo.GetQueryable<User>()
+                .AsNoTracking()
                 .SingleOrDefaultAsync(u => u.Id == id);
 
             if (user == null)

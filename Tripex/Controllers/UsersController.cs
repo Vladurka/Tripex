@@ -15,7 +15,13 @@ namespace Tripex.Controllers
         public async Task<ActionResult> RegisterUser(UserRegister userRegister)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                string errors = string.Join("\n",
+                ModelState.Values.SelectMany(value => value.Errors)
+                    .Select(err => err.ErrorMessage));
+
+                return BadRequest(errors);
+            }
 
             var user = new User(userRegister.UserName, userRegister.Email, userRegister.Pass);
 

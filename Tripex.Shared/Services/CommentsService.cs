@@ -5,9 +5,23 @@ using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
-    public class CommentsService(ICrudRepository<Comment> repo) : ICommentsService
+    public class CommentsService(ICrudRepository<Comment> repo, ICrudRepository<Post> postsRepo) : ICommentsService
     {
-        public async Task<Comment> GetComment(Guid id)
+        public async Task<ResponseOptions> AddCommentAsync(Comment commentAdd)
+        {
+            await repo.AddAsync(commentAdd);
+
+            var post = await postsRepo.GetByIdAsync(commentAdd.PostId);
+
+            if (post == null)
+                return ResponseOptions.NotFound;
+
+            post.CommentsCount++;
+            await postsRepo.UpdateAsync(post);
+            return ResponseOptions.Ok;
+        }
+
+        public async Task<Comment> GetCommentAsync(Guid id)
         {
             var comment = await repo.GetQueryable<Comment>()
                .Include(comment => comment.User)

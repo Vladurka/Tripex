@@ -16,20 +16,26 @@ namespace Tripex.Controllers
         public async Task<ActionResult> AddComment(CommentAdd commentAdd)
         {
             if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            {
+                string errors = string.Join("\n",
+                ModelState.Values.SelectMany(value => value.Errors)
+                    .Select(err => err.ErrorMessage));
+
+                return BadRequest(errors);
+            }
 
             var id = tokenService.GetUserIdByToken();
 
             var comment = new Comment(id, commentAdd.PostId, commentAdd.Content);
 
-            await repo.AddAsync(comment);
-            return Ok();
+            var response = await service.AddCommentAsync(comment);
+            return CheckResponse(response);
         }
 
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<CommentGet>> GetLike(Guid id)
         {
-            var comment = await service.GetComment(id);
+            var comment = await service.GetCommentAsync(id);
             var commentGet = new CommentGet(comment);
             return Ok(commentGet);
         }

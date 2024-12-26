@@ -15,8 +15,14 @@ namespace Tripex.Controllers
         [HttpPost]
         public async Task<ActionResult> AddPost(PostAdd postAdd)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            if(!ModelState.IsValid)
+            {
+                string errors = string.Join("\n",
+                ModelState.Values.SelectMany(value => value.Errors)
+                    .Select(err => err.ErrorMessage));
+
+                return BadRequest(errors);
+            }
 
             var id = tokenService.GetUserIdByToken();
 

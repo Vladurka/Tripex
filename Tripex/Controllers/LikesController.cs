@@ -21,13 +21,13 @@ namespace Tripex.Controllers
             var id = tokenService.GetUserIdByToken();
 
             var like = new Like(id, postId);
-            return CheckResponse(await service.AddLike(like));
+            return CheckResponse(await service.AddLikeAsync(like));
         }
 
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<LikeGet>> GetLike(Guid id)
         {
-            var like = await service.GetLike(id);
+            var like = await service.GetLikeAsync(id);
             var likeGet = new LikeGet(like);
             return Ok(likeGet);
         }
