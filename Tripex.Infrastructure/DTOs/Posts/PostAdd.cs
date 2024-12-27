@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tripex.Application.DTOs.Posts
 {
     public class PostAdd
     {
-        [Url]
-        public string ContentUrl { get; set; } = string.Empty;
+        [Required]
+        public required IFormFile Photo { get; set; }
         public string? Description { get; set; }
     }
 }

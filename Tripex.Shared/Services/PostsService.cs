@@ -23,9 +23,9 @@ namespace Tripex.Core.Services
             var posts = await repo.GetQueryable<Post>()
                 .Where(p => p.UserId == userId)
                 .Include(p => p.User)
-                .AsNoTracking()
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
+                .OrderByDescending(p => p.CreatedAt)
                 .ToListAsync();
 
             return posts;

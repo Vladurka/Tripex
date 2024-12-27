@@ -2,14 +2,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Tripex.Application.DTOs.Posts;
 using Tripex.Core.Domain.Entities;
+using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class PostsController(IPostsService service,
-        ITokenService tokenService) : BaseApiController
+    public class PostsController(IPostsService service, IS3FileService s3FileService,
+        ITokenService tokenService, ICrudRepository<Post> crudRepo) : BaseApiController
     {
         [HttpPost]
         public async Task<ActionResult> AddPost(PostAdd postAdd)
@@ -23,9 +24,12 @@ namespace Tripex.Controllers
                 return BadRequest(errors);
             }
 
-            var id = tokenService.GetUserIdByToken();
+            var userId = tokenService.GetUserIdByToken();
+            var postId = Guid.NewGuid();
 
-            var post = new Post(id, postAdd.ContentUrl, postAdd.Description);
+            string photoUrl = await s3FileService.UploadFileAsync(postAdd.Photo, postId.ToString());
+
+            var post = new Post(postId, userId, photoUrl, postAdd.Description);
 
             await service.AddPostAsync(post);  
             return Ok();
@@ -35,6 +39,16 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<PostGet>>> GetPostsById(Guid userId, int pageIndex)
         {
             var posts = await service.GetPostsByUserIdAsync(userId, pageIndex);
+
+            foreach (var post in posts)
+            {
+                if (DateTime.UtcNow - post.CreatedAt >= TimeSpan.FromHours(10))
+                {
+                    post.ContentUrl = s3FileService.GetPreSignedURL(post.Id.ToString(), 10);
+                    await crudRepo.UpdateAsync(post);
+                }
+            }
+
             var postsGet = posts.Select(post => new PostGet(post))
                 .ToList();
 
@@ -44,6 +58,7 @@ namespace Tripex.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeletePost(Guid id)
         {
+            await s3FileService.DeleteFileAsync(id.ToString());
             return CheckResponse(await service.DeletePostAsync(id));
         }
     }

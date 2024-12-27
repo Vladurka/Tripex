@@ -19,8 +19,9 @@ namespace Tripex.Core.Domain.Entities
         public int CommentsCount { get; set; } = 0;
 
         public Post() { }
-        public Post(Guid userId, string contentUrl, string? description)
+        public Post(Guid id, Guid userId, string contentUrl, string? description)
         {
+            Id = id;
             UserId = userId;
             ContentUrl = contentUrl;
             Description = description;
