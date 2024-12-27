@@ -1,8 +1,10 @@
+using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Text;
+using Tripex.Core;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -37,6 +39,11 @@ builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<ILikesService, LikesService>();
 builder.Services.AddScoped<IFollowersService, FollowersService>();
 builder.Services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+
+var awsOptions = builder.Configuration.GetSection("AWS").Get<AwsOptions>();
+builder.Services.AddSingleton<IAmazonS3>(sp =>
+    new AmazonS3Client(awsOptions.AccessKey, awsOptions.SecretKey, Amazon.RegionEndpoint.GetBySystemName(awsOptions.Region)));
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
