@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Tripex.Application.DTOs.Comments;
 using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 using Tripex.Core.Domain.Interfaces.Services.Security;
 

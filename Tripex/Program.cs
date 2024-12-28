@@ -40,6 +40,8 @@ builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<ILikesService, LikesService>();
 builder.Services.AddScoped<IFollowersService, FollowersService>();
 builder.Services.AddScoped<IS3FileService, S3FileService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 builder.Services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 
 var awsOptions = builder.Configuration.GetSection("AWS").Get<AwsOptions>();
