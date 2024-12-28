@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tripex.Core.Domain.Interfaces.Contracts;
+
 namespace Tripex.Core.Domain.Entities
 {
-    public class Like : BaseEntity, IPostForeignKey
+    public class Like : BaseEntity
     {
         [Required]
         public Guid UserId { get; set; }

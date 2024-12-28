@@ -40,6 +40,8 @@ namespace Tripex.Core.Services
             var comments = await repo.GetQueryable<Comment>()
                 .Where(comment => comment.PostId == postId) 
                 .Include(comment => comment.User)
+                .OrderBy(comments => comments.LikesCount)
+                .ThenByDescending(comments => comments.CreatedAt)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

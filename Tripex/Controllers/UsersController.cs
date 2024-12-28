@@ -58,13 +58,13 @@ namespace Tripex.Controllers
             return Ok(new UserGet(user));
         }
 
-        [HttpGet("{userName}/{pageIndex:int}")]
-        public async Task<ActionResult<IEnumerable<UserGetMin>>> GetUsersByName(string userName, int pageIndex)
+        [HttpGet("{userName}")]
+        public async Task<ActionResult<IEnumerable<UserGetMin>>> GetUsersByName(string userName)
         {
             if (string.IsNullOrWhiteSpace(userName))
                 return BadRequest("User name cannot be empty");
 
-            var users = await service.SearchUsersByNameAsync(userName, pageIndex);
+            var users = await service.SearchUsersByNameAsync(userName);
             var usersGet = users.Select(user => new UserGetMin(user))
                 .ToList();
 

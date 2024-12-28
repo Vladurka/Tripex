@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -49,6 +48,7 @@ namespace Tripex.Core.Services
             var likes = await repo.GetQueryable<Like>()
                 .Where(like => like.PostId == postId)
                 .Include(like => like.User)
+                .OrderBy(like => like.CreatedAt)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

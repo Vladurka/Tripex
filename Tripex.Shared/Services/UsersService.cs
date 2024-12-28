@@ -63,21 +63,18 @@ namespace Tripex.Core.Services
 
             return user;
         }
-        public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName, int pageIndex, int pageSize = 20)
+        public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName)
         {
             var id = tokenService.GetUserIdByToken();
 
-            var usersFromDb = await crudRepo.GetQueryable<User>()
+            var users = await crudRepo.GetQueryable<User>()
+                .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
+                .Include(u => u.Followers)
+                .OrderBy(x => x.Followers.Any(f => f.Id == id))
+                .ThenBy(x => x.UserName.Contains(userName) ? 0 : 1)
+                .ThenByDescending(x => x.FollowersCount)
                 .AsNoTracking()
                 .ToListAsync();
-
-            var users = usersFromDb
-                .Where(x => Fuzz.PartialRatio(x.UserName, userName) >= 80) 
-                .OrderBy(x => x.Followers.Any(f => f.Id == id))
-                .ThenByDescending(x => x.FollowersCount) 
-                .Skip((pageIndex - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
 
             return users;
         }
