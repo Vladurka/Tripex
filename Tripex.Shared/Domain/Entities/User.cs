@@ -20,6 +20,9 @@ namespace Tripex.Core.Domain.Entities
         [MinLength(8)]
         public string Pass { get; set; } = string.Empty;
 
+        public DateTime Updated { get; set; } = DateTime.UtcNow;
+        public DateTime AvatarUpdated { get; set; } = DateTime.UtcNow;
+
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();

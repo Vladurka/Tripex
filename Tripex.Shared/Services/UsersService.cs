@@ -1,16 +1,16 @@
-﻿using FuzzySharp;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 using Tripex.Core.Domain.Interfaces.Services.Security;
+using Tripex.Core.Enums;
 
 namespace Tripex.Core.Services
 {
     public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, 
         ICrudRepository<User> crudRepo, ITokenService tokenService, 
-        IOptions<JwtOptions> options) : IUsersService
+        IOptions<JwtOptions> options, IS3FileService s3FileService) : IUsersService
     {
         private JwtOptions _options => options.Value;
 
@@ -47,8 +47,19 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             var users = await crudRepo.GetQueryable<User>()
-                .AsNoTracking()
                 .ToListAsync();
+
+            foreach (var user in users)
+            {
+                if (user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
+                {
+                    if (DateTime.UtcNow - user.AvatarUpdated >= TimeSpan.FromMinutes(590))
+                    {
+                        user.AvatarUrl = s3FileService.GetPreSignedURL(user.Id.ToString(), 10);
+                        await crudRepo.UpdateAsync(user);
+                    }
+                }
+            }
 
             return users;
         }
@@ -61,8 +72,18 @@ namespace Tripex.Core.Services
             if (user == null)
                 throw new KeyNotFoundException($"User with id {id} not found");
 
+            if (user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
+            {
+                if (DateTime.UtcNow - user.AvatarUpdated >= TimeSpan.FromMinutes(590))
+                {
+                    user.AvatarUrl = s3FileService.GetPreSignedURL(user.Id.ToString(), 10);
+                    await crudRepo.UpdateAsync(user);
+                }
+            }
+
             return user;
         }
+
         public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName)
         {
             var id = tokenService.GetUserIdByToken();
@@ -75,6 +96,18 @@ namespace Tripex.Core.Services
                 .ThenByDescending(x => x.FollowersCount)
                 .AsNoTracking()
                 .ToListAsync();
+
+            foreach (var user in users)
+            {
+                if (user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
+                {
+                    if (DateTime.UtcNow - user.AvatarUpdated >= TimeSpan.FromMinutes(590))
+                    {
+                        user.AvatarUrl = s3FileService.GetPreSignedURL(user.Id.ToString(), 10);
+                        await crudRepo.UpdateAsync(user);
+                    }
+                }
+            }
 
             return users;
         }

@@ -6,7 +6,7 @@ namespace Tripex.Core.Domain.Entities
     {
         [Required]
         public Guid UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
         
         [Url]
         public string ContentUrl { get; set; } = string.Empty;
@@ -17,6 +17,8 @@ namespace Tripex.Core.Domain.Entities
 
         public int LikesCount { get; set; } = 0;
         public int CommentsCount { get; set; } = 0;
+
+        public DateTime ContentUrlUpdated { get; set; } = DateTime.UtcNow;
 
         public Post() { }
         public Post(Guid id, Guid userId, string contentUrl, string? description)

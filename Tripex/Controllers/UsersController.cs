@@ -8,7 +8,7 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 namespace Tripex.Controllers
 {
     public class UsersController(IUsersService service, ICrudRepository<User> crudRepo,
-        IUsersRepository repo, ITokenService tokenService) : BaseApiController
+        IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService) : BaseApiController
     {
 
         [HttpPost("register")]
@@ -44,6 +44,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUsersProfile()
         {
             var users = await service.GetUsersAsync();
+
             var usersGet = users.Select(user => new UserGet(user))
                 .ToList();
 
@@ -51,7 +52,7 @@ namespace Tripex.Controllers
         }
 
         [HttpGet("profile/my")]
-        public async Task<ActionResult<IEnumerable<User>>> GetMyProfile()
+        public async Task<ActionResult<UserGet>> GetMyProfile()
         {
             var user = await GetMyUserAsync();
 
@@ -65,6 +66,7 @@ namespace Tripex.Controllers
                 return BadRequest("User name cannot be empty");
 
             var users = await service.SearchUsersByNameAsync(userName);
+
             var usersGet = users.Select(user => new UserGetMin(user))
                 .ToList();
 
@@ -80,15 +82,19 @@ namespace Tripex.Controllers
         }
 
         [HttpPut("avatar")]
-        public async Task<ActionResult<User>> UpdateAvatar([FromBody] string avatarUrl) 
+        public async Task<ActionResult<User>> UpdateAvatar([FromForm] IFormFile file) 
         {
-            if (!Uri.TryCreate(avatarUrl, UriKind.Absolute, out var uriResult) ||
-            (uriResult.Scheme != Uri.UriSchemeHttp && uriResult.Scheme != Uri.UriSchemeHttps))
-                return BadRequest("Invalid URL format for avatar.");
-
             var user = await GetMyUserAsync();
 
-            user.AvatarUrl = avatarUrl;
+            var id = tokenService.GetUserIdByToken();
+
+            if(user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
+                await s3FileService.DeleteFileAsync(id.ToString());
+
+            user.AvatarUrl = await s3FileService.UploadFileAsync(file, id.ToString());
+            user.AvatarUpdated = DateTime.UtcNow;
+            user.Updated = DateTime.UtcNow;
+
             await crudRepo.UpdateAsync(user);
             return Ok(new UserGet(user));
         }
@@ -102,6 +108,8 @@ namespace Tripex.Controllers
             var user = await GetMyUserAsync();
 
             user.Description = description;
+            user.Updated = DateTime.UtcNow;
+
             await crudRepo.UpdateAsync(user);
             return Ok(new UserGet(user));
         }
@@ -118,6 +126,8 @@ namespace Tripex.Controllers
             var user = await GetMyUserAsync();
 
             user.UserName = userName;
+            user.Updated = DateTime.UtcNow;
+
             await crudRepo.UpdateAsync(user);
 
             return Ok(new UserGet(user));

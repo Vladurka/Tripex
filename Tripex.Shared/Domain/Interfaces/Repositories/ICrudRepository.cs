@@ -1,4 +1,5 @@
 ﻿using Tripex.Core.Domain.Entities;
+using Tripex.Core.Enums;
 
 namespace Tripex.Core.Domain.Interfaces.Repositories
 {

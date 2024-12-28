@@ -1,4 +1,4 @@
-﻿namespace Tripex
+﻿namespace Tripex.Core.Enums
 {
     public enum ResponseOptions
     {

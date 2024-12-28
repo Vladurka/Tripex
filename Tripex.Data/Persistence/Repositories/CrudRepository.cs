@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
+using Tripex.Core.Enums;
 
 namespace Tripex.Infrastructure.Persistence.Repositories
 {

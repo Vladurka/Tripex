@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Tripex.Core.Enums;
 
 namespace Tripex.Controllers
 {

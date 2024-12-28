@@ -3,11 +3,12 @@ using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using Tripex.Core.Domain.Interfaces.Services.Security;
+using Tripex.Core.Enums;
 
 namespace Tripex.Core.Services
 {
     public class PostsService(ICrudRepository<Post> repo, ICrudRepository<User> usersCrudRepo, 
-        ITokenService tokenService, IUsersService usersService) : IPostsService
+        ITokenService tokenService, IUsersService usersService, IS3FileService s3FileService) : IPostsService
     {
         public async Task AddPostAsync(Post post) 
         {
@@ -28,6 +29,16 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
+            foreach (var post in posts)
+            {
+                if (DateTime.UtcNow - post.ContentUrlUpdated >= TimeSpan.FromHours(10))
+                {
+                    post.ContentUrl = s3FileService.GetPreSignedURL(post.Id.ToString(), 10);
+                    post.ContentUrlUpdated = DateTime.UtcNow;
+                    await repo.UpdateAsync(post);
+                }
+            }
+
             return posts;
         }
 
@@ -41,7 +52,9 @@ namespace Tripex.Core.Services
             var user = await usersService.GetUserByIdAsync(post.UserId);
             user.PostsCount--;
 
+            await s3FileService.DeleteFileAsync(postId.ToString());
             await repo.RemoveAsync(postId);
+
             await usersCrudRepo.UpdateAsync(user);
             return ResponseOptions.Ok;
         }
@@ -55,6 +68,13 @@ namespace Tripex.Core.Services
 
             if (post == null)
                 throw new KeyNotFoundException($"Post with id {postId} not found");
+
+            if (DateTime.UtcNow - post.ContentUrlUpdated >= TimeSpan.FromHours(10))
+            {
+                post.ContentUrl = s3FileService.GetPreSignedURL(post.Id.ToString(), 10);
+                post.ContentUrlUpdated = DateTime.UtcNow;
+                await repo.UpdateAsync(post);
+            }
 
             return post;
         }

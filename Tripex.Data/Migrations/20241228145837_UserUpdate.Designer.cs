@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tripex.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Tripex.Infrastructure.Persistence;
 namespace Tripex.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241228145837_UserUpdate")]
+    partial class UserUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -114,9 +117,6 @@ namespace Tripex.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<DateTime>("ContentUrlUpdated")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -142,9 +142,6 @@ namespace Tripex.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("AvatarUpdated")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("AvatarUrl")
                         .HasColumnType("text");
 
@@ -164,15 +161,18 @@ namespace Tripex.Infrastructure.Migrations
                     b.Property<int>("FollowingCount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("LastAvatarUpdated")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Pass")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("PostsCount")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserName")
                         .IsRequired()

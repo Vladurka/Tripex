@@ -13,6 +13,7 @@ using Tripex.Core.Services;
 using Tripex.Core.Services.Security;
 using Tripex.Infrastructure.Persistence;
 using Tripex.Infrastructure.Persistence.Repositories;
+using Tripex.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -72,6 +73,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();
 

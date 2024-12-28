@@ -10,7 +10,7 @@ namespace Tripex.Controllers
 {
     [Authorize]
     public class PostsController(IPostsService service, IS3FileService s3FileService,
-        ITokenService tokenService, ICrudRepository<Post> crudRepo) : BaseApiController
+        ITokenService tokenService) : BaseApiController
     {
         [HttpPost]
         public async Task<ActionResult> AddPost(PostAdd postAdd)
@@ -40,15 +40,6 @@ namespace Tripex.Controllers
         {
             var posts = await service.GetPostsByUserIdAsync(userId, pageIndex);
 
-            foreach (var post in posts)
-            {
-                if (DateTime.UtcNow - post.CreatedAt >= TimeSpan.FromHours(10))
-                {
-                    post.ContentUrl = s3FileService.GetPreSignedURL(post.Id.ToString(), 10);
-                    await crudRepo.UpdateAsync(post);
-                }
-            }
-
             var postsGet = posts.Select(post => new PostGet(post))
                 .ToList();
 
@@ -58,7 +49,6 @@ namespace Tripex.Controllers
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult> DeletePost(Guid id)
         {
-            await s3FileService.DeleteFileAsync(id.ToString());
             return CheckResponse(await service.DeletePostAsync(id));
         }
     }
