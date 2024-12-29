@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -6,7 +7,8 @@ using Tripex.Core.Enums;
 
 namespace Tripex.Core.Services
 {
-    public class LikesService(ICrudRepository<Like> repo, ICrudRepository<Post> postsRepo) : ILikesService
+    public class LikesService(ICrudRepository<Like> repo, ICrudRepository<Post> postsRepo, 
+        ICrudRepository<User> usersCrudRepo, IS3FileService s3FileService) : ILikesService
     {
         public async Task<ResponseOptions> AddLikeAsync(Like likeAdd)
         {
@@ -41,6 +43,8 @@ namespace Tripex.Core.Services
             if (like == null)
                 throw new KeyNotFoundException($"Like with id {id} not found");
 
+            await like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+
             return like;
         }
 
@@ -53,6 +57,9 @@ namespace Tripex.Core.Services
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            foreach (var like in likes)
+                await like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
 
             return likes;
         }

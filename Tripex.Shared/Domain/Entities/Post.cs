@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.Extensions.Hosting;
+using System.ComponentModel.DataAnnotations;
+using Tripex.Core.Domain.Interfaces.Repositories;
+using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Domain.Entities
 {
@@ -6,7 +9,7 @@ namespace Tripex.Core.Domain.Entities
     {
         [Required]
         public Guid UserId { get; set; }
-        public User? User { get; set; }
+        public User User { get; set; }
         
         [Url]
         public string ContentUrl { get; set; } = string.Empty;
@@ -27,6 +30,16 @@ namespace Tripex.Core.Domain.Entities
             UserId = userId;
             ContentUrl = contentUrl;
             Description = description;
+        }
+
+        public async Task UpdateContentUrlIfNeededAsync(IS3FileService s3FileService, ICrudRepository<Post> repo)
+        {
+            if (DateTime.UtcNow - ContentUrlUpdated >= TimeSpan.FromMinutes(590))
+            {
+                ContentUrl = s3FileService.GetPreSignedURL(Id.ToString(), 10);
+                ContentUrlUpdated = DateTime.UtcNow;
+                await repo.UpdateAsync(this);
+            }
         }
     }
 }

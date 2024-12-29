@@ -31,12 +31,8 @@ namespace Tripex.Core.Services
 
             foreach (var post in posts)
             {
-                if (DateTime.UtcNow - post.ContentUrlUpdated >= TimeSpan.FromHours(10))
-                {
-                    post.ContentUrl = s3FileService.GetPreSignedURL(post.Id.ToString(), 10);
-                    post.ContentUrlUpdated = DateTime.UtcNow;
-                    await repo.UpdateAsync(post);
-                }
+                await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
+                await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
             }
 
             return posts;
@@ -69,12 +65,8 @@ namespace Tripex.Core.Services
             if (post == null)
                 throw new KeyNotFoundException($"Post with id {postId} not found");
 
-            if (DateTime.UtcNow - post.ContentUrlUpdated >= TimeSpan.FromHours(10))
-            {
-                post.ContentUrl = s3FileService.GetPreSignedURL(post.Id.ToString(), 10);
-                post.ContentUrlUpdated = DateTime.UtcNow;
-                await repo.UpdateAsync(post);
-            }
+            await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
+            await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
 
             return post;
         }

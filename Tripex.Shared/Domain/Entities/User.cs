@@ -1,11 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tripex.Core.Domain.Interfaces.Repositories;
+using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Domain.Entities
 {
     public class User : BaseEntity
     {
+        private const string DEFAULT_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s";
+
         [Url]
-        public string? AvatarUrl { get; set; } = "https://www.default.com";
+        public string? AvatarUrl { get; set; } = DEFAULT_AVATAR;
 
         [StringLength(25, MinimumLength = 2)]
         public string UserName { get; set; } = string.Empty;
@@ -40,6 +44,19 @@ namespace Tripex.Core.Domain.Entities
         {
             Email = email;
             Pass = pass;
+        }
+
+        public async Task UpdateAvatarUrlIfNeededAsync(IS3FileService s3FileService, ICrudRepository<User> repo)
+        {
+            if (AvatarUrl != DEFAULT_AVATAR)
+            {
+                if (DateTime.UtcNow - AvatarUpdated >= TimeSpan.FromMinutes(590))
+                {
+                    AvatarUrl = s3FileService.GetPreSignedURL(Id.ToString(), 10);
+                    AvatarUpdated = DateTime.UtcNow;
+                    await repo.UpdateAsync(this);
+                }
+            }
         }
     }
 }

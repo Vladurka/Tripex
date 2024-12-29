@@ -2,12 +2,12 @@
 using Tripex.Core.Domain.Interfaces.Services;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services.Security;
 using Tripex.Core.Enums;
 
 namespace Tripex.Core.Services
 {
-    public class FollowersService(ICrudRepository<Follower> repo, ICrudRepository<User> usersCrudRepo) : IFollowersService
+    public class FollowersService(ICrudRepository<Follower> repo, ICrudRepository<User> usersCrudRepo,
+        IS3FileService s3FileService) : IFollowersService
     {
         public async Task<ResponseOptions> FollowPerson(Follower followingAdd)
         {
@@ -69,7 +69,7 @@ namespace Tripex.Core.Services
 
         public async Task<IEnumerable<Follower>> GetFollowersAsync(Guid userId, int pageIndex ,string? userName)
         {
-            return await repo.GetQueryable<Follower>()
+            var followers =  await repo.GetQueryable<Follower>()
                 .Include(p => p.FollowerEntity)
                 .Where(f => f.FollowingPersonId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
@@ -77,11 +77,16 @@ namespace Tripex.Core.Services
                 .Skip((pageIndex - 1) * 20)
                 .Take(20)
                 .ToListAsync();
+
+            foreach (var follower in followers)
+                await follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+
+            return followers;
         }
 
         public async Task<IEnumerable<Follower>> GetFollowingAsync(Guid userId, int pageIndex, string? userName)
         {
-            return await repo.GetQueryable<Follower>()
+            var following =  await repo.GetQueryable<Follower>()
                 .Include(p => p.FollowingEntity)
                 .Where(f => f.FollowerId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
@@ -89,12 +94,21 @@ namespace Tripex.Core.Services
                 .Skip((pageIndex - 1) * 20)
                 .Take(20)
                 .ToListAsync();
+
+            foreach (var follow in following)
+                await follow.FollowingEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+
+            return following;
         }
 
         private async Task<Follower?> GetFollowerAsync(Guid followerId, Guid followingPersonId)
         {
-            return await repo.GetQueryable<Follower>()
+            var follower =  await repo.GetQueryable<Follower>()
                 .SingleOrDefaultAsync(f => f.FollowerId == followerId && f.FollowingPersonId == followingPersonId);
+
+            await follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+
+            return follower;
         }
     }
 }

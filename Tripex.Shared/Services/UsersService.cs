@@ -50,16 +50,7 @@ namespace Tripex.Core.Services
                 .ToListAsync();
 
             foreach (var user in users)
-            {
-                if (user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
-                {
-                    if (DateTime.UtcNow - user.AvatarUpdated >= TimeSpan.FromMinutes(590))
-                    {
-                        user.AvatarUrl = s3FileService.GetPreSignedURL(user.Id.ToString(), 10);
-                        await crudRepo.UpdateAsync(user);
-                    }
-                }
-            }
+                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
 
             return users;
         }
@@ -72,14 +63,7 @@ namespace Tripex.Core.Services
             if (user == null)
                 throw new KeyNotFoundException($"User with id {id} not found");
 
-            if (user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
-            {
-                if (DateTime.UtcNow - user.AvatarUpdated >= TimeSpan.FromMinutes(590))
-                {
-                    user.AvatarUrl = s3FileService.GetPreSignedURL(user.Id.ToString(), 10);
-                    await crudRepo.UpdateAsync(user);
-                }
-            }
+            await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
 
             return user;
         }
@@ -98,16 +82,7 @@ namespace Tripex.Core.Services
                 .ToListAsync();
 
             foreach (var user in users)
-            {
-                if (user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
-                {
-                    if (DateTime.UtcNow - user.AvatarUpdated >= TimeSpan.FromMinutes(590))
-                    {
-                        user.AvatarUrl = s3FileService.GetPreSignedURL(user.Id.ToString(), 10);
-                        await crudRepo.UpdateAsync(user);
-                    }
-                }
-            }
+                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
 
             return users;
         }

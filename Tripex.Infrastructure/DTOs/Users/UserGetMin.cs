@@ -1,26 +1,33 @@
-﻿using Tripex.Core.Domain.Entities;
+﻿using Humanizer;
+using Tripex.Core.Domain.Entities;
 
 namespace Tripex.Application.DTOs.Users
 {
-    public class UserGetMin : BaseEntity
+    public class UserGetMin
     {
+        public Guid Id { get; set; }
+
         public string UserName { get; set; } = string.Empty;
         public string? Avatar { get; set; }
+
+        public string CreatedAt { get; set; } = string.Empty;
+        public string UpdatedAt { get; set; } = string.Empty;
+        public string AvatarUpdatedAt {  get; set; } = string.Empty;
         public UserGetMin(User user)
         {
             Id = user.Id;
-            CreatedAt = user.CreatedAt;
             UserName = user.UserName;
             Avatar = user.AvatarUrl;
+
+            CreatedAt = user.CreatedAt.Humanize();
         }
 
         public UserGetMin(Follower user)
         {
             Id = user.Id;
-            CreatedAt = user.CreatedAt;
+            CreatedAt = user.CreatedAt.Humanize();
             UserName = user.FollowerEntity.UserName;
             Avatar = user.FollowerEntity.AvatarUrl;
         }
-
     }
 }

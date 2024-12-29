@@ -48,6 +48,9 @@ var awsOptions = builder.Configuration.GetSection("AWS").Get<AwsOptions>();
 builder.Services.AddSingleton<IAmazonS3>(sp =>
     new AmazonS3Client(awsOptions.AccessKey, awsOptions.SecretKey, Amazon.RegionEndpoint.GetBySystemName(awsOptions.Region)));
 
+builder.Logging.ClearProviders(); 
+builder.Logging.AddConsole();   
+builder.Logging.AddDebug();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

@@ -8,7 +8,7 @@ using Tripex.Core.Enums;
 namespace Tripex.Core.Services
 {
     public class CommentsService(ICrudRepository<Comment> repo, ICrudRepository<Post> postsRepo,
-        ITokenService tokenService) : ICommentsService
+        ITokenService tokenService, ICrudRepository<User> usersCrudRepo, IS3FileService s3FileService) : ICommentsService
     {
         public async Task<ResponseOptions> AddCommentAsync(Comment commentAdd)
         {
@@ -33,6 +33,8 @@ namespace Tripex.Core.Services
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with id {id} not found");
 
+            await comment.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+
             return comment;
         }
 
@@ -46,6 +48,9 @@ namespace Tripex.Core.Services
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
+            foreach (var comment in comments)
+                await comment.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
 
             return comments;
         }
