@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
@@ -7,10 +9,15 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 
 namespace Tripex.Controllers
 {
+    [Authorize]
     public class UsersController(IUsersService service, ICrudRepository<User> crudRepo,
-        IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService) : BaseApiController
+        IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService,
+        ICookiesService cookiesService, IOptions<JwtOptions> jwtOptions) : BaseApiController
     {
 
+        private readonly JwtOptions _jwtOptions = jwtOptions.Value;
+
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<ActionResult> RegisterUser(UserRegister userRegister)
         {
@@ -28,6 +35,7 @@ namespace Tripex.Controllers
             return CheckResponse(await service.RegisterAsync(user));
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult> LoginUser(UserLogin userLogin)
         {
@@ -38,6 +46,13 @@ namespace Tripex.Controllers
             var result = await service.LoginAsync(user);
 
             return CheckResponse(result);
+        }
+
+        [HttpPost("logout")]
+        public ActionResult Logout()
+        {
+            cookiesService.DeleteCookie(_jwtOptions.TokenName);
+            return Unauthorized();
         }
 
         [HttpGet("profiles")]
