@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Enums;
@@ -41,6 +42,10 @@ namespace Tripex.Infrastructure.Persistence.Repositories
 
             return ResponseOptions.Ok;
         }
+
+        public async Task<IDbContextTransaction> BeginTransactionAsync() =>
+            await context.Database.BeginTransactionAsync();
+
 
         private async Task SaveChangesAsync()
         {

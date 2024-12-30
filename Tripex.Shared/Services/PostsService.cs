@@ -12,11 +12,15 @@ namespace Tripex.Core.Services
     {
         public async Task AddPostAsync(Post post) 
         {
+            await using var transaction = await repo.BeginTransactionAsync();
+
             await repo.AddAsync(post);
             var user = await usersService.GetUserByIdAsync(post.UserId);
 
             user.PostsCount++;
             await usersCrudRepo.UpdateAsync(user);
+
+            await transaction.CommitAsync();
         }
 
         public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId, int pageIndex, int pageSize = 20)
@@ -45,6 +49,7 @@ namespace Tripex.Core.Services
             if(post.UserId != tokenService.GetUserIdByToken())
                 return ResponseOptions.BadRequest;
 
+            await using var transaction = await repo.BeginTransactionAsync();
             var user = await usersService.GetUserByIdAsync(post.UserId);
             user.PostsCount--;
 
@@ -52,6 +57,8 @@ namespace Tripex.Core.Services
             await repo.RemoveAsync(postId);
 
             await usersCrudRepo.UpdateAsync(user);
+            await transaction.CommitAsync();
+
             return ResponseOptions.Ok;
         }
 

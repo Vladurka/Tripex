@@ -12,6 +12,7 @@ namespace Tripex.Core.Services
     {
         public async Task<ResponseOptions> AddCommentAsync(Comment commentAdd)
         {
+            await using var transaction = await repo.BeginTransactionAsync();
             await repo.AddAsync(commentAdd);
 
             var post = await postsRepo.GetByIdAsync(commentAdd.PostId);
@@ -21,6 +22,8 @@ namespace Tripex.Core.Services
 
             post.CommentsCount++;
             await postsRepo.UpdateAsync(post);
+            await transaction.CommitAsync();
+
             return ResponseOptions.Ok;
         }
 
@@ -65,6 +68,7 @@ namespace Tripex.Core.Services
             if (comment.UserId != tokenService.GetUserIdByToken())
                 return ResponseOptions.BadRequest;
 
+            await using var transaction = await repo.BeginTransactionAsync();
             await repo.RemoveAsync(id);
 
             var post = await postsRepo.GetByIdAsync(comment.PostId);
@@ -74,6 +78,7 @@ namespace Tripex.Core.Services
 
             post.CommentsCount--;
             await postsRepo.UpdateAsync(post);
+            await transaction.CommitAsync();
 
             return ResponseOptions.Ok;
         }

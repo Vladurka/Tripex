@@ -16,7 +16,7 @@ namespace Tripex.Controllers
         {
             var id = tokenService.GetUserIdByToken();
             var follower = new Follower(followingPersonId, id);
-            var result = await service.FollowPerson(follower);
+            var result = await service.Follow(follower);
 
             return CheckResponse(result);
         }

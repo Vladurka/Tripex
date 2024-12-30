@@ -36,11 +36,14 @@ namespace Tripex.Core.Services
             if (await repo.UsernameExistsAsync(userRegister.UserName))
                 return ResponseOptions.Exists;
 
+            await using var transaction = await crudRepo.BeginTransactionAsync();
             string passwordHash = passwordHasher.HashPassword(userRegister.Pass);
 
             userRegister.Pass = passwordHash;
 
             await repo.AddUserAsync(userRegister);
+            await transaction.CommitAsync();
+
             return ResponseOptions.Ok;
         }
 

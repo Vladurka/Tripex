@@ -17,6 +17,7 @@ namespace Tripex.Core.Services
 
             var post = await postsRepo.GetByIdAsync(likeAdd.PostId);
 
+            await using var transaction = await repo.BeginTransactionAsync();
             if (post == null)
                 return ResponseOptions.NotFound;
 
@@ -29,6 +30,7 @@ namespace Tripex.Core.Services
                 post.LikesCount++;
                 await postsRepo.UpdateAsync(post);
             }
+            await transaction.CommitAsync();
 
             return ResponseOptions.Ok;
         }
@@ -76,9 +78,11 @@ namespace Tripex.Core.Services
             if (post == null)
                 return ResponseOptions.NotFound;
 
+            await using var transaction = await repo.BeginTransactionAsync();
             await repo.RemoveAsync(id);
             post.LikesCount--;
             await postsRepo.UpdateAsync(post);
+            await transaction.CommitAsync();
 
             return ResponseOptions.Ok;
         }

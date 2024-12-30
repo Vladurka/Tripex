@@ -9,7 +9,7 @@ namespace Tripex.Core.Services
     public class FollowersService(ICrudRepository<Follower> repo, ICrudRepository<User> usersCrudRepo,
         IS3FileService s3FileService) : IFollowersService
     {
-        public async Task<ResponseOptions> FollowPerson(Follower followingAdd)
+        public async Task<ResponseOptions> Follow(Follower followingAdd)
         {
             if (followingAdd.FollowerId == followingAdd.FollowingPersonId)
                 return ResponseOptions.BadRequest;
@@ -20,6 +20,7 @@ namespace Tripex.Core.Services
             if (exists)
                 return ResponseOptions.Exists;
 
+            await using var transaction = await repo.BeginTransactionAsync();
             await repo.AddAsync(followingAdd);
 
             var userFollowing = await usersCrudRepo.GetByIdAsync(followingAdd.FollowingPersonId);
@@ -37,6 +38,7 @@ namespace Tripex.Core.Services
 
             follower.FollowingCount++;
             await usersCrudRepo.UpdateAsync(follower);
+            await transaction.CommitAsync();
 
             return ResponseOptions.Ok;
         }
@@ -53,6 +55,7 @@ namespace Tripex.Core.Services
             if (userFollowing == null)
                 return ResponseOptions.NotFound;
 
+            await using var transaction = await repo.BeginTransactionAsync();
             userFollowing.FollowersCount--;
             await usersCrudRepo.UpdateAsync(userFollowing);
 
@@ -64,7 +67,10 @@ namespace Tripex.Core.Services
             follower.FollowingCount--;
             await usersCrudRepo.UpdateAsync(follower);
 
-            return await repo.RemoveAsync(followerGet.Id);
+            var result = await repo.RemoveAsync(followerGet.Id);
+            await transaction.CommitAsync();
+
+            return result;
         }
 
         public async Task<IEnumerable<Follower>> GetFollowersAsync(Guid userId, int pageIndex ,string? userName)
