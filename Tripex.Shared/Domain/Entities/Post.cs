@@ -17,11 +17,15 @@ namespace Tripex.Core.Domain.Entities
 
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
+        public IEnumerable<PostTag> Tags { get; set; } = new List<PostTag>();
 
         public int LikesCount { get; set; } = 0;
         public int CommentsCount { get; set; } = 0;
+        public int ViewedCount { get; set; } = 0;
 
         public DateTime ContentUrlUpdated { get; set; } = DateTime.UtcNow;
+
+        private const int UPDATE_CONENT_URL_TIME = 590;
 
         public Post() { }
         public Post(Guid id, Guid userId, string contentUrl, string? description)
@@ -34,7 +38,7 @@ namespace Tripex.Core.Domain.Entities
 
         public async Task UpdateContentUrlIfNeededAsync(IS3FileService s3FileService, ICrudRepository<Post> repo)
         {
-            if (DateTime.UtcNow - ContentUrlUpdated >= TimeSpan.FromMinutes(590))
+            if (DateTime.UtcNow - ContentUrlUpdated >= TimeSpan.FromMinutes(UPDATE_CONENT_URL_TIME))
             {
                 ContentUrl = s3FileService.GetPreSignedURL(Id.ToString(), 10);
                 ContentUrlUpdated = DateTime.UtcNow;

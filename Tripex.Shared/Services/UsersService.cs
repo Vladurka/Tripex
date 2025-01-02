@@ -10,7 +10,8 @@ namespace Tripex.Core.Services
 {
     public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, 
         ICrudRepository<User> crudRepo, ITokenService tokenService, 
-        IOptions<JwtOptions> options, IS3FileService s3FileService) : IUsersService
+        IOptions<JwtOptions> options, IS3FileService s3FileService,
+        IEmailService emailService) : IUsersService
     {
         private JwtOptions _options => options.Value;
 
@@ -42,6 +43,8 @@ namespace Tripex.Core.Services
             userRegister.Pass = passwordHash;
 
             await repo.AddUserAsync(userRegister);
+            await emailService.SendEmailAsync(userRegister.Email, "Welcome", emailService.WelcomeMessage(userRegister));
+
             await transaction.CommitAsync();
 
             return ResponseOptions.Ok;
@@ -67,6 +70,7 @@ namespace Tripex.Core.Services
                 throw new KeyNotFoundException($"User with id {id} not found");
 
             await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
+            await user.UpdateViewedCountAsync(crudRepo);
 
             return user;
         }

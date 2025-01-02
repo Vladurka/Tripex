@@ -1,13 +1,13 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
+using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
     public class EmailService(IConfiguration configuration) : IEmailService
     {
-
         public async Task SendEmailAsync(string toEmail, string subject, string body)
         {
             var emailSettings = configuration.GetSection("EmailSettings");
@@ -27,6 +27,8 @@ namespace Tripex.Core.Services
             await smtp.SendAsync(emailMessage);
             await smtp.DisconnectAsync(true);
         }
-    }
 
+        public string WelcomeMessage(User user) =>
+            $"Hello {user.UserName}, thank you for registration!";
+    }
 }

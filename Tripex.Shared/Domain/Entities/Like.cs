@@ -10,7 +10,7 @@ namespace Tripex.Core.Domain.Entities
 
         [Required]
         public Guid PostId { get; set; }
-        public Post? Post { get; set; }
+        public Post Post { get; set; }
 
         public Like() { }
         public Like(Guid userId, Guid postId)

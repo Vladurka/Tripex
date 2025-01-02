@@ -10,6 +10,7 @@ namespace Tripex.Infrastructure.Persistence
         public DbSet<Like> Likes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Follower> Followers { get; set; }
+        public DbSet<PostTag> Tags { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,6 +21,7 @@ namespace Tripex.Infrastructure.Persistence
             ConfigureCommentEntity(modelBuilder);
             ConfigureLikeEntity(modelBuilder);
             ConfigureFollowerEntity(modelBuilder);
+            ConfigureTagEntity(modelBuilder);   
         }
 
         private void ConfigurePostEntity(ModelBuilder modelBuilder)
@@ -72,6 +74,15 @@ namespace Tripex.Infrastructure.Persistence
                 .HasOne(c => c.FollowingEntity)
                 .WithMany(p => p.Following)
                 .HasForeignKey(c => c.FollowingPersonId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
+
+        private void ConfigureTagEntity(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<PostTag>()
+                .HasOne(c => c.Post)
+                .WithMany(p => p.Tags)
+                .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

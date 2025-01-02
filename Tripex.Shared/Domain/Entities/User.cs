@@ -17,6 +17,7 @@ namespace Tripex.Core.Domain.Entities
         public int FollowersCount { get; set; } = 0;
         public int FollowingCount { get; set; } = 0;
         public int PostsCount { get; set; } = 0;
+        public int ViewedCount { get; set; } = 0;
 
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
@@ -26,12 +27,16 @@ namespace Tripex.Core.Domain.Entities
 
         public DateTime Updated { get; set; } = DateTime.UtcNow;
         public DateTime AvatarUpdated { get; set; } = DateTime.UtcNow;
+        public DateTime ViewedCountUpdated { get; set; } = DateTime.UtcNow;
 
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
         public IEnumerable<Follower> Followers { get; set; } = new List<Follower>();
         public IEnumerable<Follower> Following { get; set; } = new List<Follower>();
+
+        private const int UPDATE_AVATAR_URL_TIME = 600;
+        private const int VIEW_COUNT_UPDATE_TIME = 1;
 
         public User() { }
         public User(string userName, string email, string pass)
@@ -50,13 +55,25 @@ namespace Tripex.Core.Domain.Entities
         {
             if (AvatarUrl != DEFAULT_AVATAR)
             {
-                if (DateTime.UtcNow - AvatarUpdated >= TimeSpan.FromMinutes(590))
+                if (DateTime.UtcNow - AvatarUpdated >= TimeSpan.FromMinutes(UPDATE_AVATAR_URL_TIME - 10))
                 {
                     AvatarUrl = s3FileService.GetPreSignedURL(Id.ToString(), 10);
                     AvatarUpdated = DateTime.UtcNow;
                     await repo.UpdateAsync(this);
                 }
             }
+        }
+
+        public async Task UpdateViewedCountAsync(ICrudRepository<User> repo)
+        {
+            if (ViewedCountUpdated - DateTime.UtcNow >= TimeSpan.FromDays(VIEW_COUNT_UPDATE_TIME))
+            {
+                ViewedCountUpdated = DateTime.UtcNow;
+                ViewedCount = 0;
+            }
+
+            ViewedCount++;
+            await repo.UpdateAsync(this);
         }
     }
 }
