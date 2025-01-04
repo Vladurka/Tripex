@@ -46,7 +46,6 @@ namespace Tripex.Infrastructure.Persistence.Repositories
         public async Task<IDbContextTransaction> BeginTransactionAsync() =>
             await context.Database.BeginTransactionAsync();
 
-
         private async Task SaveChangesAsync()
         {
             if (await context.SaveChangesAsync() <= 0)
