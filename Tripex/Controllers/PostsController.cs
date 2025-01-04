@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Tripex.Application.DTOs.Posts;
 using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 using Tripex.Core.Domain.Interfaces.Services.Security;
 
@@ -10,7 +9,7 @@ namespace Tripex.Controllers
 {
     [Authorize]
     public class PostsController(IPostsService service, IS3FileService s3FileService,
-        ITokenService tokenService) : BaseApiController
+        ITokenService tokenService, ICensorService censorService) : BaseApiController
     {
         [HttpPost]
         public async Task<ActionResult> AddPost(PostAdd postAdd)
@@ -26,6 +25,14 @@ namespace Tripex.Controllers
 
             var userId = tokenService.GetUserIdByToken();
             var postId = Guid.NewGuid();
+
+            if (!string.IsNullOrWhiteSpace(postAdd.Description))
+            {
+                var isBadDescription = await censorService.CheckTextAsync(postAdd.Description);
+
+                if (isBadDescription != "No")
+                    return BadRequest("Description is not available");
+            }
 
             string photoUrl = await s3FileService.UploadFileAsync(postAdd.Photo, postId.ToString());
 

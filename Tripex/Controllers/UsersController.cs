@@ -12,7 +12,7 @@ namespace Tripex.Controllers
     [Authorize]
     public class UsersController(IUsersService service, ICrudRepository<User> crudRepo,
         IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService,
-        ICookiesService cookiesService, IOptions<JwtOptions> jwtOptions) : BaseApiController
+        ICookiesService cookiesService, IOptions<JwtOptions> jwtOptions, ICensorService censorService) : BaseApiController
     {
 
         private readonly JwtOptions _jwtOptions = jwtOptions.Value;
@@ -29,6 +29,11 @@ namespace Tripex.Controllers
 
                 return BadRequest(errors);
             }
+
+            var isBad = await censorService.CheckTextAsync(userRegister.UserName);
+
+            if (isBad != "No")
+                return BadRequest("User name is not available");
 
             var user = new User(userRegister.UserName, userRegister.Email, userRegister.Pass);
 
