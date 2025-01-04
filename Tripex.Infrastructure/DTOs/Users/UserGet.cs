@@ -1,39 +1,33 @@
-﻿using Tripex.Application.DTOs.Posts;
+﻿using Humanizer;
 using Tripex.Core.Domain.Entities;
 
 namespace Tripex.Application.DTOs.Users
 {
-    public class UserGet : BaseEntity
+    public class UserGet
     {
+        public Guid Id { get; set; }
+
         public string UserName { get; set; } = string.Empty;
         public string? Avatar { get; set; }
-        public IEnumerable<PostGet> Posts { get; set; } = new List<PostGet>();
-        public IEnumerable<UserGetMin> Followers { get; set; } = new List<UserGetMin>();
-        public IEnumerable<UserGetMin> Following { get; set; } = new List<UserGetMin>();
+        public string? Description { get; set; }
 
         public int FollowersCount {  get; set; }
         public int FollowingCount { get; set; }
+        public int PostsCount { get; set; }
+
+        public string CreatedAt { get; set; } = string.Empty;
         public UserGet(User user)
         {
             Id = user.Id;
-            CreatedAt = user.CreatedAt;
             UserName = user.UserName;
             Avatar = user.AvatarUrl;
+            Description = user.Description;
 
-            Posts = user.Posts
-                .Select(post => new PostGet(post))
-                .ToList();
+            FollowersCount = user.FollowersCount;
+            FollowingCount = user.FollowingCount;
+            PostsCount = user.PostsCount;
 
-            Following = user.Followers
-                .Select(follower => new UserGetMin(follower.FollowingEntity))
-                .ToList();
-
-            Followers = user.Following
-                .Select(following => new UserGetMin(following.FollowerEntity))
-                .ToList();
-
-            FollowersCount = Followers.Count();
-            FollowingCount = Following.Count();
+            CreatedAt = user.CreatedAt.Humanize();
         }
     }
 }

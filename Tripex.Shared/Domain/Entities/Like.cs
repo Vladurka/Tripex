@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tripex.Core.Domain.Interfaces.Contracts;
+
 namespace Tripex.Core.Domain.Entities
 {
-    public class Like : BaseEntity, IPostForeignKey
+    public class Like : BaseEntity
     {
         [Required]
         public Guid UserId { get; set; }
@@ -10,7 +10,7 @@ namespace Tripex.Core.Domain.Entities
 
         [Required]
         public Guid PostId { get; set; }
-        public Post? Post { get; set; }
+        public Post Post { get; set; }
 
         public Like() { }
         public Like(Guid userId, Guid postId)

@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tripex.Core.Domain.Interfaces.Contracts;
-
 
 namespace Tripex.Core.Domain.Entities
 {
-    public class Comment : BaseEntity, IPostForeignKey
+    public class Comment : BaseEntity
     {
         [Required]
         public Guid UserId { get; set; }
@@ -12,10 +10,11 @@ namespace Tripex.Core.Domain.Entities
 
         [Required]
         public Guid PostId { get; set; }
-        public Post? Post { get; set; }
+        public Post Post { get; set; }
 
         [Required]
         public string Content { get; set; } = string.Empty;
+        public int LikesCount { get; set; } = 0;
 
         public Comment() { }
         public Comment(Guid userId, Guid postId, string content)

@@ -35,6 +35,9 @@ namespace Tripex.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("LikesCount")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("PostId")
                         .HasColumnType("uuid");
 
@@ -104,9 +107,15 @@ namespace Tripex.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int>("CommentsCount")
+                        .HasColumnType("integer");
+
                     b.Property<string>("ContentUrl")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("ContentUrlUpdated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -114,8 +123,17 @@ namespace Tripex.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<int>("LikesCount")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
+
+                    b.Property<int>("ViewedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ViewedCountUpdated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -124,11 +142,37 @@ namespace Tripex.Infrastructure.Migrations
                     b.ToTable("Posts");
                 });
 
+            modelBuilder.Entity("Tripex.Core.Domain.Entities.PostTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Tag")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Tags");
+                });
+
             modelBuilder.Entity("Tripex.Core.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("AvatarUpdated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("AvatarUrl")
                         .HasColumnType("text");
@@ -136,18 +180,39 @@ namespace Tripex.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("FollowersCount")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FollowingCount")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Pass")
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("PostsCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(25)
                         .HasColumnType("character varying(25)");
+
+                    b.Property<int>("ViewedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ViewedCountUpdated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -222,11 +287,24 @@ namespace Tripex.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Tripex.Core.Domain.Entities.PostTag", b =>
+                {
+                    b.HasOne("Tripex.Core.Domain.Entities.Post", "Post")
+                        .WithMany("Tags")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Tripex.Core.Domain.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("Likes");
+
+                    b.Navigation("Tags");
                 });
 
             modelBuilder.Entity("Tripex.Core.Domain.Entities.User", b =>

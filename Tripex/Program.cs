@@ -1,8 +1,10 @@
+using Amazon.S3;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Text;
+using Tripex.Core;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -11,6 +13,7 @@ using Tripex.Core.Services;
 using Tripex.Core.Services.Security;
 using Tripex.Infrastructure.Persistence;
 using Tripex.Infrastructure.Persistence.Repositories;
+using Tripex.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,7 +39,21 @@ builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
 builder.Services.AddScoped<ILikesService, LikesService>();
 builder.Services.AddScoped<IFollowersService, FollowersService>();
+builder.Services.AddScoped<IS3FileService, S3FileService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ICensorService, CensorService>();
+
+builder.Services.AddHttpClient<CensorService>();
+
 builder.Services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+
+var awsOptions = builder.Configuration.GetSection("AWS").Get<AwsOptions>();
+builder.Services.AddSingleton<IAmazonS3>(sp =>
+    new AmazonS3Client(awsOptions.AccessKey, awsOptions.SecretKey, Amazon.RegionEndpoint.GetBySystemName(awsOptions.Region)));
+
+builder.Logging.ClearProviders(); 
+builder.Logging.AddConsole();   
+builder.Logging.AddDebug();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -64,6 +81,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthentication();
 

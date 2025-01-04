@@ -1,5 +1,6 @@
-﻿using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Contracts;
+﻿using Microsoft.EntityFrameworkCore.Storage;
+using Tripex.Core.Domain.Entities;
+using Tripex.Core.Enums;
 
 namespace Tripex.Core.Domain.Interfaces.Repositories
 {
@@ -10,6 +11,6 @@ namespace Tripex.Core.Domain.Interfaces.Repositories
         public Task<T?> GetByIdAsync(Guid id);
         public Task<ResponseOptions> UpdateAsync(T entity);
         public Task<ResponseOptions> RemoveAsync(Guid id);
-        public Task<IEnumerable<T>> GetByPostIdAsync<T>(Guid postId) where T : BaseEntity, IPostForeignKey;
+        public Task<IDbContextTransaction> BeginTransactionAsync();
     }
 }

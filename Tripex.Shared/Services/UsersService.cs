@@ -4,12 +4,14 @@ using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 using Tripex.Core.Domain.Interfaces.Services.Security;
+using Tripex.Core.Enums;
 
 namespace Tripex.Core.Services
 {
     public class UsersService(IUsersRepository repo, IPasswordHasher passwordHasher, 
         ICrudRepository<User> crudRepo, ITokenService tokenService, 
-        IOptions<JwtOptions> options) : IUsersService
+        IOptions<JwtOptions> options, IS3FileService s3FileService,
+        IEmailService emailService) : IUsersService
     {
         private JwtOptions _options => options.Value;
 
@@ -35,61 +37,61 @@ namespace Tripex.Core.Services
             if (await repo.UsernameExistsAsync(userRegister.UserName))
                 return ResponseOptions.Exists;
 
+            await using var transaction = await crudRepo.BeginTransactionAsync();
             string passwordHash = passwordHasher.HashPassword(userRegister.Pass);
 
             userRegister.Pass = passwordHash;
 
             await repo.AddUserAsync(userRegister);
+            await emailService.SendEmailAsync(userRegister.Email, "Welcome", emailService.WelcomeMessage(userRegister));
+
+            await transaction.CommitAsync();
+
             return ResponseOptions.Ok;
         }
 
-        public async Task<IEnumerable<User>> GetUsersProfileAsync()
+        public async Task<IEnumerable<User>> GetUsersAsync()
         {
             var users = await crudRepo.GetQueryable<User>()
-               .Include(u => u.Posts)
-                   .ThenInclude(p => p.Comments)
-                       .ThenInclude(c => c.User)
-                .Include(u => u.Posts)
-                   .ThenInclude(l => l.Likes)
-                       .ThenInclude(p => p.User)
-               .Include(u => u.Followers)
-               .Include(u => u.Following)
-               .ToListAsync();
+                .ToListAsync();
+
+            foreach (var user in users)
+                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
 
             return users;
         }
 
-        public async Task<User> GetUserProfileByIdAsync(Guid id)
+        public async Task<User> GetUserByIdAsync(Guid id)
         {
             var user = await crudRepo.GetQueryable<User>()
-                .Include(u => u.Posts)
-                   .ThenInclude(p => p.Comments)
-                      .ThenInclude(с => с.User)
-                .Include(u => u.Posts)
-                   .ThenInclude(p => p.Likes)
-                       .ThenInclude(l => l.User)
-                .Include(u => u.Followers)
-                    .ThenInclude(u => u.FollowingEntity)
-                .Include(u => u.Following)
-                    .ThenInclude(u => u.FollowerEntity)
-               .SingleOrDefaultAsync(u => u.Id == id);
+                .SingleOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
-                throw new KeyNotFoundException("User not found");
+                throw new KeyNotFoundException($"User with id {id} not found");
+
+            await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
+            await user.UpdateViewedCountAsync(crudRepo);
 
             return user;
         }
-        public async Task<IEnumerable<User>> GetUsersByNameAsync(string userName)
+
+        public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName)
         {
+            var id = tokenService.GetUserIdByToken();
+
             var users = await crudRepo.GetQueryable<User>()
                 .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
                 .Include(u => u.Followers)
-                .OrderByDescending(x => x.Followers.Count()) 
+                .OrderBy(x => x.Followers.Any(f => f.Id == id))
+                .ThenBy(x => x.UserName.Contains(userName) ? 0 : 1)
+                .ThenByDescending(x => x.FollowersCount)
                 .AsNoTracking()
                 .ToListAsync();
 
+            foreach (var user in users)
+                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
+
             return users;
         }
-
     }
 }
