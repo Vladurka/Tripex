@@ -35,7 +35,7 @@ namespace Tripex.Core.Domain.Entities
         public IEnumerable<Follower> Followers { get; set; } = new List<Follower>();
         public IEnumerable<Follower> Following { get; set; } = new List<Follower>();
 
-        private const int UPDATE_AVATAR_URL_TIME = 600;
+        private const int UPDATE_AVATAR_URL_TIME = 590;
         private const int VIEW_COUNT_UPDATE_TIME = 1;
 
         public User() { }
@@ -55,7 +55,7 @@ namespace Tripex.Core.Domain.Entities
         {
             if (AvatarUrl != DEFAULT_AVATAR)
             {
-                if (DateTime.UtcNow - AvatarUpdated >= TimeSpan.FromMinutes(UPDATE_AVATAR_URL_TIME - 10))
+                if (DateTime.UtcNow - AvatarUpdated >= TimeSpan.FromMinutes(UPDATE_AVATAR_URL_TIME))
                 {
                     AvatarUrl = s3FileService.GetPreSignedURL(Id.ToString(), 10);
                     AvatarUpdated = DateTime.UtcNow;
@@ -66,7 +66,7 @@ namespace Tripex.Core.Domain.Entities
 
         public async Task UpdateViewedCountAsync(ICrudRepository<User> repo)
         {
-            if (ViewedCountUpdated - DateTime.UtcNow >= TimeSpan.FromDays(VIEW_COUNT_UPDATE_TIME))
+            if (DateTime.UtcNow - ViewedCountUpdated >= TimeSpan.FromDays(VIEW_COUNT_UPDATE_TIME))
             {
                 ViewedCountUpdated = DateTime.UtcNow;
                 ViewedCount = 0;

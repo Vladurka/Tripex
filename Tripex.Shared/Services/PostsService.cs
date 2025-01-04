@@ -37,6 +37,7 @@ namespace Tripex.Core.Services
             {
                 await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
                 await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+                await post.UpdateViewedCountAsync(repo);
             }
 
             return posts;
@@ -74,6 +75,7 @@ namespace Tripex.Core.Services
 
             await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
             await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await post.UpdateViewedCountAsync(repo);
 
             return post;
         }
