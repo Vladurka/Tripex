@@ -83,7 +83,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<UserGetMin>>> GetUsersByName(string userName)
         {
             if (string.IsNullOrWhiteSpace(userName))
-                return BadRequest("User name cannot be empty");
+                return BadRequest("User name can't be empty");
 
             var users = await service.SearchUsersByNameAsync(userName);
 

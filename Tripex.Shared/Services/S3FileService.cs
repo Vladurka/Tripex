@@ -69,7 +69,7 @@ namespace Tripex.Core.Services
         public async Task DeleteFileAsync(string fileName)
         {
             if (string.IsNullOrEmpty(fileName))
-                throw new ArgumentException("File name cannot be null or empty");
+                throw new ArgumentException("File name can't be null or empty");
 
             var deleteRequest = new DeleteObjectRequest
             {
