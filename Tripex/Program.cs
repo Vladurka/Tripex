@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using StackExchange.Redis;
 using System.Text;
 using Tripex.Core;
 using Tripex.Core.Domain.Entities;
@@ -28,6 +29,13 @@ builder.Services.AddControllers()
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection")));
 
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    var configuration = builder.Configuration.GetConnectionString("Redis");
+    return ConnectionMultiplexer.Connect(configuration);
+});
+
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -42,6 +50,7 @@ builder.Services.AddScoped<IFollowersService, FollowersService>();
 builder.Services.AddScoped<IS3FileService, S3FileService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICensorService, CensorService>();
+builder.Services.AddScoped<IRedisRepository, RedisRepository>();
 
 builder.Services.AddHttpClient<CensorService>();
 
@@ -51,8 +60,8 @@ var awsOptions = builder.Configuration.GetSection("AWS").Get<AwsOptions>();
 builder.Services.AddSingleton<IAmazonS3>(sp =>
     new AmazonS3Client(awsOptions.AccessKey, awsOptions.SecretKey, Amazon.RegionEndpoint.GetBySystemName(awsOptions.Region)));
 
-builder.Logging.ClearProviders(); 
-builder.Logging.AddConsole();   
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
