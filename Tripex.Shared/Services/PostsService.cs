@@ -67,7 +67,6 @@ namespace Tripex.Core.Services
         {
             var post = await repo.GetQueryable<Post>()
                .Include(p => p.User)
-               .AsNoTracking()
                .SingleOrDefaultAsync(p => p.Id == postId);
 
             if (post == null)
