@@ -58,5 +58,7 @@ namespace Tripex.Controllers
         {
             return CheckResponse(await service.DeletePostAsync(id));
         }
+
+        // dima is pidor
     }
 }
