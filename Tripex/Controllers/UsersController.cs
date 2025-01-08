@@ -83,7 +83,7 @@ namespace Tripex.Controllers
         public async Task<ActionResult<IEnumerable<UserGetMin>>> GetUsersByName(string userName)
         {
             if (string.IsNullOrWhiteSpace(userName))
-                return BadRequest("User name cannot be empty");
+                return BadRequest("User name can't be empty");
 
             var users = await service.SearchUsersByNameAsync(userName);
 
@@ -122,8 +122,13 @@ namespace Tripex.Controllers
         [HttpPut("description/{description}")]
         public async Task<ActionResult<User>> UpdateDescription(string description)
         {
-            if (string.IsNullOrWhiteSpace(description))
-                return BadRequest("Description can't be empty");
+            if (!string.IsNullOrWhiteSpace(description))
+            {
+                var isBad = await censorService.CheckTextAsync(description);
+
+                if (isBad != "No")
+                    return BadRequest("Description is not available");
+            }
 
             var user = await GetMyUserAsync();
 
@@ -142,6 +147,11 @@ namespace Tripex.Controllers
 
             if(await repo.UsernameExistsAsync(userName))
                 return BadRequest("This user name already exists");
+
+            var isBad = await censorService.CheckTextAsync(userName);
+
+            if (isBad != "No")
+                return BadRequest("User name is not available");
 
             var user = await GetMyUserAsync();
 
