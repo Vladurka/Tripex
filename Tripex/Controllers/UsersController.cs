@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using Tripex.Application.DTOs.Users;
 using Tripex.Core.Domain.Entities;
 using Tripex.Core.Domain.Interfaces.Repositories;
@@ -12,54 +11,8 @@ namespace Tripex.Controllers
     [Authorize]
     public class UsersController(IUsersService service, ICrudRepository<User> crudRepo,
         IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService,
-        ICookiesService cookiesService, IOptions<JwtOptions> jwtOptions, ICensorService censorService) : BaseApiController
+        ICensorService censorService) : BaseApiController
     {
-
-        private readonly JwtOptions _jwtOptions = jwtOptions.Value;
-
-        [AllowAnonymous]
-        [HttpPost("register")]
-        public async Task<ActionResult> RegisterUser(UserRegister userRegister)
-        {
-            if (!ModelState.IsValid)
-            {
-                string errors = string.Join("\n",
-                ModelState.Values.SelectMany(value => value.Errors)
-                    .Select(err => err.ErrorMessage));
-
-                return BadRequest(errors);
-            }
-
-            var isBad = await censorService.CheckTextAsync(userRegister.UserName);
-
-            if (isBad != "No")
-                return BadRequest("User name is not available");
-
-            var user = new User(userRegister.UserName, userRegister.Email, userRegister.Pass);
-
-            return CheckResponse(await service.RegisterAsync(user));
-        }
-
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<ActionResult> LoginUser(UserLogin userLogin)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var user = new User(userLogin.Email, userLogin.Pass);
-            var result = await service.LoginAsync(user);
-
-            return CheckResponse(result);
-        }
-
-        [HttpPost("logout")]
-        public ActionResult Logout()
-        {
-            cookiesService.DeleteCookie(_jwtOptions.TokenName);
-            return Unauthorized();
-        }
-
         [HttpGet("profiles")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersProfile()
         {
