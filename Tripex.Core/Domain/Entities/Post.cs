@@ -19,6 +19,8 @@ namespace Tripex.Core.Domain.Entities
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
         public IEnumerable<PostTag> Tags { get; set; } = new List<PostTag>();
 
+        public List<string> UsersIdWatched { get; set; } = new List<string>(){string.Empty};
+
         public int LikesCount { get; set; } = 0;
         public int CommentsCount { get; set; } = 0;
         public int ViewedCount { get; set; } = 0;
@@ -48,9 +50,8 @@ namespace Tripex.Core.Domain.Entities
             }
         }
 
-        public async Task UpdateViewedCountAsync(ICrudRepository<Post> repo)
+        public async Task UpdateViewedCountAsync(ICrudRepository<Post> repo, Guid userWatched)
         {
-            //throw new Exception($"{ViewedCountUpdated - DateTime.UtcNow}");
             if (DateTime.UtcNow - ViewedCountUpdated >= TimeSpan.FromDays(VIEW_COUNT_UPDATE_TIME))
             {
                 ViewedCountUpdated = DateTime.UtcNow;
@@ -58,6 +59,8 @@ namespace Tripex.Core.Domain.Entities
             }
 
             ViewedCount++;
+            UsersIdWatched.Add(userWatched.ToString());
+
             await repo.UpdateAsync(this);
         }
     }

@@ -43,9 +43,20 @@ namespace Tripex.Controllers
         }
 
         [HttpGet("more/{userId:guid}/{pageIndex:int}")]
-        public async Task<ActionResult<IEnumerable<PostGet>>> GetPostsById(Guid userId, int pageIndex)
+        public async Task<ActionResult<IEnumerable<PostGet>>> GetPostsByUserId(Guid userId, int pageIndex)
         {
-            var posts = await service.GetPostsByUserIdAsync(userId, pageIndex);
+            var posts = await service.GetPostsByUserIdAsync(userId, pageIndex, userId);
+
+            var postsGet = posts.Select(post => new PostGet(post))
+                .ToList();
+
+            return Ok(postsGet);
+        }
+
+        [HttpGet("more/{pageIndex:int}")]
+        public async Task<ActionResult<IEnumerable<PostGet>>> GetRecommendations(int pageIndex)
+        {
+            var posts = await service.GetRecommendations(tokenService.GetUserIdByToken(), pageIndex);
 
             var postsGet = posts.Select(post => new PostGet(post))
                 .ToList();
