@@ -21,7 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tripex.Data\Tripex.Infrastructure.csproj" />
+    <ProjectReference Include="..\Tripex.Core\Tripex.Core.csproj" />
+    <ProjectReference Include="..\Tripex.Infrastructure\Tripex.Infrastructure.csproj" />
+    <ProjectReference Include="..\TripexApplication\Tripex.Application.csproj" />
   </ItemGroup>
 
 </Project>
