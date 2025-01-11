@@ -1,2 +1,2 @@
 export { Links } from "./Links/Links";
-export { Post } from "./Feed/Post";
+// export { Post } from "./Feed/Post";
