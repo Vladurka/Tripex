@@ -3,19 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #a71010;
+  --background: #292929;
+  --foreground: #ffffff; /* Белый текст для контраста */
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #292929;
-    --foreground: #ededed;
+    --foreground: #ffffff;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  @apply bg-background text-foreground; /* Tailwind классы для установки фона и текста */
   font-family: Arial, Helvetica, sans-serif;
 }
