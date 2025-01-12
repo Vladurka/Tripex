@@ -89,6 +89,22 @@ namespace Tripex.Core.Services
             return ResponseOptions.Ok;
         }
 
+        public async Task<Post> GetPostByIdAsync(Guid postId, Guid userId)
+        {
+            var post = await repo.GetQueryable<Post>()
+               .Include(p => p.User)
+               .SingleOrDefaultAsync(p => p.Id == postId);
+
+            if (post == null)
+                throw new KeyNotFoundException($"Post with id {postId} not found");
+
+            await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
+            await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await post.UpdateViewedCountAsync(repo, userId);
+
+            return post;
+        }
+
         private async Task<Post> GetPostByIdAsync(Guid postId)
         {
             var post = await repo.GetQueryable<Post>()

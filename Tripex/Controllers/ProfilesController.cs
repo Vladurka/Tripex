@@ -9,7 +9,7 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class UsersController(IUsersService service, ICrudRepository<User> crudRepo,
+    public class ProfilesController(IUsersService service, ICrudRepository<User> crudRepo,
         IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService,
         ICensorService censorService) : BaseApiController
     {
