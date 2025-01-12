@@ -8,7 +8,7 @@ using Tripex.Core.Enums;
 namespace Tripex.Core.Services
 {
     public class PostsService(ICrudRepository<Post> repo, ICrudRepository<User> usersCrudRepo,
-        ITokenService tokenService, IUsersService usersService, IS3FileService s3FileService) : IPostsService
+        ITokenService tokenService, IUsersService usersService, IS3FileService s3FileService, ICrudRepository<PostWatcher> postWatchersRepo) : IPostsService
     {
         public async Task AddPostAsync(Post post) 
         {
@@ -23,10 +23,10 @@ namespace Tripex.Core.Services
             await transaction.CommitAsync();
         }
 
-        public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId, int pageIndex, Guid userWatched, int pageSize = 20)
+        public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid ownerId, int pageIndex, Guid userWatchedId, int pageSize = 20)
         {
             var posts = await repo.GetQueryable<Post>()
-                .Where(p => p.UserId == userId)
+                .Where(p => p.UserId == ownerId)
                 .Include(p => p.User)
                 .OrderByDescending(p => p.CreatedAt)
                 .Skip((pageIndex - 1) * pageSize)
@@ -37,7 +37,7 @@ namespace Tripex.Core.Services
             {
                 await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
                 await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
-                await post.UpdateViewedCountAsync(repo, userWatched);
+                await post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userWatchedId);
             }
 
             return posts;
@@ -45,8 +45,14 @@ namespace Tripex.Core.Services
 
         public async Task<IEnumerable<Post>> GetRecommendations(Guid userId, int pageIndex, int pageSize = 20)
         {
+            var postsWatched = await repo.GetQueryable<PostWatcher>()
+                .Where(p => DateTime.UtcNow - p.CreatedAt <= TimeSpan.FromDays(14) && p.UserId == userId)
+                .Select(p => p.PostId)
+                .ToListAsync();
+
             var posts = await repo.GetQueryable<Post>()
-                .Where(p => DateTime.UtcNow - p.CreatedAt <= TimeSpan.FromDays(14) && !p.UsersIdWatched.Contains(userId.ToString()))
+                .Where(p => DateTime.UtcNow - p.CreatedAt <= TimeSpan.FromDays(14)
+                            && !postsWatched.Contains(p.Id)) 
                 .Include(p => p.User)
                 .OrderByDescending(p =>
                     repo.GetQueryable<Follower>()
@@ -59,11 +65,12 @@ namespace Tripex.Core.Services
                 .ToListAsync();
 
 
+
             foreach (var post in posts)
             {
                 await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
                 await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
-                await post.UpdateViewedCountAsync(repo, userId);
+                await post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId);
             }
 
             return posts;
@@ -100,7 +107,7 @@ namespace Tripex.Core.Services
 
             await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
             await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
-            await post.UpdateViewedCountAsync(repo, userId);
+            await post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId);
 
             return post;
         }

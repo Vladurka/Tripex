@@ -34,6 +34,7 @@ namespace Tripex.Core.Domain.Entities
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
         public IEnumerable<Follower> Followers { get; set; } = new List<Follower>();
         public IEnumerable<Follower> Following { get; set; } = new List<Follower>();
+        public IEnumerable<PostWatcher> PostWatchers { get; set; } = new List<PostWatcher>();
 
         private const int UPDATE_AVATAR_URL_TIME = 590;
         private const int VIEW_COUNT_UPDATE_TIME = 1;

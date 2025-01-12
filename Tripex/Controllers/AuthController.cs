@@ -25,9 +25,9 @@ namespace Tripex.Controllers
                 return BadRequest(errors);
             }
 
-            var isBad = await censorService.CheckTextAsync(userRegister.UserName);
+            var isAvailable = await censorService.CheckTextAsync(userRegister.UserName);
 
-            if (isBad != "No")
+            if (isAvailable != "No")
                 return BadRequest("User name is not available");
 
             var user = new User(userRegister.UserName, userRegister.Email, userRegister.Pass);
