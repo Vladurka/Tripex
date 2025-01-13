@@ -14,13 +14,21 @@ namespace Tripex.Core.Services
         {
             await using var transaction = await repo.BeginTransactionAsync();
 
-            await repo.AddAsync(post);
-            var user = await usersService.GetUserByIdAsync(post.UserId);
+            try
+            {
+                await repo.AddAsync(post);
+                var user = await usersService.GetUserByIdAsync(post.UserId);
 
-            user.PostsCount++;
-            await usersCrudRepo.UpdateAsync(user);
+                user.PostsCount++;
+                await usersCrudRepo.UpdateAsync(user);
 
-            await transaction.CommitAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid ownerId, int pageIndex, Guid userWatchedId, int pageSize = 20)
@@ -91,26 +99,6 @@ namespace Tripex.Core.Services
             return posts;
         }
 
-        public async Task<ResponseOptions> DeletePostAsync(Guid postId)
-        {
-            var post = await GetPostByIdAsync(postId);
-
-            if(post.UserId != tokenService.GetUserIdByToken())
-                return ResponseOptions.BadRequest;
-
-            await using var transaction = await repo.BeginTransactionAsync();
-            var user = await usersService.GetUserByIdAsync(post.UserId);
-            user.PostsCount--;
-
-            await s3FileService.DeleteFileAsync(postId.ToString());
-            await repo.RemoveAsync(postId);
-
-            await usersCrudRepo.UpdateAsync(user);
-            await transaction.CommitAsync();
-
-            return ResponseOptions.Ok;
-        }
-
         public async Task<Post> GetPostByIdAsync(Guid postId, Guid userId)
         {
             var post = await repo.GetQueryable<Post>()
@@ -140,6 +128,35 @@ namespace Tripex.Core.Services
                 post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
 
             return post;
+        }
+
+        public async Task<ResponseOptions> DeletePostAsync(Guid postId)
+        {
+            var post = await GetPostByIdAsync(postId);
+
+            if(post.UserId != tokenService.GetUserIdByToken())
+                return ResponseOptions.BadRequest;
+
+            await using var transaction = await repo.BeginTransactionAsync();
+
+            try
+            {
+                var user = await usersService.GetUserByIdAsync(post.UserId);
+                user.PostsCount--;
+
+                await s3FileService.DeleteFileAsync(postId.ToString());
+                await repo.RemoveAsync(postId);
+
+                await usersCrudRepo.UpdateAsync(user);
+                await transaction.CommitAsync();
+
+                return ResponseOptions.Ok;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
     }
 }

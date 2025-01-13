@@ -18,21 +18,30 @@ namespace Tripex.Core.Services
             var post = await postsRepo.GetByIdAsync(likeAdd.PostId);
 
             await using var transaction = await repo.BeginTransactionAsync();
-            if (post == null)
-                return ResponseOptions.NotFound;
 
-            if (likeGet != null)
-                return ResponseOptions.Exists;
-
-            else
+            try
             {
-                await repo.AddAsync(likeAdd);
-                post.LikesCount++;
-                await postsRepo.UpdateAsync(post);
-            }
-            await transaction.CommitAsync();
+                if (post == null)
+                    return ResponseOptions.NotFound;
 
-            return ResponseOptions.Ok;
+                if (likeGet != null)
+                    return ResponseOptions.Exists;
+
+                else
+                {
+                    await repo.AddAsync(likeAdd);
+                    post.LikesCount++;
+                    await postsRepo.UpdateAsync(post);
+                }
+                await transaction.CommitAsync();
+
+                return ResponseOptions.Ok;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<Like> GetLikeAsync(Guid id)
@@ -80,12 +89,21 @@ namespace Tripex.Core.Services
                 return ResponseOptions.NotFound;
 
             await using var transaction = await repo.BeginTransactionAsync();
-            await repo.RemoveAsync(id);
-            post.LikesCount--;
-            await postsRepo.UpdateAsync(post);
-            await transaction.CommitAsync();
 
-            return ResponseOptions.Ok;
+            try
+            {
+                await repo.RemoveAsync(id);
+                post.LikesCount--;
+                await postsRepo.UpdateAsync(post);
+                await transaction.CommitAsync();
+
+                return ResponseOptions.Ok;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
     }
 }

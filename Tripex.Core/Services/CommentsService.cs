@@ -13,18 +13,26 @@ namespace Tripex.Core.Services
         public async Task<ResponseOptions> AddCommentAsync(Comment commentAdd)
         {
             await using var transaction = await repo.BeginTransactionAsync();
-            await repo.AddAsync(commentAdd);
+            try
+            {
+                await repo.AddAsync(commentAdd);
 
-            var post = await postsRepo.GetByIdAsync(commentAdd.PostId);
+                var post = await postsRepo.GetByIdAsync(commentAdd.PostId);
 
-            if (post == null)
-                return ResponseOptions.NotFound;
+                if (post == null)
+                    return ResponseOptions.NotFound;
 
-            post.CommentsCount++;
-            await postsRepo.UpdateAsync(post);
-            await transaction.CommitAsync();
+                post.CommentsCount++;
+                await postsRepo.UpdateAsync(post);
+                await transaction.CommitAsync();
 
-            return ResponseOptions.Ok;
+                return ResponseOptions.Ok;
+            }
+            catch (Exception )
+            {
+                transaction.Rollback(); 
+                throw;
+            }
         }
 
         public async Task<Comment> GetCommentAsync(Guid id)
@@ -70,18 +78,27 @@ namespace Tripex.Core.Services
                 return ResponseOptions.BadRequest;
 
             await using var transaction = await repo.BeginTransactionAsync();
-            await repo.RemoveAsync(id);
 
-            var post = await postsRepo.GetByIdAsync(comment.PostId);
+            try
+            {
+                await repo.RemoveAsync(id);
 
-            if (post == null)
-                return ResponseOptions.NotFound;
+                var post = await postsRepo.GetByIdAsync(comment.PostId);
 
-            post.CommentsCount--;
-            await postsRepo.UpdateAsync(post);
-            await transaction.CommitAsync();
+                if (post == null)
+                    return ResponseOptions.NotFound;
 
-            return ResponseOptions.Ok;
+                post.CommentsCount--;
+                await postsRepo.UpdateAsync(post);
+                await transaction.CommitAsync();
+
+                return ResponseOptions.Ok;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
     }
 }
