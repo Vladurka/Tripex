@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
@@ -17,9 +17,7 @@ namespace Tripex.Core.Domain.Entities
 
         public IEnumerable<Like> Likes { get; set; } = new List<Like>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
-        public IEnumerable<PostTag> Tags { get; set; } = new List<PostTag>();
-
-        public List<string> UsersIdWatched { get; set; } = new List<string>(){string.Empty};
+        public IEnumerable<PostWatcher> PostWatchers { get; set; } = new List<PostWatcher>();
 
         public int LikesCount { get; set; } = 0;
         public int CommentsCount { get; set; } = 0;
@@ -29,7 +27,6 @@ namespace Tripex.Core.Domain.Entities
         public DateTime ViewedCountUpdated { get; set; } = DateTime.UtcNow;
 
         private const int UPDATE_CONENT_URL_TIME = 590;
-        private const int VIEW_COUNT_UPDATE_TIME = 1;
 
         public Post() { }
         public Post(Guid id, Guid userId, string contentUrl, string? description)
@@ -50,18 +47,17 @@ namespace Tripex.Core.Domain.Entities
             }
         }
 
-        public async Task UpdateViewedCountAsync(ICrudRepository<Post> repo, Guid userWatched)
+        public async Task UpdateViewedCountAsync(ICrudRepository<Post> repo, ICrudRepository<PostWatcher> postWatcherRepo, Guid postId, Guid userWatched)
         {
-            if (DateTime.UtcNow - ViewedCountUpdated >= TimeSpan.FromDays(VIEW_COUNT_UPDATE_TIME))
+            var existingWatcher = await postWatcherRepo.GetQueryable<PostWatcher>()
+                .AnyAsync(w => w.UserId == userWatched && w.PostId == postId);
+
+            if (!existingWatcher)
             {
-                ViewedCountUpdated = DateTime.UtcNow;
-                ViewedCount = 0;
+                ViewedCount++;
+                await postWatcherRepo.AddAsync(new PostWatcher(userWatched, postId));
+                await repo.UpdateAsync(this);
             }
-
-            ViewedCount++;
-            UsersIdWatched.Add(userWatched.ToString());
-
-            await repo.UpdateAsync(this);
         }
     }
 }

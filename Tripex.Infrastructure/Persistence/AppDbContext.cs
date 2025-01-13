@@ -10,7 +10,7 @@ namespace Tripex.Infrastructure.Persistence
         public DbSet<Like> Likes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Follower> Followers { get; set; }
-        public DbSet<PostTag> Tags { get; set; }
+        public DbSet<PostWatcher> PostWatchers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -21,7 +21,7 @@ namespace Tripex.Infrastructure.Persistence
             ConfigureCommentEntity(modelBuilder);
             ConfigureLikeEntity(modelBuilder);
             ConfigureFollowerEntity(modelBuilder);
-            ConfigureTagEntity(modelBuilder);   
+            ConfigurePostWatchers(modelBuilder);
         }
 
         private void ConfigurePostEntity(ModelBuilder modelBuilder)
@@ -77,12 +77,17 @@ namespace Tripex.Infrastructure.Persistence
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
-        private void ConfigureTagEntity(ModelBuilder modelBuilder)
+        private void ConfigurePostWatchers(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PostTag>()
-                .HasOne(c => c.Post)
-                .WithMany(p => p.Tags)
-                .HasForeignKey(c => c.PostId)
+            modelBuilder.Entity<PostWatcher>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.PostWatchers)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<PostWatcher>()
+                .HasOne(l => l.Post)
+                .WithMany(p => p.PostWatchers)
+                .HasForeignKey(l => l.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

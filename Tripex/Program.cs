@@ -31,13 +31,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {
-    var configuration = builder.Configuration.GetConnectionString("Redis");
+    var configuration = builder.Configuration.GetConnectionString("Redis")!;
     return ConnectionMultiplexer.Connect(configuration);
 });
 
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddSignalR();
+
+#region DI
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICookiesService, CookiesService>();
@@ -52,11 +55,12 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ICensorService, CensorService>();
 builder.Services.AddScoped<IRedisRepository, RedisRepository>();
 
+builder.Services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+#endregion
+
 builder.Services.AddHttpClient<CensorService>();
 
-builder.Services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
-
-var awsOptions = builder.Configuration.GetSection("AWS").Get<AwsOptions>();
+var awsOptions = builder.Configuration.GetSection("AWS").Get<AwsOptions>()!;
 builder.Services.AddSingleton<IAmazonS3>(sp =>
     new AmazonS3Client(awsOptions.AccessKey, awsOptions.SecretKey, Amazon.RegionEndpoint.GetBySystemName(awsOptions.Region)));
 
@@ -67,7 +71,7 @@ builder.Logging.AddDebug();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-        var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+        var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>()!;
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
@@ -90,6 +94,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
+
+app.MapHub<NotificationsHub>("notifications-hub");
 
 app.UseMiddleware<ExceptionMiddleware>();
 

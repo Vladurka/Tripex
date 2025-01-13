@@ -9,11 +9,11 @@ using Tripex.Core.Domain.Interfaces.Services.Security;
 namespace Tripex.Controllers
 {
     [Authorize]
-    public class UsersController(IUsersService service, ICrudRepository<User> crudRepo,
+    public class ProfilesController(IUsersService service, ICrudRepository<User> crudRepo,
         IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService,
         ICensorService censorService) : BaseApiController
     {
-        [HttpGet("profiles")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersProfile()
         {
             var users = await service.GetUsersAsync();
@@ -24,7 +24,7 @@ namespace Tripex.Controllers
             return Ok(usersGet);
         }
 
-        [HttpGet("profile/my")]
+        [HttpGet("/my")]
         public async Task<ActionResult<UserGet>> GetMyProfile()
         {
             var user = await GetMyUserAsync();
@@ -46,7 +46,7 @@ namespace Tripex.Controllers
             return Ok(usersGet);
         }
 
-        [HttpGet("profile/{id:guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<UserGet>> GetUsersProfileByName(Guid id)
         {
             var user = await service.GetUserByIdAsync(id);
