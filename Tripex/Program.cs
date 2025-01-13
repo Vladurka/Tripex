@@ -38,8 +38,6 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSignalR();
-
 #region DI
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -94,8 +92,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
-
-app.MapHub<NotificationsHub>("notifications-hub");
 
 app.UseMiddleware<ExceptionMiddleware>();
 
