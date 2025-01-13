@@ -13,6 +13,8 @@ namespace Tripex.Controllers
         IUsersRepository repo, ITokenService tokenService, IS3FileService s3FileService,
         ICensorService censorService) : BaseApiController
     {
+        private const string DEFAULT_AVATAR = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s";
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsersProfile()
         {
@@ -61,7 +63,7 @@ namespace Tripex.Controllers
 
             var id = tokenService.GetUserIdByToken();
 
-            if(user.AvatarUrl != "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5CQxdTYvVk0IxK9JjTg3YaEPXKfuPfCK3mg&s")
+            if(user.AvatarUrl != DEFAULT_AVATAR)
                 await s3FileService.DeleteFileAsync(id.ToString());
 
             user.AvatarUrl = await s3FileService.UploadFileAsync(file, id.ToString());

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Tripex.Core.Domain.Entities
+﻿namespace Tripex.Core.Domain.Entities
 {
     public class PostWatcher : BaseEntity
     {

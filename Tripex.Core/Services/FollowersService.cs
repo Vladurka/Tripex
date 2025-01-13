@@ -76,6 +76,7 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<Follower>> GetFollowersAsync(Guid userId, int pageIndex ,string? userName)
         {
             var followers =  await repo.GetQueryable<Follower>()
+                .AsNoTracking()
                 .Include(p => p.FollowerEntity)
                 .Where(f => f.FollowingPersonId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
@@ -84,8 +85,8 @@ namespace Tripex.Core.Services
                 .Take(20)
                 .ToListAsync();
 
-            foreach (var follower in followers)
-                await follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            var tasks = followers.Select(follower => follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            await Task.WhenAll(tasks);
 
             return followers;
         }
@@ -93,6 +94,7 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<Follower>> GetFollowingAsync(Guid userId, int pageIndex, string? userName)
         {
             var following =  await repo.GetQueryable<Follower>()
+                .AsNoTracking()
                 .Include(p => p.FollowingEntity)
                 .Where(f => f.FollowerId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
@@ -101,8 +103,8 @@ namespace Tripex.Core.Services
                 .Take(20)
                 .ToListAsync();
 
-            foreach (var follow in following)
-                await follow.FollowingEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            var tasks = following.Select(f => f.FollowingEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            await Task.WhenAll(tasks);
 
             return following;
         }

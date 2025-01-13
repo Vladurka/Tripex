@@ -55,8 +55,8 @@ namespace Tripex.Core.Services
             var users = await crudRepo.GetQueryable<User>()
                 .ToListAsync();
 
-            foreach (var user in users)
-                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
+            var tasks = users.Select(user => user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo));
+            await Task.WhenAll(tasks);
 
             return users;
         }
@@ -69,8 +69,10 @@ namespace Tripex.Core.Services
             if (user == null)
                 throw new KeyNotFoundException($"User with id {id} not found");
 
-            await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
-            await user.UpdateViewedCountAsync(crudRepo);
+            await Task.WhenAll(
+                user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo),
+                user.UpdateViewedCountAsync(crudRepo)
+                );
 
             return user;
         }
@@ -88,8 +90,8 @@ namespace Tripex.Core.Services
                 .AsNoTracking()
                 .ToListAsync();
 
-            foreach (var user in users)
-                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
+            var tasks = users.Select(user => user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo));
+            await Task.WhenAll(tasks);
 
             return users;
         }

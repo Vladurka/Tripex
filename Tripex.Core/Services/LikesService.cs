@@ -53,6 +53,7 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<Like>> GetLikesByPostIdAsync(Guid postId, int pageIndex, int pageSize = 20)
         {
             var likes = await repo.GetQueryable<Like>()
+                .AsNoTracking()
                 .Where(like => like.PostId == postId)
                 .Include(like => like.User)
                 .OrderBy(like => like.CreatedAt)
@@ -60,8 +61,8 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            foreach (var like in likes)
-                await like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            var tasks = likes.Select(like => like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            await Task.WhenAll(tasks);
 
             return likes;
         }

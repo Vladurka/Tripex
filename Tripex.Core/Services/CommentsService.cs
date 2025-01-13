@@ -44,6 +44,7 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<Comment>> GetCommentsByPostIdAsync(Guid postId, int pageIndex, int pageSize = 20)
         {
             var comments = await repo.GetQueryable<Comment>()
+                .AsNoTracking()
                 .Where(comment => comment.PostId == postId) 
                 .Include(comment => comment.User)
                 .OrderBy(comments => comments.LikesCount)
@@ -52,8 +53,8 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            foreach (var comment in comments)
-                await comment.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            var tasks = comments.Select(c => c.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            await Task.WhenAll(tasks);
 
             return comments;
         }
