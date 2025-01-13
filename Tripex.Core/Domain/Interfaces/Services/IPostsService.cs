@@ -10,5 +10,6 @@ namespace Tripex.Core.Domain.Interfaces.Services
         public Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid userId, int pageIndex, Guid userWatched, int pageSize = 20);
         public Task<IEnumerable<Post>> GetRecommendations(Guid userId, int pageIndex, int pageSize = 20);
         public Task<Post> GetPostByIdAsync(Guid postId, Guid userId);
+        public Task<Post> GetPostByIdAsync(Guid postId);
     }
 }

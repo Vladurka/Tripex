@@ -115,7 +115,7 @@ namespace Tripex.Core.Services
             return post;
         }
 
-        private async Task<Post> GetPostByIdAsync(Guid postId)
+        public async Task<Post> GetPostByIdAsync(Guid postId)
         {
             var post = await repo.GetQueryable<Post>()
                .Include(p => p.User)
