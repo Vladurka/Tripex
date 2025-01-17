@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Tripex.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using Tripex.Infrastructure.Persistence;
 namespace Tripex.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250117181559_LikesGenerics")]
+    partial class LikesGenerics
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,48 +82,42 @@ namespace Tripex.Infrastructure.Migrations
 
             modelBuilder.Entity("Tripex.Core.Domain.Entities.Like<Tripex.Core.Domain.Entities.Comment>", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "EntityId");
 
                     b.HasIndex("EntityId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("CommentLikes");
                 });
 
             modelBuilder.Entity("Tripex.Core.Domain.Entities.Like<Tripex.Core.Domain.Entities.Post>", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("EntityId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<Guid>("EntityId")
+                    b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
+                    b.HasKey("UserId", "EntityId");
 
                     b.HasIndex("EntityId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("PostLikes");
                 });

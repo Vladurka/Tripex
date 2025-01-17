@@ -46,7 +46,7 @@ builder.Services.AddScoped<IUsersRepository, UserRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
-builder.Services.AddScoped<ILikesService, LikesService>();
+builder.Services.AddScoped(typeof(ILikesService<>), typeof(LikesService<>));
 builder.Services.AddScoped<IFollowersService, FollowersService>();
 builder.Services.AddScoped<IS3FileService, S3FileService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
