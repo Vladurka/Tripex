@@ -14,18 +14,27 @@ namespace Tripex.Core.Services
         {
             await using var transaction = await repo.BeginTransactionAsync();
 
-            await repo.AddAsync(post);
-            var user = await usersService.GetUserByIdAsync(post.UserId);
+            try
+            {
+                await repo.AddAsync(post);
+                var user = await usersService.GetUserByIdAsync(post.UserId);
 
-            user.PostsCount++;
-            await usersCrudRepo.UpdateAsync(user);
+                user.PostsCount++;
+                await usersCrudRepo.UpdateAsync(user);
 
-            await transaction.CommitAsync();
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Post>> GetPostsByUserIdAsync(Guid ownerId, int pageIndex, Guid userWatchedId, int pageSize = 20)
         {
             var posts = await repo.GetQueryable<Post>()
+                .AsNoTracking()
                 .Where(p => p.UserId == ownerId)
                 .Include(p => p.User)
                 .OrderByDescending(p => p.CreatedAt)
@@ -33,12 +42,17 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            foreach (var post in posts)
+            var tasks = posts.SelectMany(post =>
             {
-                await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
-                await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
-                await post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userWatchedId);
-            }
+                return new[]
+                {
+                    post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
+                    post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
+                    post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userWatchedId)
+                };
+            });
+
+            await Task.WhenAll(tasks);
 
             return posts;
         }
@@ -46,17 +60,23 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<Post>> GetRecommendations(Guid userId, int pageIndex, int pageSize = 20)
         {
             var postsWatched = await repo.GetQueryable<PostWatcher>()
+                .AsNoTracking()
                 .Where(p => DateTime.UtcNow - p.CreatedAt <= TimeSpan.FromDays(14) && p.UserId == userId)
                 .Select(p => p.PostId)
                 .ToListAsync();
 
+            var followingUserIds = await repo.GetQueryable<Follower>()
+                .AsNoTracking()
+                .Where(f => f.FollowerId == userId)
+                .Select(f => f.FollowingPersonId)
+                .ToListAsync();
+
             var posts = await repo.GetQueryable<Post>()
+                .AsNoTracking()
                 .Where(p => DateTime.UtcNow - p.CreatedAt <= TimeSpan.FromDays(14)
                             && !postsWatched.Contains(p.Id)) 
                 .Include(p => p.User)
-                .OrderByDescending(p =>
-                    repo.GetQueryable<Follower>()
-                        .Any(f => f.FollowerId == userId && f.FollowingPersonId == p.UserId))
+                .OrderByDescending(p => followingUserIds.Contains(p.UserId))
                 .ThenByDescending(p => p.LikesCount)
                 .ThenByDescending(p => p.ViewedCount)
                 .ThenByDescending(p => p.CreatedAt)
@@ -64,36 +84,19 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-
-
-            foreach (var post in posts)
+            var tasks = posts.SelectMany(post =>
             {
-                await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
-                await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
-                await post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId);
-            }
+                return new[]
+                {
+                    post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
+                    post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
+                    post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId)
+                };
+            });
+
+            await Task.WhenAll(tasks);
 
             return posts;
-        }
-
-        public async Task<ResponseOptions> DeletePostAsync(Guid postId)
-        {
-            var post = await GetPostByIdAsync(postId);
-
-            if(post.UserId != tokenService.GetUserIdByToken())
-                return ResponseOptions.BadRequest;
-
-            await using var transaction = await repo.BeginTransactionAsync();
-            var user = await usersService.GetUserByIdAsync(post.UserId);
-            user.PostsCount--;
-
-            await s3FileService.DeleteFileAsync(postId.ToString());
-            await repo.RemoveAsync(postId);
-
-            await usersCrudRepo.UpdateAsync(user);
-            await transaction.CommitAsync();
-
-            return ResponseOptions.Ok;
         }
 
         public async Task<Post> GetPostByIdAsync(Guid postId, Guid userId)
@@ -105,14 +108,14 @@ namespace Tripex.Core.Services
             if (post == null)
                 throw new KeyNotFoundException($"Post with id {postId} not found");
 
-            await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
-            await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
-            await post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId);
+            await Task.WhenAll(post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
+                post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
+                post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId));
 
             return post;
         }
 
-        private async Task<Post> GetPostByIdAsync(Guid postId)
+        public async Task<Post> GetPostByIdAsync(Guid postId)
         {
             var post = await repo.GetQueryable<Post>()
                .Include(p => p.User)
@@ -121,10 +124,39 @@ namespace Tripex.Core.Services
             if (post == null)
                 throw new KeyNotFoundException($"Post with id {postId} not found");
 
-            await post.UpdateContentUrlIfNeededAsync(s3FileService, repo);
-            await post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await Task.WhenAll(post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
+                post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
 
             return post;
+        }
+
+        public async Task<ResponseOptions> DeletePostAsync(Guid postId)
+        {
+            var post = await GetPostByIdAsync(postId);
+
+            if(post.UserId != tokenService.GetUserIdByToken())
+                return ResponseOptions.BadRequest;
+
+            await using var transaction = await repo.BeginTransactionAsync();
+
+            try
+            {
+                var user = await usersService.GetUserByIdAsync(post.UserId);
+                user.PostsCount--;
+
+                await s3FileService.DeleteFileAsync(postId.ToString());
+                await repo.RemoveAsync(postId);
+
+                await usersCrudRepo.UpdateAsync(user);
+                await transaction.CommitAsync();
+
+                return ResponseOptions.Ok;
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+                throw;
+            }
         }
     }
 }

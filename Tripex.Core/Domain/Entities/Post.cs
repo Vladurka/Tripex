@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using Tripex.Core.Domain.Interfaces;
 using Tripex.Core.Domain.Interfaces.Repositories;
 using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Domain.Entities
 {
-    public class Post : BaseEntity
+    public class Post : BaseEntity, ILikable
     {
         [Required]
         public Guid UserId { get; set; }
@@ -15,7 +16,7 @@ namespace Tripex.Core.Domain.Entities
         public string ContentUrl { get; set; } = string.Empty;
         public string? Description { get; set; }
 
-        public IEnumerable<Like> Likes { get; set; } = new List<Like>();
+        public IEnumerable<Like<Post>> Likes { get; set; } = new List<Like<Post>>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
         public IEnumerable<PostWatcher> PostWatchers { get; set; } = new List<PostWatcher>();
 

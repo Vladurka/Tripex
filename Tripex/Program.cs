@@ -38,8 +38,6 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddSignalR();
-
 #region DI
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -48,7 +46,7 @@ builder.Services.AddScoped<IUsersRepository, UserRepository>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IPostsService, PostsService>();
 builder.Services.AddScoped<ICommentsService, CommentsService>();
-builder.Services.AddScoped<ILikesService, LikesService>();
+builder.Services.AddScoped(typeof(ILikesService<>), typeof(LikesService<>));
 builder.Services.AddScoped<IFollowersService, FollowersService>();
 builder.Services.AddScoped<IS3FileService, S3FileService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
@@ -94,8 +92,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 var app = builder.Build();
-
-app.MapHub<NotificationsHub>("notifications-hub");
 
 app.UseMiddleware<ExceptionMiddleware>();
 

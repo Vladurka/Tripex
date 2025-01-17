@@ -1,22 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tripex.Core.Domain.Interfaces;
 
 namespace Tripex.Core.Domain.Entities
 {
-    public class Like : BaseEntity
+    public class Like<T> : BaseEntity where T : class, ILikable
     {
         [Required]
         public Guid UserId { get; set; }
         public User User { get; set; }
 
         [Required]
-        public Guid PostId { get; set; }
-        public Post Post { get; set; }
+        public Guid EntityId { get; set; }
+        public T Entity { get; set; }
 
         public Like() { }
         public Like(Guid userId, Guid postId)
         {
             UserId = userId;
-            PostId = postId;
+            EntityId = postId;
         }
     }
 }

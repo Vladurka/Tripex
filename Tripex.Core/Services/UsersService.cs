@@ -29,25 +29,32 @@ namespace Tripex.Core.Services
 
         public async Task<ResponseOptions> RegisterAsync(User userRegister)
         {
-            var user = await repo.GetUserByEmailAsync(userRegister.Email);
-
-            if (user != null)
-                return ResponseOptions.Exists;
-
-            if (await repo.UsernameExistsAsync(userRegister.UserName))
-                return ResponseOptions.Exists;
-
             await using var transaction = await crudRepo.BeginTransactionAsync();
-            string passwordHash = passwordHasher.HashPassword(userRegister.Pass);
+            try
+            {
+                var user = await repo.GetUserByEmailAsync(userRegister.Email);
 
-            userRegister.Pass = passwordHash;
+                if (user != null)
+                    return ResponseOptions.Exists;
 
-            await repo.AddUserAsync(userRegister);
-            await emailService.SendEmailAsync(userRegister.Email, "Welcome", emailService.WelcomeMessage(userRegister));
+                if (await repo.UsernameExistsAsync(userRegister.UserName))
+                    return ResponseOptions.Exists;
 
-            await transaction.CommitAsync();
+                string passwordHash = passwordHasher.HashPassword(userRegister.Pass);
+                userRegister.Pass = passwordHash;
 
-            return ResponseOptions.Ok;
+                await repo.AddUserAsync(userRegister);
+                await emailService.SendEmailAsync(userRegister.Email, "Welcome", emailService.WelcomeMessage(userRegister));
+
+                await transaction.CommitAsync();
+
+                return ResponseOptions.Ok;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw; 
+            }
         }
 
         public async Task<IEnumerable<User>> GetUsersAsync()
@@ -55,24 +62,10 @@ namespace Tripex.Core.Services
             var users = await crudRepo.GetQueryable<User>()
                 .ToListAsync();
 
-            foreach (var user in users)
-                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
+            var tasks = users.Select(user => user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo));
+            await Task.WhenAll(tasks);
 
             return users;
-        }
-
-        public async Task<User> GetUserByIdAsync(Guid id)
-        {
-            var user = await crudRepo.GetQueryable<User>()
-                .SingleOrDefaultAsync(u => u.Id == id);
-
-            if (user == null)
-                throw new KeyNotFoundException($"User with id {id} not found");
-
-            await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
-            await user.UpdateViewedCountAsync(crudRepo);
-
-            return user;
         }
 
         public async Task<IEnumerable<User>> SearchUsersByNameAsync(string userName)
@@ -88,10 +81,26 @@ namespace Tripex.Core.Services
                 .AsNoTracking()
                 .ToListAsync();
 
-            foreach (var user in users)
-                await user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo);
+            var tasks = users.Select(user => user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo));
+            await Task.WhenAll(tasks);
 
             return users;
+        }
+
+        public async Task<User> GetUserByIdAsync(Guid id)
+        {
+            var user = await crudRepo.GetQueryable<User>()
+                .SingleOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+                throw new KeyNotFoundException($"User with id {id} not found");
+
+            await Task.WhenAll(
+                user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo),
+                user.UpdateViewedCountAsync(crudRepo)
+                );
+
+            return user;
         }
     }
 }

@@ -7,10 +7,12 @@ namespace Tripex.Infrastructure.Persistence
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Post> Posts { get; set; }
-        public DbSet<Like> Likes { get; set; }
+        public DbSet<Like<Post>> PostLikes { get; set; }
+        public DbSet<Like<Comment>> CommentLikes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Follower> Followers { get; set; }
         public DbSet<PostWatcher> PostWatchers { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,16 +37,29 @@ namespace Tripex.Infrastructure.Persistence
 
         private void ConfigureLikeEntity(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Like>()
+            modelBuilder.Entity<Like<Post>>()
                 .HasOne(l => l.User)
-                .WithMany(u => u.Likes)
+                .WithMany(u => u.PostLikes)
                 .HasForeignKey(l => l.UserId)
-                .OnDelete(DeleteBehavior.Cascade); 
-            modelBuilder.Entity<Like>()
-                .HasOne(l => l.Post)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Like<Post>>()
+                .HasOne(l => l.Entity)
                 .WithMany(p => p.Likes)
-                .HasForeignKey(l => l.PostId)
-                .OnDelete(DeleteBehavior.Cascade); 
+                .HasForeignKey(l => l.EntityId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Like<Comment>>()
+                .HasOne(l => l.User)
+                .WithMany(u => u.CommentLikes)
+                .HasForeignKey(l => l.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Like<Comment>>()
+                .HasOne(l => l.Entity)
+                .WithMany(c => c.Likes)
+                .HasForeignKey(l => l.EntityId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         private void ConfigureCommentEntity(ModelBuilder modelBuilder)

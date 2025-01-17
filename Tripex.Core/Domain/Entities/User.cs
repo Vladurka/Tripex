@@ -30,7 +30,8 @@ namespace Tripex.Core.Domain.Entities
         public DateTime ViewedCountUpdated { get; set; } = DateTime.UtcNow;
 
         public IEnumerable<Post> Posts { get; set; } = new List<Post>();
-        public IEnumerable<Like> Likes { get; set; } = new List<Like>();
+        public IEnumerable<Like<Post>> PostLikes { get; set; } = new List<Like<Post>>();
+        public IEnumerable<Like<Comment>> CommentLikes { get; set; } = new List<Like<Comment>>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
         public IEnumerable<Follower> Followers { get; set; } = new List<Follower>();
         public IEnumerable<Follower> Following { get; set; } = new List<Follower>();

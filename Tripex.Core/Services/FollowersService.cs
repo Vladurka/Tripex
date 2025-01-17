@@ -21,26 +21,35 @@ namespace Tripex.Core.Services
                 return ResponseOptions.Exists;
 
             await using var transaction = await repo.BeginTransactionAsync();
-            await repo.AddAsync(followingAdd);
 
-            var userFollowing = await usersCrudRepo.GetByIdAsync(followingAdd.FollowingPersonId);
+            try
+            {
+                await repo.AddAsync(followingAdd);
 
-            if(userFollowing == null)
-                return ResponseOptions.NotFound;
+                var userFollowing = await usersCrudRepo.GetByIdAsync(followingAdd.FollowingPersonId);
 
-            userFollowing.FollowersCount++;
-            await usersCrudRepo.UpdateAsync(userFollowing);
+                if (userFollowing == null)
+                    return ResponseOptions.NotFound;
 
-            var follower = await usersCrudRepo.GetByIdAsync(followingAdd.FollowerId);
+                userFollowing.FollowersCount++;
+                await usersCrudRepo.UpdateAsync(userFollowing);
 
-            if (follower == null)
-                return ResponseOptions.NotFound;
+                var follower = await usersCrudRepo.GetByIdAsync(followingAdd.FollowerId);
 
-            follower.FollowingCount++;
-            await usersCrudRepo.UpdateAsync(follower);
-            await transaction.CommitAsync();
+                if (follower == null)
+                    return ResponseOptions.NotFound;
 
-            return ResponseOptions.Ok;
+                follower.FollowingCount++;
+                await usersCrudRepo.UpdateAsync(follower);
+                await transaction.CommitAsync();
+
+                return ResponseOptions.Ok;
+            }
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<ResponseOptions> Unfollow(Follower followerDelete)
@@ -56,26 +65,37 @@ namespace Tripex.Core.Services
                 return ResponseOptions.NotFound;
 
             await using var transaction = await repo.BeginTransactionAsync();
-            userFollowing.FollowersCount--;
-            await usersCrudRepo.UpdateAsync(userFollowing);
 
-            var follower = await usersCrudRepo.GetByIdAsync(followerDelete.FollowerId);
+            try
+            {
+                userFollowing.FollowersCount--;
+                await usersCrudRepo.UpdateAsync(userFollowing);
 
-            if (follower == null)
-                return ResponseOptions.NotFound;
+                var follower = await usersCrudRepo.GetByIdAsync(followerDelete.FollowerId);
 
-            follower.FollowingCount--;
-            await usersCrudRepo.UpdateAsync(follower);
+                if (follower == null)
+                    return ResponseOptions.NotFound;
 
-            var result = await repo.RemoveAsync(followerGet.Id);
-            await transaction.CommitAsync();
+                follower.FollowingCount--;
+                await usersCrudRepo.UpdateAsync(follower);
 
-            return result;
+                var result = await repo.RemoveAsync(followerGet.Id);
+                await transaction.CommitAsync();
+
+                return result;
+            }
+
+            catch (Exception)
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Follower>> GetFollowersAsync(Guid userId, int pageIndex ,string? userName)
         {
             var followers =  await repo.GetQueryable<Follower>()
+                .AsNoTracking()
                 .Include(p => p.FollowerEntity)
                 .Where(f => f.FollowingPersonId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
@@ -84,8 +104,8 @@ namespace Tripex.Core.Services
                 .Take(20)
                 .ToListAsync();
 
-            foreach (var follower in followers)
-                await follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            var tasks = followers.Select(follower => follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            await Task.WhenAll(tasks);
 
             return followers;
         }
@@ -93,6 +113,7 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<Follower>> GetFollowingAsync(Guid userId, int pageIndex, string? userName)
         {
             var following =  await repo.GetQueryable<Follower>()
+                .AsNoTracking()
                 .Include(p => p.FollowingEntity)
                 .Where(f => f.FollowerId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
@@ -101,8 +122,8 @@ namespace Tripex.Core.Services
                 .Take(20)
                 .ToListAsync();
 
-            foreach (var follow in following)
-                await follow.FollowingEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            var tasks = following.Select(f => f.FollowingEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            await Task.WhenAll(tasks);
 
             return following;
         }
