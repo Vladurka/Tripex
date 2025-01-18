@@ -99,12 +99,12 @@ namespace Tripex.Core.Services
                 .Include(p => p.FollowerEntity)
                 .Where(f => f.FollowingPersonId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
-                     EF.Functions.ILike(f.FollowerEntity.UserName, $"%{userName}%")))
+                     EF.Functions.ILike(f.FollowerEntity!.UserName, $"%{userName}%")))
                 .Skip((pageIndex - 1) * 20)
                 .Take(20)
                 .ToListAsync();
 
-            var tasks = followers.Select(follower => follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            var tasks = followers.Select(follower => follower.FollowerEntity!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
             await Task.WhenAll(tasks);
 
             return followers;
@@ -117,12 +117,12 @@ namespace Tripex.Core.Services
                 .Include(p => p.FollowingEntity)
                 .Where(f => f.FollowerId == userId &&
                     (string.IsNullOrWhiteSpace(userName) ||
-                     EF.Functions.ILike(f.FollowingEntity.UserName, $"%{userName}%")))
+                     EF.Functions.ILike(f.FollowingEntity!.UserName, $"%{userName}%")))
                 .Skip((pageIndex - 1) * 20)
                 .Take(20)
                 .ToListAsync();
 
-            var tasks = following.Select(f => f.FollowingEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            var tasks = following.Select(f => f.FollowingEntity!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
             await Task.WhenAll(tasks);
 
             return following;
@@ -133,7 +133,7 @@ namespace Tripex.Core.Services
             var follower =  await repo.GetQueryable<Follower>()
                 .SingleOrDefaultAsync(f => f.FollowerId == followerId && f.FollowingPersonId == followingPersonId);
 
-            await follower.FollowerEntity.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await follower!.FollowerEntity!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
 
             return follower;
         }

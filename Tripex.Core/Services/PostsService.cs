@@ -8,7 +8,7 @@ using Tripex.Core.Enums;
 namespace Tripex.Core.Services
 {
     public class PostsService(ICrudRepository<Post> repo, ICrudRepository<User> usersCrudRepo,
-        ITokenService tokenService, IUsersService usersService, IS3FileService s3FileService, ICrudRepository<PostWatcher> postWatchersRepo) : IPostsService
+        ITokenService tokenService, IUsersService usersService, IS3FileService s3FileService, ICrudRepository<Watcher<Post>> postWatchersRepo) : IPostsService
     {
         public async Task AddPostAsync(Post post) 
         {
@@ -47,22 +47,22 @@ namespace Tripex.Core.Services
                 return new[]
                 {
                     post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                    post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
+                    post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
                     post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userWatchedId)
                 };
             });
 
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks!);
 
             return posts;
         }
 
         public async Task<IEnumerable<Post>> GetRecommendations(Guid userId, int pageIndex, int pageSize = 20)
         {
-            var postsWatched = await repo.GetQueryable<PostWatcher>()
+            var postsWatched = await repo.GetQueryable<Watcher<Post>>()
                 .AsNoTracking()
                 .Where(p => DateTime.UtcNow - p.CreatedAt <= TimeSpan.FromDays(14) && p.UserId == userId)
-                .Select(p => p.PostId)
+                .Select(p => p.EntityId)
                 .ToListAsync();
 
             var followingUserIds = await repo.GetQueryable<Follower>()
@@ -89,12 +89,12 @@ namespace Tripex.Core.Services
                 return new[]
                 {
                     post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                    post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
+                    post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
                     post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId)
                 };
             });
 
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks!);
 
             return posts;
         }
@@ -109,7 +109,7 @@ namespace Tripex.Core.Services
                 throw new KeyNotFoundException($"Post with id {postId} not found");
 
             await Task.WhenAll(post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
+                post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!,
                 post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId));
 
             return post;
@@ -125,7 +125,7 @@ namespace Tripex.Core.Services
                 throw new KeyNotFoundException($"Post with id {postId} not found");
 
             await Task.WhenAll(post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                post.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+                post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!);
 
             return post;
         }

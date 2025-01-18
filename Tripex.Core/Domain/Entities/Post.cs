@@ -6,19 +6,17 @@ using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Domain.Entities
 {
-    public class Post : BaseEntity, ILikable
+    public class Post : BaseEntity, ILikable, ISavable, IWatchable
     {
-        [Required]
         public Guid UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
         
-        [Url]
         public string ContentUrl { get; set; } = string.Empty;
         public string? Description { get; set; }
 
         public IEnumerable<Like<Post>> Likes { get; set; } = new List<Like<Post>>();
         public IEnumerable<Comment> Comments { get; set; } = new List<Comment>();
-        public IEnumerable<PostWatcher> PostWatchers { get; set; } = new List<PostWatcher>();
+        public IEnumerable<Watcher<Post>> PostWatchers { get; set; } = new List<Watcher<Post>>();
 
         public int LikesCount { get; set; } = 0;
         public int CommentsCount { get; set; } = 0;
@@ -48,15 +46,16 @@ namespace Tripex.Core.Domain.Entities
             }
         }
 
-        public async Task UpdateViewedCountAsync(ICrudRepository<Post> repo, ICrudRepository<PostWatcher> postWatcherRepo, Guid postId, Guid userWatched)
+        public async Task UpdateViewedCountAsync(ICrudRepository<Post> repo, ICrudRepository<Watcher<Post>> postWatcherRepo, 
+            Guid postId, Guid userWatched)
         {
-            var existingWatcher = await postWatcherRepo.GetQueryable<PostWatcher>()
-                .AnyAsync(w => w.UserId == userWatched && w.PostId == postId);
+            var existingWatcher = await postWatcherRepo.GetQueryable<Watcher<Post>>()
+                .AnyAsync(w => w.UserId == userWatched && w.EntityId == postId);
 
             if (!existingWatcher)
             {
                 ViewedCount++;
-                await postWatcherRepo.AddAsync(new PostWatcher(userWatched, postId));
+                await postWatcherRepo.AddAsync(new Watcher<Post>(userWatched, postId));
                 await repo.UpdateAsync(this);
             }
         }

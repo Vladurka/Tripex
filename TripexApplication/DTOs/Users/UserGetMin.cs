@@ -24,7 +24,7 @@ namespace Tripex.Application.DTOs.Users
         {
             Id = user.Id;
             CreatedAt = user.CreatedAt.Humanize();
-            UserName = user.FollowerEntity.UserName;
+            UserName = user.FollowerEntity!.UserName;
             Avatar = user.FollowerEntity.AvatarUrl;
         }
     }

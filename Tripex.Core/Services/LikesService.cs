@@ -55,7 +55,7 @@ namespace Tripex.Core.Services
             if (like == null)
                 throw new KeyNotFoundException($"Like with id {id} not found");
 
-            await like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await like.User!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
 
             return like;
         }
@@ -71,7 +71,7 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            var tasks = likes.Select(like => like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            var tasks = likes.Select(like => like.User!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
             await Task.WhenAll(tasks);
 
             return likes;

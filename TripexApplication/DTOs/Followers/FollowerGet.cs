@@ -15,7 +15,7 @@ namespace Tripex.Application.DTOs.Followers
             Id = follower.Id;
             CreatedAt = follower.CreatedAt.Humanize();
 
-            var followerGet = new UserGetMin(follower.FollowerEntity);
+            var followerGet = new UserGetMin(follower.FollowerEntity!);
             Follower = followerGet;
         }
     }

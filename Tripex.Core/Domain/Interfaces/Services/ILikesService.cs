@@ -3,7 +3,7 @@ using Tripex.Core.Enums;
 
 namespace Tripex.Core.Domain.Interfaces.Services
 {
-    public interface ILikesService<T> where T : class, ILikable
+    public interface ILikesService<T> where T : BaseEntity, ILikable
     {
         public Task<ResponseOptions> AddLikeAsync(Like<T> like);
         public Task<Like<T>> GetEntityLikeAsync(Guid id);

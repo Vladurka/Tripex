@@ -3,7 +3,7 @@ using Tripex.Core.Domain.Interfaces;
 
 namespace Tripex.Core.Domain.Entities
 {
-    public class Like<T> : BaseEntity where T : BaseEntity, ILikable
+    public class Saved<T> : BaseEntity where T : BaseEntity, ISavable
     {
         public Guid UserId { get; set; }
         public User? User { get; set; }
@@ -11,8 +11,8 @@ namespace Tripex.Core.Domain.Entities
         public Guid EntityId { get; set; }
         public T? Entity { get; set; }
 
-        public Like() { }
-        public Like(Guid userId, Guid postId)
+        public Saved() { }
+        public Saved(Guid userId, Guid postId)
         {
             UserId = userId;
             EntityId = postId;

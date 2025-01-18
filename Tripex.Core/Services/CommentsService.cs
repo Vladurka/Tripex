@@ -44,7 +44,7 @@ namespace Tripex.Core.Services
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with id {id} not found");
 
-            await comment.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await comment.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!;
 
             return comment;
         }
@@ -61,7 +61,7 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            var tasks = comments.Select(c => c.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            var tasks = comments.Select(c => c.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!);
             await Task.WhenAll(tasks);
 
             return comments;

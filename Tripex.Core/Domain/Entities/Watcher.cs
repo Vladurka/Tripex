@@ -1,18 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Tripex.Core.Domain.Interfaces;
+﻿using Tripex.Core.Domain.Interfaces;
 
 namespace Tripex.Core.Domain.Entities
 {
-    public class Like<T> : BaseEntity where T : BaseEntity, ILikable
+    public class Watcher<T> : BaseEntity where T : BaseEntity, IWatchable
     {
         public Guid UserId { get; set; }
         public User? User { get; set; }
-
         public Guid EntityId { get; set; }
         public T? Entity { get; set; }
 
-        public Like() { }
-        public Like(Guid userId, Guid postId)
+        public Watcher() { }
+        public Watcher(Guid userId, Guid postId)
         {
             UserId = userId;
             EntityId = postId;

@@ -19,7 +19,7 @@ namespace Tripex.Application.DTOs.Posts
         public PostGet(Post post)
         {
             Id = post.Id;
-            User = new UserGetMin(post.User);
+            User = new UserGetMin(post.User!);
             ContentUrl = post.ContentUrl;
             Description = post.Description;
             
