@@ -1,9 +1,4 @@
-﻿using Humanizer;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces;
-
-namespace Tripex.Application.DTOs.Likes
+﻿namespace Tripex.Application.DTOs.Likes
 {
     public class LikeGet<T> where T : BaseEntity, ILikable
     {
@@ -14,7 +9,7 @@ namespace Tripex.Application.DTOs.Likes
         public LikeGet(Like<T> like)
         {
             Id = like.Id;
-            User = new UserGetMin(like.User);
+            User = new UserGetMin(like.User!);
             CreatedAt = like.CreatedAt.Humanize();
         }
     }

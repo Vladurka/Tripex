@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Domain.Interfaces.Services.Security;
+﻿using Tripex.Application.DTOs.Users;
 
 namespace Tripex.Controllers
 {

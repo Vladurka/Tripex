@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Domain.Interfaces.Services.Security;
-using Tripex.Core.Enums;
-
-namespace Tripex.Core.Services
+﻿namespace Tripex.Core.Services
 {
     public class CommentsService(ICrudRepository<Comment> repo, ICrudRepository<Post> postsRepo,
         ITokenService tokenService, ICrudRepository<User> usersCrudRepo, IS3FileService s3FileService) : ICommentsService

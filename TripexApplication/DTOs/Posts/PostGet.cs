@@ -1,8 +1,4 @@
-﻿using Humanizer;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-
-namespace Tripex.Application.DTOs.Posts
+﻿namespace Tripex.Application.DTOs.Posts
 {
     public class PostGet
     {

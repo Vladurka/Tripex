@@ -1,11 +1,4 @@
-﻿using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-using Microsoft.EntityFrameworkCore;
-using Tripex.Core.Domain.Interfaces.Services.Security;
-using Tripex.Core.Enums;
-
-namespace Tripex.Core.Services
+﻿namespace Tripex.Core.Services
 {
     public class PostsService(ICrudRepository<Post> repo, ICrudRepository<User> usersCrudRepo,
         ITokenService tokenService, IUsersService usersService, IS3FileService s3FileService, ICrudRepository<Watcher<Post>> postWatchersRepo) : IPostsService

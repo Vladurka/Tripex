@@ -1,8 +1,4 @@
-﻿using Humanizer;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-
-namespace Tripex.Application.DTOs.Followers
+﻿namespace Tripex.Application.DTOs.Followers
 {
     public class FollowerGet
     {

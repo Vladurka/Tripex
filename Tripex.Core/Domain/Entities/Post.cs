@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using Tripex.Core.Domain.Interfaces;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-
-namespace Tripex.Core.Domain.Entities
+﻿namespace Tripex.Core.Domain.Entities
 {
     public class Post : BaseEntity, ILikable, ISavable, IWatchable
     {

@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Tripex.Core.Domain.Interfaces;
-
-namespace Tripex.Core.Domain.Entities
+﻿namespace Tripex.Core.Domain.Entities
 {
     public class Saved<T> : BaseEntity where T : BaseEntity, ISavable
     {

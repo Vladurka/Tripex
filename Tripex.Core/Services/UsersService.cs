@@ -1,10 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Domain.Interfaces.Services.Security;
-using Tripex.Core.Enums;
+﻿using Microsoft.Extensions.Options;
 
 namespace Tripex.Core.Services
 {

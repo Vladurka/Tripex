@@ -1,8 +1,4 @@
-﻿using Humanizer;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-
-namespace Tripex.Application.DTOs.Comments
+﻿namespace Tripex.Application.DTOs.Comments
 {
     public class CommentGet
     {

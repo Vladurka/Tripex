@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Enums;
-
-namespace Tripex.Core.Services
+﻿namespace Tripex.Core.Services
 {
     public class LikesService<T>(ICrudRepository<Like<T>> repo, ICrudRepository<T> entityRepo,
         ICrudRepository<User> usersCrudRepo, IS3FileService s3FileService) : ILikesService<T> where T : BaseEntity, ILikable

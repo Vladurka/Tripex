@@ -1,4 +1,4 @@
-﻿namespace Tripex.Core.Domain.Interfaces
+﻿namespace Tripex.Core.Domain.Interfaces.Able
 {
     public interface IWatchable
     {

@@ -1,6 +1,4 @@
-﻿using Tripex.Core.Domain.Interfaces;
-
-namespace Tripex.Core.Domain.Entities
+﻿namespace Tripex.Core.Domain.Entities
 {
     public class Watcher<T> : BaseEntity where T : BaseEntity, IWatchable
     {

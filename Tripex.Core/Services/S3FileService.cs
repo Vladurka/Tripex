@@ -1,7 +1,6 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.AspNetCore.Http;
-using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
