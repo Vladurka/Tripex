@@ -5,7 +5,7 @@ using Tripex.Core.Domain.Interfaces;
 
 namespace Tripex.Application.DTOs.Likes
 {
-    public class LikeGet<T> where T : class, ILikable
+    public class LikeGet<T> where T : BaseEntity, ILikable
     {
         public Guid Id { get; set; }
         public UserGetMin User { get; set; }

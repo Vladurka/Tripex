@@ -2,5 +2,6 @@
 {
     public interface ILikable
     {
+        public int LikesCount { get; set; }
     }
 }
