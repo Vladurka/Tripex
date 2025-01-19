@@ -105,6 +105,18 @@ namespace Tripex.Infrastructure.Persistence
                 .WithMany(p => p.PostWatchers)
                 .HasForeignKey(l => l.EntityId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Watcher<Post>>()
+               .HasIndex(w => w.UserId)
+               .HasDatabaseName("IX_Watcher_UserId");
+
+            modelBuilder.Entity<Watcher<Post>>()
+                .HasIndex(w => w.EntityId)
+                .HasDatabaseName("IX_Watcher_EntityId");
+
+            modelBuilder.Entity<Watcher<Post>>()
+                .HasIndex(w => new { w.UserId, w.EntityId })
+                .HasDatabaseName("IX_Watcher_UserId_EntityId");
         }
     }
 }

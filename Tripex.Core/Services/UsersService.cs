@@ -90,9 +90,7 @@ namespace Tripex.Core.Services
             if (user == null)
                 throw new KeyNotFoundException($"User with id {id} not found");
 
-            await Task.WhenAll(
-                user.UpdateUserIfNeededAsync(crudRepo, s3FileService)
-                );
+            await user.UpdateUserIfNeededAsync(crudRepo, s3FileService);
 
             return user;
         }

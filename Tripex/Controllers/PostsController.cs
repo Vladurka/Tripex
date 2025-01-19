@@ -23,9 +23,9 @@ namespace Tripex.Controllers
 
             if (!string.IsNullOrWhiteSpace(postAdd.Description))
             {
-                var isBadDescription = await censorService.CheckTextAsync(postAdd.Description);
+                var isAvailable = await censorService.CheckTextAsync(postAdd.Description);
 
-                if (isBadDescription != "No")
+                if (isAvailable != "No")
                     return BadRequest("Description is not available");
             }
 

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tripex.Core.Services;
 
 namespace Tripex.Core.Domain.Entities
 {
