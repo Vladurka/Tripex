@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Tripex.Core.Services;
 
 namespace Tripex.Core.Domain.Entities
 {
@@ -51,15 +52,24 @@ namespace Tripex.Core.Domain.Entities
             {
                 if (DateTime.UtcNow - AvatarUpdated >= TimeSpan.FromMinutes(UPDATE_AVATAR_URL_TIME))
                 {
-                    AvatarUrl = s3FileService.GetPreSignedURL(Id.ToString(), 10);
+                    AvatarUrl = await s3FileService.GetPreSignedURL(Id.ToString(), 10);
                     AvatarUpdated = DateTime.UtcNow;
                     await repo.UpdateAsync(this);
                 }
             }
         }
 
-        public async Task UpdateViewedCountAsync(ICrudRepository<User> repo)
+        public async Task UpdateUserIfNeededAsync(ICrudRepository<User> repo, IS3FileService s3FileService)
         {
+            if (AvatarUrl != DEFAULT_AVATAR)
+            {
+                if (DateTime.UtcNow - AvatarUpdated >= TimeSpan.FromMinutes(UPDATE_AVATAR_URL_TIME))
+                {
+                    AvatarUrl = await s3FileService.GetPreSignedURL(Id.ToString(), 10);
+                    AvatarUpdated = DateTime.UtcNow;
+                }
+            }
+
             if (DateTime.UtcNow - ViewedCountUpdated >= TimeSpan.FromDays(VIEW_COUNT_UPDATE_TIME))
             {
                 ViewedCountUpdated = DateTime.UtcNow;

@@ -41,6 +41,7 @@
         public async Task<Like<T>> GetEntityLikeAsync(Guid id)
         {
             var like = await repo.GetQueryable<Like<T>>()
+                .AsNoTracking()
                 .Where(like => like.Id == id)
                 .Include(like => like.User)
                 .SingleOrDefaultAsync();

@@ -35,17 +35,16 @@
                 .Take(pageSize)
                 .ToListAsync();
 
-            var tasks = posts.SelectMany(post =>
+            var updateTasks = posts.Select(async post =>
             {
-                return new[]
-                {
-                    post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                    post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
-                    post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userWatchedId)
-                };
+                await Task.WhenAll(
+                   post.UpdatePostIfNeededAsync(s3FileService, postWatchersRepo,
+                   ownerId, repo),
+                   post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!
+                );
             });
 
-            await Task.WhenAll(tasks!);
+            await Task.WhenAll(updateTasks);
 
             return posts;
         }
@@ -77,17 +76,16 @@
                 .Take(pageSize)
                 .ToListAsync();
 
-            var tasks = posts.SelectMany(post =>
+            var updateTasks = posts.Select(async post =>
             {
-                return new[]
-                {
-                    post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                    post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo),
-                    post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId)
-                };
+                await Task.WhenAll(
+                    post.UpdatePostIfNeededAsync(s3FileService, postWatchersRepo,
+                    userId, repo),
+                    post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!
+                );
             });
 
-            await Task.WhenAll(tasks!);
+            await Task.WhenAll(updateTasks);
 
             return posts;
         }
@@ -95,15 +93,16 @@
         public async Task<Post> GetPostByIdAsync(Guid postId, Guid userId)
         {
             var post = await repo.GetQueryable<Post>()
+               .AsNoTracking()
                .Include(p => p.User)
                .SingleOrDefaultAsync(p => p.Id == postId);
 
             if (post == null)
                 throw new KeyNotFoundException($"Post with id {postId} not found");
 
-            await Task.WhenAll(post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!,
-                post.UpdateViewedCountAsync(repo, postWatchersRepo, post.Id, userId));
+            await Task.WhenAll(post.UpdatePostIfNeededAsync(s3FileService, postWatchersRepo, 
+                userId, repo),
+                post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!);
 
             return post;
         }
@@ -111,14 +110,12 @@
         public async Task<Post> GetPostByIdAsync(Guid postId)
         {
             var post = await repo.GetQueryable<Post>()
+               .AsNoTracking()
                .Include(p => p.User)
                .SingleOrDefaultAsync(p => p.Id == postId);
 
             if (post == null)
                 throw new KeyNotFoundException($"Post with id {postId} not found");
-
-            await Task.WhenAll(post.UpdateContentUrlIfNeededAsync(s3FileService, repo),
-                post.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!);
 
             return post;
         }

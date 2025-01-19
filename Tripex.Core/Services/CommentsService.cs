@@ -31,6 +31,7 @@
         public async Task<Comment> GetCommentAsync(Guid id)
         {
             var comment = await repo.GetQueryable<Comment>()
+                .AsNoTracking()
                .Include(comment => comment.User)
                .SingleOrDefaultAsync(comment => comment.Id == id);
 
@@ -48,7 +49,7 @@
                 .AsNoTracking()
                 .Where(comment => comment.PostId == postId) 
                 .Include(comment => comment.User)
-                .OrderBy(comments => comments.LikesCount)
+                .OrderByDescending(comments => comments.LikesCount)
                 .ThenByDescending(comments => comments.CreatedAt)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)

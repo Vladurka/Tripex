@@ -30,26 +30,38 @@
             Description = description;
         }
 
-        public async Task UpdateContentUrlIfNeededAsync(IS3FileService s3FileService, ICrudRepository<Post> repo)
+        public async Task UpdatePostIfNeededAsync(IS3FileService s3FileService, ICrudRepository<Watcher<Post>> postWatcherRepo,
+         Guid userWatched, ICrudRepository<Post> repo)
         {
+            bool changes = false;
             if (DateTime.UtcNow - ContentUrlUpdated >= TimeSpan.FromMinutes(UPDATE_CONENT_URL_TIME))
             {
-                ContentUrl = s3FileService.GetPreSignedURL(Id.ToString(), 10);
+                ContentUrl = await s3FileService.GetPreSignedURL(Id.ToString(), 10);
                 ContentUrlUpdated = DateTime.UtcNow;
-                await repo.UpdateAsync(this);
+                changes = true;
             }
-        }
 
-        public async Task UpdateViewedCountAsync(ICrudRepository<Post> repo, ICrudRepository<Watcher<Post>> postWatcherRepo, 
-            Guid postId, Guid userWatched)
-        {
             var existingWatcher = await postWatcherRepo.GetQueryable<Watcher<Post>>()
-                .AnyAsync(w => w.UserId == userWatched && w.EntityId == postId);
+               .AsNoTracking()
+               .AnyAsync(w => w.UserId == userWatched && w.EntityId == Id);
 
             if (!existingWatcher)
             {
                 ViewedCount++;
-                await postWatcherRepo.AddAsync(new Watcher<Post>(userWatched, postId));
+                await postWatcherRepo.AddAsync(new Watcher<Post>(userWatched, Id));
+                changes = true;
+            }
+
+            if (changes)
+                await repo.UpdateAsync(this);
+        }
+
+        public async Task UpdatePostUrlIfNeededAsync(IS3FileService s3FileService, ICrudRepository<Post> repo)
+        {
+            if (DateTime.UtcNow - ContentUrlUpdated >= TimeSpan.FromMinutes(UPDATE_CONENT_URL_TIME))
+            {
+                ContentUrl = await s3FileService.GetPreSignedURL(Id.ToString(), 10);
+                ContentUrlUpdated = DateTime.UtcNow;
                 await repo.UpdateAsync(this);
             }
         }

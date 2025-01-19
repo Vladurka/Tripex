@@ -23,12 +23,12 @@ namespace Tripex.Core.Services
 
             await s3Client.PutObjectAsync(request);
 
-            string photoUrl = GetPreSignedURL(fileName, 10);
+            string photoUrl = await GetPreSignedURL(fileName, 10);
 
             return photoUrl;
         }
 
-        public string GetPreSignedURL(string fileName, int hours)
+        public async Task<string> GetPreSignedURL(string fileName, int hours)
         {
             var urlRequest = new GetPreSignedUrlRequest
             {
@@ -37,7 +37,7 @@ namespace Tripex.Core.Services
                 Expires = DateTime.UtcNow.AddHours(hours)
             };
 
-            string temporaryUrl = s3Client.GetPreSignedURL(urlRequest);
+            string temporaryUrl = await s3Client.GetPreSignedURLAsync(urlRequest);
 
             return temporaryUrl;
         }

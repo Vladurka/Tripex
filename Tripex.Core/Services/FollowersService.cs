@@ -125,6 +125,7 @@
         private async Task<Follower?> GetFollowerAsync(Guid followerId, Guid followingPersonId)
         {
             var follower =  await repo.GetQueryable<Follower>()
+                .AsNoTracking()
                 .SingleOrDefaultAsync(f => f.FollowerId == followerId && f.FollowingPersonId == followingPersonId);
 
             await follower!.FollowerEntity!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);

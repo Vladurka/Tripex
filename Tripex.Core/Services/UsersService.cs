@@ -54,6 +54,7 @@ namespace Tripex.Core.Services
         public async Task<IEnumerable<User>> GetUsersAsync()
         {
             var users = await crudRepo.GetQueryable<User>()
+                .AsNoTracking()
                 .ToListAsync();
 
             var tasks = users.Select(user => user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo));
@@ -67,6 +68,7 @@ namespace Tripex.Core.Services
             var id = tokenService.GetUserIdByToken();
 
             var users = await crudRepo.GetQueryable<User>()
+                .AsNoTracking()
                 .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
                 .Include(u => u.Followers)
                 .OrderBy(x => x.Followers.Any(f => f.Id == id))
@@ -83,15 +85,13 @@ namespace Tripex.Core.Services
 
         public async Task<User> GetUserByIdAsync(Guid id)
         {
-            var user = await crudRepo.GetQueryable<User>()
-                .SingleOrDefaultAsync(u => u.Id == id);
+            var user = await crudRepo.GetByIdAsync(id);
 
             if (user == null)
                 throw new KeyNotFoundException($"User with id {id} not found");
 
             await Task.WhenAll(
-                user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo),
-                user.UpdateViewedCountAsync(crudRepo)
+                user.UpdateUserIfNeededAsync(crudRepo, s3FileService)
                 );
 
             return user;
