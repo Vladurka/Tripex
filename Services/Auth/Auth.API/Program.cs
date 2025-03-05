@@ -13,7 +13,10 @@ builder.Services.AddDbContext<AuthContext>(opt =>
 });
 
 builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser<Guid>>()
+builder.Services.AddIdentityApiEndpoints<AppUser>(opts =>
+    {
+        opts.User.RequireUniqueEmail = true;
+    })
     .AddEntityFrameworkStores<AuthContext>();
 
 var app = builder.Build();
@@ -21,6 +24,6 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
-app.MapGroup("api").MapIdentityApi<IdentityUser<Guid>>();
+app.MapIdentityApi<AppUser>();
     
 app.Run();
