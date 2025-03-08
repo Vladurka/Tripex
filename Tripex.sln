@@ -22,6 +22,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{A2D2A78C-D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth.API", "Services\Auth\Auth.API\Auth.API.csproj", "{7B684357-2CE6-46FF-9430-4208376E7848}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{37039373-F96A-4739-ADC6-6D8D30CEE274}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj", "{DB33B4E3-0207-4CB2-8186-C30F0FFA219B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Messaging", "BuildingBlocks\BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj", "{E0159114-7635-4562-997B-F0662592D7BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +58,14 @@ Global
 		{7B684357-2CE6-46FF-9430-4208376E7848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B684357-2CE6-46FF-9430-4208376E7848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B684357-2CE6-46FF-9430-4208376E7848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB33B4E3-0207-4CB2-8186-C30F0FFA219B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB33B4E3-0207-4CB2-8186-C30F0FFA219B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB33B4E3-0207-4CB2-8186-C30F0FFA219B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB33B4E3-0207-4CB2-8186-C30F0FFA219B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E0159114-7635-4562-997B-F0662592D7BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E0159114-7635-4562-997B-F0662592D7BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E0159114-7635-4562-997B-F0662592D7BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E0159114-7635-4562-997B-F0662592D7BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -59,5 +73,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A2D2A78C-DB34-4A1D-8798-A55531B20E74} = {B4695EAB-3A44-4FBE-B291-362FAE76AF49}
 		{7B684357-2CE6-46FF-9430-4208376E7848} = {A2D2A78C-DB34-4A1D-8798-A55531B20E74}
+		{DB33B4E3-0207-4CB2-8186-C30F0FFA219B} = {37039373-F96A-4739-ADC6-6D8D30CEE274}
+		{E0159114-7635-4562-997B-F0662592D7BF} = {37039373-F96A-4739-ADC6-6D8D30CEE274}
 	EndGlobalSection
 EndGlobal

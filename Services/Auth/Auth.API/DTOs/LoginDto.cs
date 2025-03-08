@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Auth.API.DTOs
 {
-    public class RegisterDto
+    public class LoginDto
     {
-        [StringLength(25, MinimumLength = 2)]
-        public string UserName { get; set; } = string.Empty;
-
         [EmailAddress]
         public string Email { get; set; } = string.Empty;
 
