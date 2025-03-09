@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Tripex.Core.Domain.Interfaces.Services;
 using Microsoft.Extensions.Configuration;
 using System.Text;
 

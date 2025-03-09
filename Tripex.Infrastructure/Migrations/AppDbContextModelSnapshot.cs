@@ -194,30 +194,6 @@ namespace Tripex.Infrastructure.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("Tripex.Core.Domain.Entities.PostWatcher", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PostWatchers");
-                });
-
             modelBuilder.Entity("Tripex.Core.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -270,6 +246,35 @@ namespace Tripex.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Tripex.Core.Domain.Entities.Watcher<Tripex.Core.Domain.Entities.Post>", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("EntityId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EntityId")
+                        .HasDatabaseName("IX_Watcher_EntityId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_Watcher_UserId");
+
+                    b.HasIndex("UserId", "EntityId")
+                        .HasDatabaseName("IX_Watcher_UserId_EntityId");
+
+                    b.ToTable("PostWatchers");
                 });
 
             modelBuilder.Entity("Tripex.Core.Domain.Entities.Comment", b =>
@@ -359,11 +364,11 @@ namespace Tripex.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Tripex.Core.Domain.Entities.PostWatcher", b =>
+            modelBuilder.Entity("Tripex.Core.Domain.Entities.Watcher<Tripex.Core.Domain.Entities.Post>", b =>
                 {
-                    b.HasOne("Tripex.Core.Domain.Entities.Post", "Post")
+                    b.HasOne("Tripex.Core.Domain.Entities.Post", "Entity")
                         .WithMany("PostWatchers")
-                        .HasForeignKey("PostId")
+                        .HasForeignKey("EntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -373,7 +378,7 @@ namespace Tripex.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Post");
+                    b.Navigation("Entity");
 
                     b.Navigation("User");
                 });

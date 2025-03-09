@@ -1,7 +1,6 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.AspNetCore.Http;
-using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {
@@ -24,12 +23,12 @@ namespace Tripex.Core.Services
 
             await s3Client.PutObjectAsync(request);
 
-            string photoUrl = GetPreSignedURL(fileName, 10);
+            string photoUrl = await GetPreSignedURL(fileName, 10);
 
             return photoUrl;
         }
 
-        public string GetPreSignedURL(string fileName, int hours)
+        public async Task<string> GetPreSignedURL(string fileName, int hours)
         {
             var urlRequest = new GetPreSignedUrlRequest
             {
@@ -38,7 +37,7 @@ namespace Tripex.Core.Services
                 Expires = DateTime.UtcNow.AddHours(hours)
             };
 
-            string temporaryUrl = s3Client.GetPreSignedURL(urlRequest);
+            string temporaryUrl = await s3Client.GetPreSignedURLAsync(urlRequest);
 
             return temporaryUrl;
         }

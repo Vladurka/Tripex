@@ -11,7 +11,7 @@ namespace Tripex.Infrastructure.Persistence
         public DbSet<Like<Comment>> CommentLikes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Follower> Followers { get; set; }
-        public DbSet<PostWatcher> PostWatchers { get; set; }
+        public DbSet<Watcher<Post>> PostWatchers { get; set; }
         public DbSet<Notification> Notifications { get; set; }
 
 
@@ -23,7 +23,7 @@ namespace Tripex.Infrastructure.Persistence
             ConfigureCommentEntity(modelBuilder);
             ConfigureLikeEntity(modelBuilder);
             ConfigureFollowerEntity(modelBuilder);
-            ConfigurePostWatchers(modelBuilder);
+            ConfigureWatchers(modelBuilder);
         }
 
         private void ConfigurePostEntity(ModelBuilder modelBuilder)
@@ -92,18 +92,31 @@ namespace Tripex.Infrastructure.Persistence
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
-        private void ConfigurePostWatchers(ModelBuilder modelBuilder)
+        private void ConfigureWatchers(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<PostWatcher>()
+            modelBuilder.Entity<Watcher<Post>>()
                 .HasOne(l => l.User)
                 .WithMany(u => u.PostWatchers)
                 .HasForeignKey(l => l.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-            modelBuilder.Entity<PostWatcher>()
-                .HasOne(l => l.Post)
+
+            modelBuilder.Entity<Watcher<Post>>()
+                .HasOne(l => l.Entity)
                 .WithMany(p => p.PostWatchers)
-                .HasForeignKey(l => l.PostId)
+                .HasForeignKey(l => l.EntityId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Watcher<Post>>()
+               .HasIndex(w => w.UserId)
+               .HasDatabaseName("IX_Watcher_UserId");
+
+            modelBuilder.Entity<Watcher<Post>>()
+                .HasIndex(w => w.EntityId)
+                .HasDatabaseName("IX_Watcher_EntityId");
+
+            modelBuilder.Entity<Watcher<Post>>()
+                .HasIndex(w => new { w.UserId, w.EntityId })
+                .HasDatabaseName("IX_Watcher_UserId_EntityId");
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using Humanizer;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-
-namespace Tripex.Application.DTOs.Posts
+﻿namespace Tripex.Application.DTOs.Posts
 {
     public class PostGet
     {
@@ -19,7 +15,7 @@ namespace Tripex.Application.DTOs.Posts
         public PostGet(Post post)
         {
             Id = post.Id;
-            User = new UserGetMin(post.User);
+            User = new UserGetMin(post.User!);
             ContentUrl = post.ContentUrl;
             Description = post.Description;
             

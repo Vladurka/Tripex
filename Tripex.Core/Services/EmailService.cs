@@ -1,8 +1,6 @@
 ﻿using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Services;
 
 namespace Tripex.Core.Services
 {

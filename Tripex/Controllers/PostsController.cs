@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Posts;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Domain.Interfaces.Services.Security;
+﻿using Tripex.Application.DTOs.Posts;
 
 namespace Tripex.Controllers
 {
@@ -28,9 +23,9 @@ namespace Tripex.Controllers
 
             if (!string.IsNullOrWhiteSpace(postAdd.Description))
             {
-                var isBadDescription = await censorService.CheckTextAsync(postAdd.Description);
+                var isAvailable = await censorService.CheckTextAsync(postAdd.Description);
 
-                if (isBadDescription != "No")
+                if (isAvailable != "No")
                     return BadRequest("Description is not available");
             }
 

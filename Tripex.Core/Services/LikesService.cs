@@ -1,27 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Enums;
-
-namespace Tripex.Core.Services
+﻿namespace Tripex.Core.Services
 {
-    public class LikesService<T>(ICrudRepository<Like<T>> repo, ICrudRepository<Post> postsRepo, ICrudRepository<Comment> commentsRepo,
-        ICrudRepository<User> usersCrudRepo, IS3FileService s3FileService) : ILikesService<T> where T : class, ILikable
+    public class LikesService<T>(ICrudRepository<Like<T>> repo, ICrudRepository<T> entityRepo,
+        ICrudRepository<User> usersCrudRepo, IS3FileService s3FileService) : ILikesService<T> where T : BaseEntity, ILikable
     {
-        public async Task<ResponseOptions> AddLikeToPostAsync(Like<T> likeAdd)
+        public async Task<ResponseOptions> AddLikeAsync(Like<T> likeAdd)
         {
             var likeGet = await repo.GetQueryable<Like<T>>()
                 .SingleOrDefaultAsync(l => l.UserId == likeAdd.UserId && l.EntityId == likeAdd.EntityId);
 
-            var post = await postsRepo.GetByIdAsync(likeAdd.EntityId);
+            var entity = await entityRepo.GetByIdAsync(likeAdd.EntityId);
 
             await using var transaction = await repo.BeginTransactionAsync();
 
             try
             {
-                if (post == null)
+                if (entity == null)
                     return ResponseOptions.NotFound;
 
                 if (likeGet != null)
@@ -30,8 +23,8 @@ namespace Tripex.Core.Services
                 else
                 {
                     await repo.AddAsync(likeAdd);
-                    post.LikesCount++;
-                    await postsRepo.UpdateAsync(post);
+                    entity.LikesCount++;
+                    await entityRepo.UpdateAsync(entity);
                 }
                 await transaction.CommitAsync();
 
@@ -44,43 +37,11 @@ namespace Tripex.Core.Services
             }
         }
 
-        public async Task<ResponseOptions> AddLikeToCommentAsync(Like<T> likeAdd)
-        {
-            var likeGet = await repo.GetQueryable<Like<T>>()
-                .SingleOrDefaultAsync(l => l.UserId == likeAdd.UserId && l.EntityId == likeAdd.EntityId);
-
-            var comment = await commentsRepo.GetByIdAsync(likeAdd.EntityId);
-
-            await using var transaction = await repo.BeginTransactionAsync();
-
-            try
-            {
-                if (comment == null)
-                    return ResponseOptions.NotFound;
-
-                if (likeGet != null)
-                    return ResponseOptions.Exists;
-
-                else
-                {
-                    await repo.AddAsync(likeAdd);
-                    comment.LikesCount++;
-                    await commentsRepo.UpdateAsync(comment);
-                }
-                await transaction.CommitAsync();
-
-                return ResponseOptions.Ok;
-            }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
 
         public async Task<Like<T>> GetEntityLikeAsync(Guid id)
         {
             var like = await repo.GetQueryable<Like<T>>()
+                .AsNoTracking()
                 .Where(like => like.Id == id)
                 .Include(like => like.User)
                 .SingleOrDefaultAsync();
@@ -88,7 +49,7 @@ namespace Tripex.Core.Services
             if (like == null)
                 throw new KeyNotFoundException($"Like with id {id} not found");
 
-            await like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await like.User!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
 
             return like;
         }
@@ -104,20 +65,20 @@ namespace Tripex.Core.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            var tasks = likes.Select(like => like.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            var tasks = likes.Select(like => like.User!.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
             await Task.WhenAll(tasks);
 
             return likes;
         }
 
-        public async Task<ResponseOptions> DeletePostLikeAsync(Guid id)
+        public async Task<ResponseOptions> DeleteLikeAsync(Guid id)
         {
             var like = await repo.GetByIdAsync(id);
 
             if (like == null)
                 return ResponseOptions.NotFound;
 
-            var post = await postsRepo.GetByIdAsync(like.EntityId);
+            var post = await entityRepo.GetByIdAsync(like.EntityId);
 
             if (post == null)
                 return ResponseOptions.NotFound;
@@ -128,37 +89,7 @@ namespace Tripex.Core.Services
             {
                 await repo.RemoveAsync(id);
                 post.LikesCount--;
-                await postsRepo.UpdateAsync(post);
-                await transaction.CommitAsync();
-
-                return ResponseOptions.Ok;
-            }
-            catch (Exception)
-            {
-                await transaction.RollbackAsync();
-                throw;
-            }
-        }
-
-        public async Task<ResponseOptions> DeleteCommentLikeAsync(Guid id)
-        {
-            var like = await repo.GetByIdAsync(id);
-
-            if (like == null)
-                return ResponseOptions.NotFound;
-
-            var comment = await commentsRepo.GetByIdAsync(like.EntityId);
-
-            if (comment == null)
-                return ResponseOptions.NotFound;
-
-            await using var transaction = await repo.BeginTransactionAsync();
-
-            try
-            {
-                await repo.RemoveAsync(id);
-                comment.LikesCount--;
-                await commentsRepo.UpdateAsync(comment);
+                await entityRepo.UpdateAsync(post);
                 await transaction.CommitAsync();
 
                 return ResponseOptions.Ok;

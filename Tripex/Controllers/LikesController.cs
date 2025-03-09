@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Tripex.Application.DTOs.Likes;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Domain.Interfaces.Services.Security;
+﻿using Tripex.Application.DTOs.Likes;
 
 namespace Tripex.Controllers
 {
@@ -20,7 +15,7 @@ namespace Tripex.Controllers
             var id = tokenService.GetUserIdByToken();
 
             var like = new Like<Post>(id, postId);
-            return CheckResponse(await postLikesService.AddLikeToPostAsync(like));
+            return CheckResponse(await postLikesService.AddLikeAsync(like));
         }
 
         [HttpPost("comment/{commentId:guid}")]
@@ -32,7 +27,7 @@ namespace Tripex.Controllers
             var id = tokenService.GetUserIdByToken();
 
             var like = new Like<Comment>(id, commentId);
-            return CheckResponse(await commentLikesService.AddLikeToCommentAsync(like));
+            return CheckResponse(await commentLikesService.AddLikeAsync(like));
         }
 
         [HttpGet("post/{id:guid}")]
@@ -74,13 +69,13 @@ namespace Tripex.Controllers
         [HttpDelete("post/{id:guid}")]
         public async Task<ActionResult> DeletePostLike(Guid id)
         {
-            return CheckResponse(await postLikesService.DeletePostLikeAsync(id));
+            return CheckResponse(await postLikesService.DeleteLikeAsync(id));
         }
 
         [HttpDelete("comment/{id:guid}")]
         public async Task<ActionResult> DeleteCommentLike(Guid id)
         {
-            return CheckResponse(await commentLikesService.DeleteCommentLikeAsync(id));
+            return CheckResponse(await commentLikesService.DeleteLikeAsync(id));
         }
     }
 }

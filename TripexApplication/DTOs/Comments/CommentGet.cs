@@ -1,8 +1,4 @@
-﻿using Humanizer;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-
-namespace Tripex.Application.DTOs.Comments
+﻿namespace Tripex.Application.DTOs.Comments
 {
     public class CommentGet
     {
@@ -15,7 +11,7 @@ namespace Tripex.Application.DTOs.Comments
         public CommentGet(Comment comment) 
         {
             Id = comment.Id;
-            User = new UserGetMin(comment.User);
+            User = new UserGetMin(comment.User!);
             LikesCount = comment.LikesCount;
             Content = comment.Content;
             CreatedAt = comment.CreatedAt.Humanize();

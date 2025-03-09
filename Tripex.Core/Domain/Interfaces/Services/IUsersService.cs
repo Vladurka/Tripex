@@ -1,7 +1,4 @@
-﻿using Tripex.Core.Domain.Entities;
-using Tripex.Core.Enums;
-
-namespace Tripex.Core.Domain.Interfaces.Services
+﻿namespace Tripex.Core.Domain.Interfaces.Services
 {
     public interface IUsersService
     {

@@ -1,0 +1,27 @@
+services:
+  authdb:
+    image: postgres:latest
+    container_name: authdb
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: Vlad
+      POSTGRES_PASSWORD: postgres2025
+      POSTGRES_DB: auth
+    volumes:
+      - auth_data:/var/lib/postgresql/data
+  
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  auth_data:  

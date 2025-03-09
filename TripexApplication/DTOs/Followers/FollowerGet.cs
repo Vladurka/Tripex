@@ -1,8 +1,4 @@
-﻿using Humanizer;
-using Tripex.Application.DTOs.Users;
-using Tripex.Core.Domain.Entities;
-
-namespace Tripex.Application.DTOs.Followers
+﻿namespace Tripex.Application.DTOs.Followers
 {
     public class FollowerGet
     {
@@ -15,7 +11,7 @@ namespace Tripex.Application.DTOs.Followers
             Id = follower.Id;
             CreatedAt = follower.CreatedAt.Humanize();
 
-            var followerGet = new UserGetMin(follower.FollowerEntity);
+            var followerGet = new UserGetMin(follower.FollowerEntity!);
             Follower = followerGet;
         }
     }

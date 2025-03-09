@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Tripex.Core.Domain.Entities;
-using Tripex.Core.Domain.Interfaces.Repositories;
-using Tripex.Core.Domain.Interfaces.Services;
-using Tripex.Core.Domain.Interfaces.Services.Security;
-using Tripex.Core.Enums;
-
-namespace Tripex.Core.Services
+﻿namespace Tripex.Core.Services
 {
     public class CommentsService(ICrudRepository<Comment> repo, ICrudRepository<Post> postsRepo,
         ITokenService tokenService, ICrudRepository<User> usersCrudRepo, IS3FileService s3FileService) : ICommentsService
@@ -38,13 +31,14 @@ namespace Tripex.Core.Services
         public async Task<Comment> GetCommentAsync(Guid id)
         {
             var comment = await repo.GetQueryable<Comment>()
+                .AsNoTracking()
                .Include(comment => comment.User)
                .SingleOrDefaultAsync(comment => comment.Id == id);
 
             if (comment == null)
                 throw new KeyNotFoundException($"Comment with id {id} not found");
 
-            await comment.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo);
+            await comment.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!;
 
             return comment;
         }
@@ -55,13 +49,13 @@ namespace Tripex.Core.Services
                 .AsNoTracking()
                 .Where(comment => comment.PostId == postId) 
                 .Include(comment => comment.User)
-                .OrderBy(comments => comments.LikesCount)
+                .OrderByDescending(comments => comments.LikesCount)
                 .ThenByDescending(comments => comments.CreatedAt)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var tasks = comments.Select(c => c.User.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo));
+            var tasks = comments.Select(c => c.User?.UpdateAvatarUrlIfNeededAsync(s3FileService, usersCrudRepo)!);
             await Task.WhenAll(tasks);
 
             return comments;
