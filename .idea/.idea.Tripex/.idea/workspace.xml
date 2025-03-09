@@ -11,36 +11,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/BaseEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/Exceptions/ExistsException.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/LoginDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/UserRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Entities/User.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/JwtOptions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/CookiesService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/ICookiesService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IPasswordHasher.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/ITokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IUserRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IUserService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/PasswordHasher.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/TokenService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/AppUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/AuthContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/AuthContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/RegisterDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/RegisterDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Migrations/20250303203748_Initial.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Migrations/20250303203748_Initial.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Migrations/20250305141242_AppUser.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Migrations/20250305141242_AppUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Migrations/AuthContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/BasketCheckoutEvent.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tripex.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tripex.sln" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,6 +145,8 @@
       <workItem from="1741367489260" duration="1769000" />
       <workItem from="1741434385758" duration="1068000" />
       <workItem from="1741455123426" duration="4884000" />
+      <workItem from="1741509109186" duration="798000" />
+      <workItem from="1741514589491" duration="681000" />
     </task>
     <task id="LOCAL-00001" summary="Auth update">
       <option name="closed" value="true" />

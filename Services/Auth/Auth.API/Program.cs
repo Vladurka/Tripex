@@ -2,6 +2,7 @@ using Auth.API;
 using Auth.API.Data;
 using Auth.API.Exceptions;
 using Auth.API.Services;
+using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,8 @@ builder.Services.AddDbContext<AuthContext>(opt =>
 {
     opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"));
 });
+
+builder.Services.AddMessageBroker(builder.Configuration);
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();

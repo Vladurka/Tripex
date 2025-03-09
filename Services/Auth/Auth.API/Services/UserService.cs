@@ -1,9 +1,12 @@
 using Auth.API.Entities;
 using BuildingBlocks.Exceptions;
+using BuildingBlocks.Messaging.Events.Profiles;
+using MassTransit;
+using Mapster;
 
 namespace Auth.API.Services;
 public class UserService(IPasswordHasher passwordHasher, ITokenService tokenService, 
-    IOptions<JwtOptions> options, IUsersRepository repo) : IUserService
+    IOptions<JwtOptions> options, IUsersRepository repo, IPublishEndpoint publishEndpoint) : IUserService
 {
     private JwtOptions _options => options.Value;
 
@@ -38,6 +41,10 @@ public class UserService(IPasswordHasher passwordHasher, ITokenService tokenServ
             var user = new User(dto.UserName, dto.Email, dto.Password);
             
             await repo.AddUserAsync(user);
+
+            var eventMessage = dto.Adapt<CreateProfileEvent>();
+
+            await publishEndpoint.Publish(eventMessage);
             
             tokenService.SetTokenWithId(user.Id, _options.TokenName, _options.ExpiresHours);  
 
