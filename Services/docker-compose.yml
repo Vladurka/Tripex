@@ -5,11 +5,23 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_USER: Vlad
-      POSTGRES_PASSWORD: postgres2025
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       POSTGRES_DB: auth
     volumes:
       - auth_data:/var/lib/postgresql/data
+  
+  profilesdb:
+    image: postgres:latest
+    container_name: profilesdb
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: profiles
+    volumes:
+      - profiles:/var/lib/postgresql/data
   
   rabbitmq:
     image: rabbitmq:management

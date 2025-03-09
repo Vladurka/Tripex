@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Carter" Version="8.2.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
     </ItemGroup>
 
@@ -19,6 +20,11 @@
 
     <ItemGroup>
       <Folder Include="Controllers\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+      <ProjectReference Include="..\Profiles.Application\Profiles.Application.csproj" />
     </ItemGroup>
 
 </Project>
