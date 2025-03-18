@@ -11,4 +11,12 @@
       <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Profiles\Commands\CreateProfile\" />
+      <Folder Include="Profiles\Commands\DeleteProfile\" />
+      <Folder Include="Profiles\Commands\UpdateProfile\" />
+      <Folder Include="Profiles\Queries\GetProfileById\" />
+      <Folder Include="Profiles\Queries\GetProfiles\" />
+    </ItemGroup>
+
 </Project>

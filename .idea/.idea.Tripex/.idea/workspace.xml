@@ -16,23 +16,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/Aggregate.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/Entity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IAggregate.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IDomainEvent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/UserCreatedEventHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/ValueObjects/UserName.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Configurations/ProfileConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/PasswordHasher.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/PasswordHasher.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Services/IEmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Services/IEmailService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Profiles.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Profiles.API.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Properties/launchSettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/appsettings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Profiles.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Profiles.Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/Entity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/Entity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Profiles.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Profiles.Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,6 +56,8 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Repositories/ICrudRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -146,6 +145,14 @@
       <workItem from="1741517760369" duration="32000" />
       <workItem from="1741530713175" duration="690000" />
       <workItem from="1741531658292" duration="371000" />
+      <workItem from="1741958913440" duration="386000" />
+      <workItem from="1741962404193" duration="25000" />
+      <workItem from="1741962559649" duration="581000" />
+      <workItem from="1741970716684" duration="36000" />
+      <workItem from="1742121496807" duration="1112000" />
+      <workItem from="1742307401803" duration="470000" />
+      <workItem from="1742312077530" duration="40000" />
+      <workItem from="1742312298239" duration="3695000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />

@@ -1,6 +1,4 @@
-﻿using Tripex.Core.Domain.Entities;
-
-namespace Tripex.Core.Domain.Interfaces.Services
+﻿namespace Tripex.Core.Domain.Interfaces.Services
 {
     public interface IEmailService
     {

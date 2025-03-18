@@ -21,7 +21,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: profiles
     volumes:
-      - profiles:/var/lib/postgresql/data
+      - profiles_data:/var/lib/postgresql/data
   
   rabbitmq:
     image: rabbitmq:management
@@ -36,4 +36,5 @@ services:
       - "15672:15672"
 
 volumes:
-  auth_data:  
+  auth_data:
+  profiles_data:
