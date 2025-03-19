@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Profiles.Application.Data;
 using Profiles.Infrastructure.Data;
 
 namespace Profiles.Infrastructure;
@@ -12,10 +13,12 @@ public static class DependencyInjection
     {
         var connectionString = config.GetConnectionString("PostgresConnection");
 
-        services.AddDbContext<ProfilesContext>((sp, options) =>
+        services.AddDbContext<ProfilesContext>(options =>
         {
             options.UseNpgsql(connectionString);
         });
+
+        services.AddScoped<IProfilesRepository, ProfilesRepository>();
 
         return services;
     }

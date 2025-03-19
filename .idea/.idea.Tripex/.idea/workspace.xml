@@ -16,21 +16,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/UserCreatedEventHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/ValueObjects/UserName.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Configurations/ProfileConfiguration.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Services/IEmailService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Services/IEmailService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Profiles.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Profiles.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/Exceptions/DomainException.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/GlobalUsing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/ValueObjects/ProfileId.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/GlobalUsing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monolith/Tripex/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/Monolith/Tripex/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DependencyInjection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles.Application.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/Entity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/Entity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IEntity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IEntity.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/UserCreatedEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/UserCreatedEventHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Profiles.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Profiles.Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Profiles.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Profiles.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -153,6 +155,7 @@
       <workItem from="1742307401803" duration="470000" />
       <workItem from="1742312077530" duration="40000" />
       <workItem from="1742312298239" duration="3695000" />
+      <workItem from="1742397863573" duration="2016000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />

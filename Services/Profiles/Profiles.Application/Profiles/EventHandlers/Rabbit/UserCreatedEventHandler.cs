@@ -1,13 +1,14 @@
-using BuildingBlocks.Messaging.Events.Profiles;
-using MassTransit;
-using MediatR;
+using Profiles.Application.Profiles.Commands.CreateProfile;
 
 namespace Profiles.Application.Profiles.EventHandlers.Rabbit;
 
-public class UserCreatedEventHandler : IConsumer<CreateProfileEvent>
+public class UserCreatedEventHandler(ISender sender) : IConsumer<CreateProfileEvent>
 {
-    public Task Consume(ConsumeContext<CreateProfileEvent> context)
+    public async Task Consume(ConsumeContext<CreateProfileEvent> context)
     {
+        var command = new CreateProfileCommand(context.Message.Id, 
+            context.Message.UserName);
         
+        await sender.Send(command);
     }
 }

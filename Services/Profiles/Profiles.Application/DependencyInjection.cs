@@ -3,7 +3,6 @@ using BuildingBlocks.Behaviors;
 using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace Profiles.Application;
 
 public static class DependencyInjection

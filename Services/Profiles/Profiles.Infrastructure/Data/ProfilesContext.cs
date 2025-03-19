@@ -1,6 +1,5 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Profiles.Domain.Models;
 
 namespace Profiles.Infrastructure.Data;
 

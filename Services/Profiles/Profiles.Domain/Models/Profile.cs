@@ -3,7 +3,7 @@ using Profiles.Domain.ValueObjects;
 
 namespace Profiles.Domain.Models;
 
-public class Profile : Entity<Guid>
+public class Profile : Entity<ProfileId>
 {
     private const string DEFAULT_AVATAR = "https://shorturl.at/xyHKo";
     public string AvatarUrl { get; set; } = DEFAULT_AVATAR;
@@ -12,7 +12,7 @@ public class Profile : Entity<Guid>
     public string? LastName { get; set; }
     public string? Description { get; set; }
     
-    public static Profile Create(Guid id, UserName userName)
+    public static Profile Create(ProfileId id, UserName userName)
     {
         var profile = new Profile
         {
