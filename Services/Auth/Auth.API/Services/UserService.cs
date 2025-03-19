@@ -44,6 +44,9 @@ public class UserService(IPasswordHasher passwordHasher, ITokenService tokenServ
 
             var eventMessage = dto.Adapt<CreateProfileEvent>();
 
+            eventMessage.UserName = user.UserName;
+            eventMessage.UserId = user.Id;
+
             await publishEndpoint.Publish(eventMessage);
             
             tokenService.SetTokenWithId(user.Id, _options.TokenName, _options.ExpiresHours);  

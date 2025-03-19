@@ -8,10 +8,8 @@ public record ProfileId
     private ProfileId(Guid value) => Value = value;
     public static ProfileId Of(Guid value)
     {
-        ArgumentNullException.ThrowIfNull(value);
-        
         if (value == Guid.Empty)
-            throw new DomainException("OrderId cannot be empty.");
+            throw new DomainException("ProfileId cannot be empty.");
 
         return new ProfileId(value);
     }

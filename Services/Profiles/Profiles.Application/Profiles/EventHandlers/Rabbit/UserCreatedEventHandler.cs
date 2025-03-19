@@ -6,7 +6,7 @@ public class UserCreatedEventHandler(ISender sender) : IConsumer<CreateProfileEv
 {
     public async Task Consume(ConsumeContext<CreateProfileEvent> context)
     {
-        var command = new CreateProfileCommand(context.Message.Id, 
+        var command = new CreateProfileCommand(context.Message.UserId, 
             context.Message.UserName);
         
         await sender.Send(command);
