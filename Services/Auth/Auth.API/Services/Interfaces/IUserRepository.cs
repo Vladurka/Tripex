@@ -6,7 +6,9 @@ namespace Auth.API.Services.Interfaces;
 public interface IUsersRepository
 {
     public Task<User?> GetUserByEmailAsync(string email);
+    public Task<User?> GetUserByRefreshTokenAsync(string refreshToken);
     public Task AddUserAsync(User user);
+    public Task UpdateAsync(User entity);
     public Task<bool> UsernameExistsAsync(string userName);
     public Task<IDbContextTransaction> BeginTransactionAsync();
 }

@@ -6,13 +6,15 @@ public class User : BaseEntity
 {
     public string UserName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
+    public string PasswordHash { get; set; } = string.Empty;
+    public string RefreshToken { get; set; } = string.Empty;
+    public DateTime RefreshTokenExpiry { get; set; }
     
     public User() { }
-    public User(string userName, string email, string password)
+    public User(string userName, string email, string passwordHash)
     {
         UserName = userName;
         Email = email;
-        Password = password;
+        PasswordHash = passwordHash;
     }
 }

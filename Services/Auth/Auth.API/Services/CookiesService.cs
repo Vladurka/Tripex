@@ -2,31 +2,27 @@
 {
     public class CookiesService(IHttpContextAccessor httpContextAccessor) : ICookiesService
     {
-        public void AddCookie(string name, string value, int hours)
+        public void AddCookie(string name, string value, int minutes)
         {
-            ValidateCookieParams(name, value, hours);   
+            ValidateCookieParams(name, value, minutes);   
 
             if (CookieExists(name))
                 throw new InvalidOperationException("Cookie with this name already exists");
-
-            else
+            
+            httpContextAccessor?.HttpContext?.Response.Cookies.Append(name, value, new CookieOptions
             {
-                httpContextAccessor?.HttpContext?.Response.Cookies.Append(name, value, new CookieOptions
-                {
-                    HttpOnly = true,
-                    Secure = true,
-                    Expires = DateTimeOffset.UtcNow.AddHours(hours)
-                });
-            }
+                HttpOnly = true,
+                Secure = true,
+                Expires = DateTimeOffset.UtcNow.AddMinutes(minutes)
+            });
         }
 
         public string GetFromCookie(string name)
         {
-            if (httpContextAccessor.HttpContext.Request.Cookies.TryGetValue(name, out string? value))
+            if (httpContextAccessor.HttpContext!.Request.Cookies.TryGetValue(name, out string? value))
                 return value;
-
-            else
-                return string.Empty;
+            
+            return string.Empty;
         }
 
         public void DeleteCookie(string name)
@@ -37,9 +33,9 @@
             httpContextAccessor?.HttpContext?.Response.Cookies.Delete(name);
         }
 
-        public void UpdateCookie(string name, string newValue, int hours)
+        public void UpdateCookie(string name, string newValue, int minutes)
         {
-            ValidateCookieParams(name, newValue, hours);
+            ValidateCookieParams(name, newValue, minutes);
 
             if (!CookieExists(name))
                 throw new InvalidOperationException("Cookie is not found");
@@ -48,11 +44,11 @@
             {
                 HttpOnly = true,
                 Secure = true,
-                Expires = DateTimeOffset.UtcNow.AddHours(hours)
+                Expires = DateTimeOffset.UtcNow.AddMinutes(minutes)
             });
         }
 
-        private void ValidateCookieParams(string name, string value, int hours)
+        private void ValidateCookieParams(string name, string value, int minutes)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name), "Cookie name cannot be null or empty.");
@@ -60,8 +56,8 @@
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentNullException(nameof(value), "Cookie value cannot be null or empty.");
 
-            if (hours <= 0)
-                throw new ArgumentOutOfRangeException(nameof(hours), "Expiration time must be greater than zero.");
+            if (minutes <= 0)
+                throw new ArgumentOutOfRangeException(nameof(minutes), "Expiration time must be greater than zero.");
         }
 
         public bool CookieExists(string name) =>
