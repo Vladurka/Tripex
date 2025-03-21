@@ -1,6 +1,7 @@
 namespace BuildingBlocks.Messaging.Events.Profiles;
 
-public record UpdateUserName : IntegrationEvent
+public record UpdateUserNameEvent : IntegrationEvent
 {
+    public Guid UserId { get; set; }
     public string UserName { get; set; } = string.Empty;
 }

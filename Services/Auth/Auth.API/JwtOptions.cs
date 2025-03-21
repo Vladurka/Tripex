@@ -1,4 +1,4 @@
-﻿namespace Tripex.Core.Domain.Entities
+﻿namespace Auth.API
 {
     public class JwtOptions
     {

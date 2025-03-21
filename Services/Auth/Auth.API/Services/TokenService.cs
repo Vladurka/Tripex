@@ -1,7 +1,4 @@
-﻿using Auth.API.Entities;
-using BuildingBlocks.Exceptions;
-
-namespace Auth.API.Services;
+﻿namespace Auth.API.Services;
 
 public class TokenService : ITokenService
 {

@@ -12,7 +12,7 @@ public class UserRepository(AuthContext context) : IUsersRepository
     public async Task<User?> GetUserByRefreshTokenAsync(string refreshToken) =>
         await context.Users.FirstOrDefaultAsync(x => x.RefreshToken == refreshToken);
     
-    private async Task<User?> GetUserByIdAsync(Guid id) =>
+    public async Task<User?> GetUserByIdAsync(Guid id) =>
         await context.Users.FirstOrDefaultAsync(x => x.Id == id);
 
     public async Task AddUserAsync(User userRegister)
@@ -20,6 +20,18 @@ public class UserRepository(AuthContext context) : IUsersRepository
         await context.Users.AddAsync(userRegister);
         await SaveChangesAsync();
     }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var user = await GetUserByIdAsync(id);
+
+        if (user == null)
+            throw new NotFoundException("User", id);
+
+        context.Users.Remove(user);
+        await SaveChangesAsync();
+    }
+    
     public async Task UpdateAsync(User entity)
     {
         if (await GetUserByIdAsync(entity.Id) == null)
@@ -35,7 +47,7 @@ public class UserRepository(AuthContext context) : IUsersRepository
     public async Task<IDbContextTransaction> BeginTransactionAsync() =>
         await context.Database.BeginTransactionAsync();
 
-    private async Task SaveChangesAsync()
+    public async Task SaveChangesAsync()
     {
         if (await context.SaveChangesAsync() <= 0)
             throw new InvalidOperationException("Could not save changes");

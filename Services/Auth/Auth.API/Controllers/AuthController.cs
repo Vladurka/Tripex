@@ -37,7 +37,7 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
         return Ok(new { RefreshToken = tokens.RefreshToken }); 
     }
 
-    [HttpPost("refresh")]
+    [HttpPost("refresh/{refreshToken}")]
     public async Task<ActionResult> Refresh(string refreshToken)
     {
         var tokens = await userService.RefreshAsync(refreshToken);

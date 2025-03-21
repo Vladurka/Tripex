@@ -1,5 +1,3 @@
-using Auth.API.Entities;
-using BuildingBlocks.Exceptions;
 using BuildingBlocks.Messaging.Events.Profiles;
 using MassTransit;
 using Mapster;

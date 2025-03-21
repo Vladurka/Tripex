@@ -2,7 +2,7 @@ using Profiles.Application.Profiles.Commands.CreateProfile;
 
 namespace Profiles.Application.Profiles.EventHandlers.Rabbit;
 
-public class UserCreatedEventHandler(ISender sender) : IConsumer<CreateProfileEvent>
+public class ProfileCreatedEventHandler(ISender sender) : IConsumer<CreateProfileEvent>
 {
     public async Task Consume(ConsumeContext<CreateProfileEvent> context)
     {
