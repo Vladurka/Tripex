@@ -1,7 +1,7 @@
 using Auth.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace Auth.API;
+namespace Auth.API.Data;
 
 public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(options)
 {
@@ -21,7 +21,11 @@ public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(opti
                 .IsRequired()
                 .HasMaxLength(100);
 
-            entity.Property(u => u.Password)
+            entity.Property(u => u.PasswordHash)
+                .IsRequired()
+                .HasMaxLength(255);
+            
+            entity.Property(u => u.RefreshToken)
                 .IsRequired()
                 .HasMaxLength(255);
         });

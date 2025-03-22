@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Auth.API.Services
+﻿namespace Auth.API.Services
 {
     public class PasswordHasher : IPasswordHasher
     {

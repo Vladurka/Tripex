@@ -1,0 +1,1 @@
+global using Profiles.Domain.Models;

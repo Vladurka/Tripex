@@ -2,10 +2,10 @@ namespace Auth.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService cookiesService,
-    IUserService service) : ControllerBase
+public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService cookiesService, 
+    IUserService userService) : ControllerBase
 {
-    private readonly JwtOptions _jwtOptions = jwtOptions.Value;
+    private JwtOptions _jwtOptions => jwtOptions.Value;
 
     [HttpPost("register")]
     public async Task<ActionResult> RegisterUser(RegisterDto dto)
@@ -15,12 +15,11 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
             string errors = string.Join("\n",
                 ModelState.Values.SelectMany(value => value.Errors)
                     .Select(err => err.ErrorMessage));
-
             return BadRequest(errors);
         }
 
-        await service.RegisterAsync(dto);
-        return Ok();
+        var tokens = await userService.RegisterAsync(dto); 
+        return Ok(new { RefreshToken = tokens.RefreshToken }); 
     }
 
     [HttpPost("login")]
@@ -31,13 +30,18 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
             string errors = string.Join("\n",
                 ModelState.Values.SelectMany(value => value.Errors)
                     .Select(err => err.ErrorMessage));
-
             return BadRequest(errors);
         }
-        
-        await service.LoginAsync(dto);
 
-        return Ok();
+        var tokens = await userService.LoginAsync(dto);
+        return Ok(new { RefreshToken = tokens.RefreshToken }); 
+    }
+
+    [HttpPost("refresh/{refreshToken}")]
+    public async Task<ActionResult> Refresh(string refreshToken)
+    {
+        var tokens = await userService.RefreshAsync(refreshToken);
+        return Ok(new { RefreshToken = tokens.RefreshToken }); 
     }
 
     [Authorize]
@@ -45,6 +49,6 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
     public ActionResult Logout()
     {
         cookiesService.DeleteCookie(_jwtOptions.TokenName);
-        return Unauthorized();
+        return Unauthorized(); 
     }
 }

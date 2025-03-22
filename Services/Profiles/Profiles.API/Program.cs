@@ -1,11 +1,16 @@
+using Profiles.API;
+using Profiles.Application;
+using Profiles.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services
+    .AddApplicationServices(builder.Configuration)
+    .AddApiServices()
+    .AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-app.UseAuthorization();
-
-app.MapControllers();
+app.UseApiServices();
 
 app.Run();
