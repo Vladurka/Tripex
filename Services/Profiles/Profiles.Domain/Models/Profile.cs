@@ -22,5 +22,21 @@ public class Profile : Entity<ProfileId>
 
         return profile;
     }
+    
+    public static Profile Create(ProfileId id, UserName userName, string avatarUrl,
+    string? firstName, string? lastName, string? description)
+    {
+        var profile = new Profile
+        {
+            Id = id,
+            UserName = userName,
+            AvatarUrl = avatarUrl,
+            FirstName = firstName,
+            LastName = lastName,
+            Description = description
+        };
+
+        return profile;
+    }
     private Profile() { }
 }

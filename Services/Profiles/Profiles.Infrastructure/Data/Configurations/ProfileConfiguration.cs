@@ -21,12 +21,18 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
     
         builder.Property(u => u.Description)
             .HasMaxLength(500);
+        
+        builder.Property(u => u.FirstName)
+            .HasMaxLength(50);
+        
+        builder.Property(u => u.LastName)
+            .HasMaxLength(50);
 
         builder.OwnsOne(u => u.UserName, username =>
         {
             username.Property(u => u.Value)
                 .IsRequired()
-                .HasMaxLength(100);
+                .HasMaxLength(50);
         });
     }
 }

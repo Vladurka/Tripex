@@ -7,7 +7,7 @@ public class CreateProfileCommandValidator : AbstractValidator<CreateProfileComm
 {
     public CreateProfileCommandValidator()
     {
-        RuleFor(x => x.Id).NotEmpty().WithMessage("Id is required");
-        RuleFor(x => x.UserName).NotEmpty().WithMessage("User name is required");
+        RuleFor(x => x.Id).NotEmpty();
+        RuleFor(x => x.UserName).NotEmpty();
     }
 }
