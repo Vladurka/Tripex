@@ -1,6 +1,3 @@
 namespace Profiles.Application.Profiles.Queries.GetProfiles;
 
-public class GetProfilesQuery
-{
-    
-}
+public record GetProfilesQuery : IQuery<List<GetProfileResult>>; 

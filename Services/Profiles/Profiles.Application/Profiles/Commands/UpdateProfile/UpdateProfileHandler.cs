@@ -10,27 +10,23 @@ public class UpdateProfileHandler(
     public async Task<UpdateProfileResult> Handle(UpdateProfileCommand command, CancellationToken cancellationToken)
     {
         var profile = await repo.GetByIdAsync(command.UserId);
-
         if (profile == null)
             throw new NotFoundException("Profile", command.UserId);
-
-        if (!string.IsNullOrWhiteSpace(command.UserName) && 
-            profile.UserName.Value != command.UserName)
+        
+        if (!string.IsNullOrWhiteSpace(command.UserName) && profile.UserName.Value != command.UserName)
         {
+            if (await repo.UsernameExistsAsync(command.UserName))
+                throw new ExistsException(command.UserName);
+
+            profile.UpdateUserName(UserName.Of(command.UserName));
+
             var message = command.Adapt<UpdateUserNameEvent>();
             await publishEndpoint.Publish(message, cancellationToken);
         }
+        
+        profile.Update(command.AvatarUrl, command.FirstName, command.LastName, command.Description);
 
-        var newProfile = Profile.Create(
-            profile.Id, 
-            string.IsNullOrWhiteSpace(command.UserName) ? profile.UserName : UserName.Of(command.UserName),
-            string.IsNullOrWhiteSpace(command.AvatarUrl) ? profile.AvatarUrl : command.AvatarUrl,
-            string.IsNullOrWhiteSpace(command.FirstName) ? profile.FirstName : command.FirstName,
-            string.IsNullOrWhiteSpace(command.LastName) ? profile.LastName : command.LastName,
-            string.IsNullOrWhiteSpace(command.Description) ? profile.Description : command.Description
-        );
-
-        await repo.UpdateAsync(newProfile);
+        await repo.UpdateAsync(profile);
 
         return new UpdateProfileResult(true);
     }

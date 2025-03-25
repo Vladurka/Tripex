@@ -1,6 +1,9 @@
 namespace Profiles.Application.Profiles.Queries.GetProfileByName;
 
-public class GetProfileByNameQuery
+public record GetProfileByUserNameQuery(string UserName) : IQuery<GetProfileResult>;
+
+public class GetProfileByUserNameQueryValidator : AbstractValidator<GetProfileByUserNameQuery>
 {
-    
+    public GetProfileByUserNameQueryValidator() =>
+        RuleFor(x => x.UserName).NotEmpty();
 }

@@ -13,19 +13,32 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     }
 
     public IQueryable<Profile> GetQueryable() =>
-        context.Profiles;
+        context.Profiles.AsQueryable();
 
     public async Task<Profile?> GetByIdAsync(Guid id) =>
         await context.Profiles.FirstOrDefaultAsync(x => x.Id.Value == id);
+    
+    public async Task<Profile?> GetByUserNameAsync(string userName) =>
+        await context.Profiles.FirstOrDefaultAsync(x => x.UserName.Value == userName);
+    
+    public async Task<bool> UsernameExistsAsync(string userName) =>
+        await context.Profiles.AnyAsync(x => x.UserName.Value == userName);
 
     public async Task UpdateAsync(Profile entity)
     {
-        if (await GetByIdAsync(entity.Id.Value) == null)
+        var existingProfile = await GetByIdAsync(entity.Id.Value);
+        
+        if (existingProfile == null)
             throw new NotFoundException(entity, entity.Id);
 
-        context.Entry(entity).State = EntityState.Modified;
+        existingProfile.Update(entity.AvatarUrl, entity.FirstName, entity.LastName, entity.Description);
+    
+        if (existingProfile.UserName != entity.UserName)
+            existingProfile.UpdateUserName(entity.UserName);
+
         await SaveChangesAsync();
     }
+
     public async Task RemoveAsync(Guid id)
     {
         var profile = await GetByIdAsync(id);
