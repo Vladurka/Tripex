@@ -1,6 +1,7 @@
 using BuildingBlocks.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Profiles.Application.Data;
+using Profiles.Domain.ValueObjects;
 
 namespace Profiles.Infrastructure.Data;
 
@@ -15,14 +16,14 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     public IQueryable<Profile> GetQueryable() =>
         context.Profiles.AsQueryable();
 
-    public async Task<Profile?> GetByIdAsync(Guid id) =>
-        await context.Profiles.FirstOrDefaultAsync(x => x.Id.Value == id);
+    public async Task<Profile?> GetByIdAsync(Guid id) => 
+        await context.Profiles.FirstOrDefaultAsync(x => x.Id == ProfileId.Of(id));
     
     public async Task<Profile?> GetByUserNameAsync(string userName) =>
-        await context.Profiles.FirstOrDefaultAsync(x => x.UserName.Value == userName);
+        await context.Profiles.FirstOrDefaultAsync(x => x.UserName == UserName.Of(userName));
     
     public async Task<bool> UsernameExistsAsync(string userName) =>
-        await context.Profiles.AnyAsync(x => x.UserName.Value == userName);
+        await context.Profiles.AnyAsync(x => x.UserName == UserName.Of(userName));
 
     public async Task UpdateAsync(Profile entity)
     {

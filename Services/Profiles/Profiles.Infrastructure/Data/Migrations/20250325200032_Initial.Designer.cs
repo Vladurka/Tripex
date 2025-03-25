@@ -12,7 +12,7 @@ using Profiles.Infrastructure.Data;
 namespace Profiles.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ProfilesContext))]
-    [Migration("20250319203728_Initial")]
+    [Migration("20250325200032_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -43,41 +43,24 @@ namespace Profiles.Infrastructure.Data.Migrations
                         .HasColumnType("character varying(500)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Profiles");
-                });
-
-            modelBuilder.Entity("Profiles.Domain.Models.Profile", b =>
-                {
-                    b.OwnsOne("Profiles.Domain.ValueObjects.UserName", "UserName", b1 =>
-                        {
-                            b1.Property<Guid>("ProfileId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("character varying(100)");
-
-                            b1.HasKey("ProfileId");
-
-                            b1.ToTable("Profiles");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ProfileId");
-                        });
-
-                    b.Navigation("UserName")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

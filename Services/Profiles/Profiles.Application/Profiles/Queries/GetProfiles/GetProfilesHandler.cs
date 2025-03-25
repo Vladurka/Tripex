@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Profiles.Application.Profiles.Queries.GetProfiles;
 
 public class GetProfilesHandler(IProfilesRepository repo) 
-    : IQueryHandler<GetProfilesQuery, List<GetProfileResult>> 
+    : IQueryHandler<GetProfilesQuery, GetProfilesResult> 
 {
-    public async Task<List<GetProfileResult>> Handle(GetProfilesQuery query, CancellationToken cancellationToken)
+    public async Task<GetProfilesResult> Handle(GetProfilesQuery query, CancellationToken cancellationToken)
     {
-        return await repo.GetQueryable()
+        var profiles = await repo.GetQueryable()
             .Select(p => new GetProfileResult(
                 p.UserName.Value,
                 p.AvatarUrl,
@@ -15,5 +15,7 @@ public class GetProfilesHandler(IProfilesRepository repo)
                 p.LastName,
                 p.Description))
             .ToListAsync(cancellationToken);
+
+        return new GetProfilesResult(profiles);
     }
 }

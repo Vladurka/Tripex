@@ -1,13 +1,14 @@
 using BuildingBlocks.Exceptions;
 using Mapster;
+using Profiles.Application.Profiles.Queries;
 
 namespace Profiles.Application.Profiles.Commands.UpdateProfile;
 
 public class UpdateProfileHandler(
     IProfilesRepository repo,
-    IPublishEndpoint publishEndpoint) : ICommandHandler<UpdateProfileCommand, UpdateProfileResult>
+    IPublishEndpoint publishEndpoint) : ICommandHandler<UpdateProfileCommand, GetProfileResult>
 {
-    public async Task<UpdateProfileResult> Handle(UpdateProfileCommand command, CancellationToken cancellationToken)
+    public async Task<GetProfileResult> Handle(UpdateProfileCommand command, CancellationToken cancellationToken)
     {
         var profile = await repo.GetByIdAsync(command.UserId);
         if (profile == null)
@@ -28,6 +29,12 @@ public class UpdateProfileHandler(
 
         await repo.UpdateAsync(profile);
 
-        return new UpdateProfileResult(true);
+        return new GetProfileResult(
+            profile.UserName.Value,
+            profile.AvatarUrl,
+            profile.FirstName,
+            profile.LastName,
+            profile.Description
+        );
     }
 }

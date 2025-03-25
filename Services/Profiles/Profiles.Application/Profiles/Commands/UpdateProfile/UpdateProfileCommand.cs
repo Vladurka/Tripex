@@ -1,3 +1,5 @@
+using Profiles.Application.Profiles.Queries;
+
 namespace Profiles.Application.Profiles.Commands.UpdateProfile;
 
 public record UpdateProfileCommand(
@@ -6,8 +8,7 @@ public record UpdateProfileCommand(
     string? AvatarUrl,
     string? FirstName,
     string? LastName, 
-    string? Description) : ICommand<UpdateProfileResult>;
-public record UpdateProfileResult(bool Succeed);
+    string? Description) : ICommand<GetProfileResult>;
 
 public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand>
 {

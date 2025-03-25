@@ -14,23 +14,14 @@ public class Profile : Entity<ProfileId>
 
     private Profile() { }
 
-    public static Profile Create(ProfileId id, UserName userName)
-    {
-        return new Profile
-        {
-            Id = id,
-            UserName = userName,
-        };
-    }
-
-    public static Profile Create(ProfileId id, UserName userName, string avatarUrl,
+    public static Profile Create(ProfileId id, UserName userName, string? avatarUrl,
         string? firstName, string? lastName, string? description)
     {
         return new Profile
         {
             Id = id,
             UserName = userName,
-            AvatarUrl = avatarUrl,
+            AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl,
             FirstName = firstName,
             LastName = lastName,
             Description = description

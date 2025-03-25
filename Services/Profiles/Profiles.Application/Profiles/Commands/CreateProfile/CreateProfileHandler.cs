@@ -4,7 +4,8 @@ public class CreateProfileHandler(IProfilesRepository repo) : ICommandHandler<Cr
 {
     public async Task<CreateProfileResult> Handle(CreateProfileCommand command, CancellationToken cancellationToken)
     {
-        var profile = Profile.Create(ProfileId.Of(command.Id), UserName.Of(command.UserName));
+        var profile = Profile.Create(ProfileId.Of(command.Id), UserName.Of(command.UserName), null, null,
+            null, null);
         await repo.AddAsync(profile);
 
         return new CreateProfileResult(command.Id);
