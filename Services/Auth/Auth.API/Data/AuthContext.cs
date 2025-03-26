@@ -6,6 +6,8 @@ namespace Auth.API.Data;
 public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(options)
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,6 +31,14 @@ public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(opti
                 .IsRequired()
                 .HasMaxLength(255);
         });
+        
+        modelBuilder.Entity<OutboxMessage>(entity =>
+        {
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Type).IsRequired();
+            entity.Property(x => x.Payload).IsRequired();
+            entity.Property(x => x.IsPublished).HasDefaultValue(false);
+            entity.Property(x => x.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
     }
-
 }

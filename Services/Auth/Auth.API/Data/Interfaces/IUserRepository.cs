@@ -1,7 +1,7 @@
 using Auth.API.Entities;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Auth.API.Services.Interfaces;
+namespace Auth.API.Data.Interfaces;
 
 public interface IUsersRepository
 {
