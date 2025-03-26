@@ -7,20 +7,20 @@ public class Profile : Entity<ProfileId>
     private const string DEFAULT_AVATAR = "https://shorturl.at/xyHKo";
     
     public string AvatarUrl { get; private set; } = DEFAULT_AVATAR;
-    public UserName UserName { get; private set; }
+    public ProfileName ProfileName { get; private set; }
     public string? FirstName { get; private set; }
     public string? LastName { get; private set; }
     public string? Description { get; private set; }
 
     private Profile() { }
 
-    public static Profile Create(ProfileId id, UserName userName, string? avatarUrl,
+    public static Profile Create(ProfileId id, ProfileName profileName, string? avatarUrl,
         string? firstName, string? lastName, string? description)
     {
         return new Profile
         {
             Id = id,
-            UserName = userName,
+            ProfileName = profileName,
             AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl,
             FirstName = firstName,
             LastName = lastName,
@@ -36,6 +36,6 @@ public class Profile : Entity<ProfileId>
         Description = string.IsNullOrWhiteSpace(description) ? Description : description;
     }
 
-    public void UpdateUserName(UserName newUserName) =>
-        UserName = newUserName;
+    public void UpdateUserName(ProfileName newProfileName) =>
+        ProfileName = newProfileName;
 }

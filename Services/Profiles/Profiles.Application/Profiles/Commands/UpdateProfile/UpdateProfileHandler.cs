@@ -10,16 +10,17 @@ public class UpdateProfileHandler(
 {
     public async Task<GetProfileResult> Handle(UpdateProfileCommand command, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetByIdAsync(command.UserId);
+        var profile = await repo.GetByIdAsync(command.UserId, false);
+        
         if (profile == null)
             throw new NotFoundException("Profile", command.UserId);
         
-        if (!string.IsNullOrWhiteSpace(command.UserName) && profile.UserName.Value != command.UserName)
+        if (!string.IsNullOrWhiteSpace(command.ProfileName) && profile.ProfileName.Value != command.ProfileName)
         {
-            if (await repo.UsernameExistsAsync(command.UserName))
-                throw new ExistsException(command.UserName);
+            if (await repo.ProfileNameExistsAsync(command.ProfileName))
+                throw new ExistsException(command.ProfileName);
 
-            profile.UpdateUserName(UserName.Of(command.UserName));
+            profile.UpdateUserName(ProfileName.Of(command.ProfileName));
 
             var message = command.Adapt<UpdateUserNameEvent>();
             await publishEndpoint.Publish(message, cancellationToken);
@@ -30,7 +31,8 @@ public class UpdateProfileHandler(
         await repo.UpdateAsync(profile);
 
         return new GetProfileResult(
-            profile.UserName.Value,
+            profile.Id.Value,
+            profile.ProfileName.Value,
             profile.AvatarUrl,
             profile.FirstName,
             profile.LastName,

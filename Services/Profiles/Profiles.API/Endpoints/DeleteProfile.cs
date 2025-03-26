@@ -1,4 +1,3 @@
-using Mapster;
 using Profiles.Application.Profiles.Commands.DeleteProfile;
 
 namespace Profiles.API.Endpoints;
@@ -13,7 +12,7 @@ public class DeleteProfile : ICarterModule
                 return Results.Ok(result);
             })
             .WithName("DeleteProfile")
-            .Produces<DeleteProfileResult>(StatusCodes.Status200OK)
+            .Produces<DeleteProfileResult>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .WithSummary("Delete profile")

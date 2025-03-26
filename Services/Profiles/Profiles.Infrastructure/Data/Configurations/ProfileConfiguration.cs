@@ -13,10 +13,13 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
 
         builder.Property(u => u.Id)
             .HasConversion(id => id.Value, value => ProfileId.Of(value))
-            .ValueGeneratedNever();
+            .HasColumnName("Id")
+            .ValueGeneratedNever()
+            .IsRequired();
         
-        builder.Property(u => u.UserName)
-            .HasConversion(id => id.Value, value => UserName.Of(value))
+        builder.Property(u => u.ProfileName)
+            .HasConversion(name => name.Value, value => ProfileName.Of(value))
+            .HasColumnName("ProfileName")
             .ValueGeneratedNever()
             .IsRequired()
             .HasMaxLength(50);

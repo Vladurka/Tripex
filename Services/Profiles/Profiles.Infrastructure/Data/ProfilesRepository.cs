@@ -16,14 +16,17 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     public IQueryable<Profile> GetQueryable() =>
         context.Profiles.AsQueryable();
 
-    public async Task<Profile?> GetByIdAsync(Guid id) => 
-        await context.Profiles.FirstOrDefaultAsync(x => x.Id == ProfileId.Of(id));
-    
-    public async Task<Profile?> GetByUserNameAsync(string userName) =>
-        await context.Profiles.FirstOrDefaultAsync(x => x.UserName == UserName.Of(userName));
-    
-    public async Task<bool> UsernameExistsAsync(string userName) =>
-        await context.Profiles.AnyAsync(x => x.UserName == UserName.Of(userName));
+    public async Task<Profile?> GetByIdAsync(Guid id, bool asNoTracking = false)
+    {
+        IQueryable<Profile> query = context.Profiles;
+
+        if (asNoTracking)
+            query = query.AsNoTracking();
+
+        return await query.FirstOrDefaultAsync(p => p.Id == ProfileId.Of(id));
+    }
+    public async Task<bool> ProfileNameExistsAsync(string userName) =>
+        await context.Profiles.AnyAsync(x => x.ProfileName == ProfileName.Of(userName));
 
     public async Task UpdateAsync(Profile entity)
     {
@@ -34,8 +37,8 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
 
         existingProfile.Update(entity.AvatarUrl, entity.FirstName, entity.LastName, entity.Description);
     
-        if (existingProfile.UserName != entity.UserName)
-            existingProfile.UpdateUserName(entity.UserName);
+        if (existingProfile.ProfileName != entity.ProfileName)
+            existingProfile.UpdateUserName(entity.ProfileName);
 
         await SaveChangesAsync();
     }

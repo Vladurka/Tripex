@@ -13,7 +13,7 @@ public class UpdateProfile : ICarterModule
             return Results.Ok(result);
         })
         .WithName("UpdateProfile")
-        .Produces<GetProfileResult>(StatusCodes.Status200OK)
+        .Produces<GetProfileResult>()
         .ProducesProblem(StatusCodes.Status400BadRequest)
         .ProducesProblem(StatusCodes.Status404NotFound)
         .WithSummary("Update profile")

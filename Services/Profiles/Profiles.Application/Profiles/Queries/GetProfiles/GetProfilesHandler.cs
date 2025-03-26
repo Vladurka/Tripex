@@ -9,11 +9,13 @@ public class GetProfilesHandler(IProfilesRepository repo)
     {
         var profiles = await repo.GetQueryable()
             .Select(p => new GetProfileResult(
-                p.UserName.Value,
+                p.Id.Value,
+                p.ProfileName.Value,
                 p.AvatarUrl,
                 p.FirstName,
                 p.LastName,
                 p.Description))
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
 
         return new GetProfilesResult(profiles);

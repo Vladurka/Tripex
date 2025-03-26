@@ -1,7 +1,8 @@
 namespace Profiles.Application.Profiles.Queries;
 
 public record GetProfileResult(
-    string UserName,
+    Guid Id,
+    string ProfileName,
     string AvatarUrl,
     string? FirstName,
     string? LastName,

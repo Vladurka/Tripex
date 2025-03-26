@@ -4,7 +4,7 @@ namespace Profiles.Application.Profiles.Commands.UpdateProfile;
 
 public record UpdateProfileCommand(
     Guid UserId, 
-    string? UserName,
+    string? ProfileName,
     string? AvatarUrl,
     string? FirstName,
     string? LastName, 
@@ -16,9 +16,9 @@ public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileComm
     {
         RuleFor(x => x.UserId).NotEmpty();
 
-        RuleFor(x => x.UserName)
+        RuleFor(x => x.ProfileName)
             .MaximumLength(50)
-            .When(x => !string.IsNullOrWhiteSpace(x.UserName));
+            .When(x => !string.IsNullOrWhiteSpace(x.ProfileName));
 
         RuleFor(x => x.AvatarUrl)
             .MaximumLength(500)

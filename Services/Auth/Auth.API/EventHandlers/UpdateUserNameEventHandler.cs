@@ -9,7 +9,7 @@ public class UpdateUserNameEventHandler(IUsersRepository repo) : IConsumer<Updat
         if (user == null)
             throw new NotFoundException("User", context.Message.UserId);
 
-        user.UserName = context.Message.UserName;
+        user.UserName = context.Message.ProfileName;
         await repo.SaveChangesAsync();
     }
 }

@@ -7,11 +7,12 @@ public class GetProfileByIdHandler(IProfilesRepository repo)
 {
     public async Task<GetProfileResult> Handle(GetProfileByIdQuery query, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetByIdAsync(query.UserId) 
+        var profile = await repo.GetByIdAsync(query.UserId, true)
                       ?? throw new NotFoundException("Profile", query.UserId);
 
         return new GetProfileResult(
-            profile.UserName.Value,
+            profile.Id.Value,
+            profile.ProfileName.Value,
             profile.AvatarUrl,
             profile.FirstName,
             profile.LastName,
