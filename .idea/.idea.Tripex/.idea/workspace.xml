@@ -17,20 +17,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/DeleteUserEvent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/UpdateUserNameEvent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/DeleteUserEventHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/UpdateUserNameEventHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/UpdateUserName.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/UserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/UserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/JwtOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/JwtOptions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IUserRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/TokenService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/TokenService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/UserCreatedEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/ProfileCreatedEventHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/GetProfileById.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/GetProfileByName.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/GetProfiles.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/ValueObjects/ProfileName.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/UpdateUserNameEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/UpdateUserNameEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Monolith/Tripex.Core/Services/UsersService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Monolith/Tripex.Core/Services/UsersService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/UpdateUserNameEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/UpdateUserNameEventHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/DeleteProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/DeleteProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/UpdateProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/UpdateProfile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/GetProfileResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/GetProfileResult.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileByName/GetProfileByNameHandler.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileByName/GetProfileByNameQuery.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfiles/GetProfilesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfiles/GetProfilesHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/ValueObjects/UserName.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Configurations/ProfileConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Configurations/ProfileConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,12 +69,13 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0308d995074f4663b87ab86169c72b7d22908/10/1dfc677d/IOptions`1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d636182b963223f01c9a85951fd78e83e8e3ae45319513b55b67787d3715721c/EF.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/UpdateUserName.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Repositories/ICrudRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameQuery.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -205,6 +218,12 @@
       <workItem from="1742564524511" duration="3555000" />
       <workItem from="1742568214964" duration="61000" />
       <workItem from="1742573562986" duration="2077000" />
+      <workItem from="1742833966025" duration="4564000" />
+      <workItem from="1742906846221" duration="3059000" />
+      <workItem from="1742911211971" duration="1437000" />
+      <workItem from="1742920960366" duration="5633000" />
+      <workItem from="1742931662050" duration="2044000" />
+      <workItem from="1742998592677" duration="4704000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />

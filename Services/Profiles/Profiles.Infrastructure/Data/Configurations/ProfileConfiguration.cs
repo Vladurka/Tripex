@@ -13,7 +13,16 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
 
         builder.Property(u => u.Id)
             .HasConversion(id => id.Value, value => ProfileId.Of(value))
-            .ValueGeneratedNever();
+            .HasColumnName("Id")
+            .ValueGeneratedNever()
+            .IsRequired();
+        
+        builder.Property(u => u.ProfileName)
+            .HasConversion(name => name.Value, value => ProfileName.Of(value))
+            .HasColumnName("ProfileName")
+            .ValueGeneratedNever()
+            .IsRequired()
+            .HasMaxLength(50);
 
         builder.Property(u => u.AvatarUrl)
             .IsRequired()
@@ -21,12 +30,11 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
     
         builder.Property(u => u.Description)
             .HasMaxLength(500);
-
-        builder.OwnsOne(u => u.UserName, username =>
-        {
-            username.Property(u => u.Value)
-                .IsRequired()
-                .HasMaxLength(100);
-        });
+        
+        builder.Property(u => u.FirstName)
+            .HasMaxLength(50);
+        
+        builder.Property(u => u.LastName)
+            .HasMaxLength(50);
     }
 }

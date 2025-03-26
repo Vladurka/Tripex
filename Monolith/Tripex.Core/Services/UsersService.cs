@@ -68,7 +68,6 @@ namespace Tripex.Core.Services
             var id = tokenService.GetUserIdByToken();
 
             var users = await crudRepo.GetQueryable<User>()
-                .AsNoTracking()
                 .Where(x => EF.Functions.ILike(x.UserName, $"%{userName}%"))
                 .Include(u => u.Followers)
                 .OrderBy(x => x.Followers.Any(f => f.Id == id))
@@ -76,7 +75,6 @@ namespace Tripex.Core.Services
                 .ThenByDescending(x => x.FollowersCount)
                 .AsNoTracking()
                 .ToListAsync();
-
             var tasks = users.Select(user => user.UpdateAvatarUrlIfNeededAsync(s3FileService, crudRepo));
             await Task.WhenAll(tasks);
 

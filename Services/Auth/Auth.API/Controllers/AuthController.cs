@@ -18,8 +18,8 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
             return BadRequest(errors);
         }
 
-        var tokens = await userService.RegisterAsync(dto); 
-        return Ok(new { RefreshToken = tokens.RefreshToken }); 
+        var response = await userService.RegisterAsync(dto); 
+        return Ok(new { RefreshToken = response.Token.RefreshToken, Id = response.Id }); 
     }
 
     [HttpPost("login")]

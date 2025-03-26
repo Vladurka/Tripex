@@ -1,3 +1,4 @@
+using System.Reflection;
 using Auth.API;
 using Auth.API.Data;
 using Auth.API.Exceptions;
@@ -19,7 +20,7 @@ builder.Services.AddDbContext<AuthContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("PostgresConnection"));
 });
 
-builder.Services.AddMessageBroker(builder.Configuration);
+builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();

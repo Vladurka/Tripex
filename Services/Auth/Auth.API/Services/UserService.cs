@@ -30,7 +30,7 @@ public class UserService(IPasswordHasher passwordHasher, ITokenService tokenServ
         return tokens;
     }
 
-    public async Task<TokenModel> RegisterAsync(RegisterDto dto)
+    public async Task<RegisterResponse> RegisterAsync(RegisterDto dto)
     {
         await using var transaction = await repo.BeginTransactionAsync();
         try
@@ -66,7 +66,7 @@ public class UserService(IPasswordHasher passwordHasher, ITokenService tokenServ
 
             await transaction.CommitAsync();
 
-            return tokens; 
+            return new RegisterResponse(tokens, user.Id); 
         }
         catch (Exception)
         {

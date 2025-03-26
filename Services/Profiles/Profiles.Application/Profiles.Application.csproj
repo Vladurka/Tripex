@@ -13,10 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Profiles\Commands\DeleteProfile\" />
-      <Folder Include="Profiles\Commands\UpdateProfile\" />
-      <Folder Include="Profiles\Queries\GetProfileById\" />
-      <Folder Include="Profiles\Queries\GetProfiles\" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
     </ItemGroup>
 
 </Project>

@@ -1,8 +1,9 @@
+using Microsoft.Extensions.Logging;
 using Profiles.Application.Profiles.Commands.CreateProfile;
 
 namespace Profiles.Application.Profiles.EventHandlers.Rabbit;
 
-public class ProfileCreatedEventHandler(ISender sender) : IConsumer<CreateProfileEvent>
+public class CreatedProfileEventHandler(ISender sender): IConsumer<CreateProfileEvent>
 {
     public async Task Consume(ConsumeContext<CreateProfileEvent> context)
     {
