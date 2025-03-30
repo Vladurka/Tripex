@@ -1,42 +1,59 @@
 using BuildingBlocks.Exceptions;
-using Mapster;
 using Profiles.Application.Profiles.Queries;
 
 namespace Profiles.Application.Profiles.Commands.UpdateProfile;
 
 public class UpdateProfileHandler(
-    IProfilesRepository repo,
-    IPublishEndpoint publishEndpoint) : ICommandHandler<UpdateProfileCommand, GetProfileResult>
+    IProfilesRepository repo, IOutboxRepository outboxRepo) 
+    : ICommandHandler<UpdateProfileCommand, GetProfileResult>
 {
     public async Task<GetProfileResult> Handle(UpdateProfileCommand command, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetByIdAsync(command.UserId, false);
-        
-        if (profile == null)
-            throw new NotFoundException("Profile", command.UserId);
-        
-        if (!string.IsNullOrWhiteSpace(command.ProfileName) && profile.ProfileName.Value != command.ProfileName)
+        await using var transaction = await repo.BeginTransactionAsync();
+        try
         {
-            if (await repo.ProfileNameExistsAsync(command.ProfileName))
-                throw new ExistsException(command.ProfileName);
+            var profile = await repo.GetByIdAsync(command.UserId, false);
 
-            profile.UpdateUserName(ProfileName.Of(command.ProfileName));
+            if (profile == null)
+                throw new NotFoundException("Profile", command.UserId);
 
-            var message = command.Adapt<UpdateUserNameEvent>();
-            await publishEndpoint.Publish(message, cancellationToken);
+            profile.Update(command.AvatarUrl, command.FirstName, 
+                command.LastName, command.Description);
+            
+            await repo.SaveChangesAsync(false);
+
+            if (!string.IsNullOrWhiteSpace(command.ProfileName) && profile.ProfileName.Value != command.ProfileName)
+            {
+                if (await repo.ProfileNameExistsAsync(command.ProfileName))
+                    throw new ExistsException(command.ProfileName);
+
+                profile.UpdateUserName(ProfileName.Of(command.ProfileName));
+                await repo.SaveChangesAsync();
+
+                var eventMessage = command.Adapt<UpdateUserNameEvent>();
+
+                var outboxMessage = new OutboxMessage(typeof(UpdateUserNameEvent).AssemblyQualifiedName!,
+                    JsonSerializer.Serialize(eventMessage));
+
+                await outboxRepo.AddOutboxMessageAsync(outboxMessage);
+            }
+
+            await transaction.CommitAsync(cancellationToken);
+
+            return new GetProfileResult(
+                profile.Id.Value,
+                profile.ProfileName.Value,
+                profile.AvatarUrl,
+                profile.FirstName,
+                profile.LastName,
+                profile.Description
+            );
         }
         
-        profile.Update(command.AvatarUrl, command.FirstName, command.LastName, command.Description);
-
-        await repo.UpdateAsync(profile);
-
-        return new GetProfileResult(
-            profile.Id.Value,
-            profile.ProfileName.Value,
-            profile.AvatarUrl,
-            profile.FirstName,
-            profile.LastName,
-            profile.Description
-        );
+        catch (Exception)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
 }

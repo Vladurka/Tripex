@@ -28,6 +28,8 @@ builder.Services.AddScoped<ICookiesService, CookiesService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUsersRepository, UserRepository>();
 
+builder.Services.AddOutboxPattern<AuthContext>();
+
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

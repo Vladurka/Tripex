@@ -1,15 +1,16 @@
-using Auth.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auth.API.Data;
 
-public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(options)
+public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(options), IOutboxContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<User>(entity =>
+        builder.Entity<User>(entity =>
         {
             entity.HasKey(u => u.Id);
 
@@ -29,6 +30,7 @@ public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(opti
                 .IsRequired()
                 .HasMaxLength(255);
         });
+        
+        builder.ApplyConfigurationsFromAssembly(typeof(OutboxMessageConfiguration).Assembly);
     }
-
 }

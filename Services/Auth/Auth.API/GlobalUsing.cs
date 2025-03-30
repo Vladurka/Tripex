@@ -12,3 +12,5 @@ global using Auth.API.Entities;
 global using BuildingBlocks.Exceptions;
 global using BuildingBlocks.Messaging.Events.Profiles;
 global using MassTransit;
+global using Auth.API.Data.Interfaces;
+global using BuildingBlocks.Messaging.Outbox;

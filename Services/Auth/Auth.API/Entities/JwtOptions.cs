@@ -1,4 +1,4 @@
-﻿namespace Auth.API
+﻿namespace Auth.API.Entities
 {
     public class JwtOptions
     {

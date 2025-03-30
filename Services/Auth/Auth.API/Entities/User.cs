@@ -10,11 +10,12 @@ public class User : BaseEntity
     public string RefreshToken { get; set; } = string.Empty;
     public DateTime RefreshTokenExpiry { get; set; }
     
-    public User() { }
     public User(string userName, string email, string passwordHash)
     {
         UserName = userName;
         Email = email;
         PasswordHash = passwordHash;
     }
+    
+    protected User() { }
 }
