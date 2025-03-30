@@ -28,14 +28,16 @@ public class Profile : Entity<ProfileId>
         };
     }
     
-    public void Update(string? avatarUrl, string? firstName, string? lastName, string? description)
+    public void Update(string? firstName, string? lastName, string? description)
     {
-        AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? AvatarUrl : avatarUrl;
-        FirstName = string.IsNullOrWhiteSpace(firstName) ? FirstName : firstName;
-        LastName = string.IsNullOrWhiteSpace(lastName) ? LastName : lastName;
-        Description = string.IsNullOrWhiteSpace(description) ? Description : description;
+        FirstName = string.IsNullOrWhiteSpace(firstName) ? string.Empty : firstName;
+        LastName = string.IsNullOrWhiteSpace(lastName) ? string.Empty : lastName;
+        Description = string.IsNullOrWhiteSpace(description) ? string.Empty : description;
     }
 
-    public void UpdateUserName(ProfileName newProfileName) =>
+    public void UpdateProfileName(ProfileName newProfileName) =>
         ProfileName = newProfileName;
+    
+    public void UpdateAvatar(string avatarUrl) =>
+        AvatarUrl = avatarUrl;
 }

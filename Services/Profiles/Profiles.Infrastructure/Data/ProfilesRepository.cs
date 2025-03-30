@@ -17,7 +17,7 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     public IQueryable<Profile> GetQueryable() =>
         context.Profiles.AsQueryable();
 
-    public async Task<Profile?> GetByIdAsync(Guid id, bool asNoTracking = false)
+    public async Task<Profile?> GetByIdAsync(Guid id, bool asNoTracking = true)
     {
         IQueryable<Profile> query = context.Profiles;
 
