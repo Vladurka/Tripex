@@ -17,18 +17,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Interfaces/IOutboxRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/OutboxRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Entities/OutboxMessage.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/OutboxPublisherService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/Extensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/IOutboxContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/IOutboxRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/OutboxMessageConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/OutboxRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/AuthContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/AuthContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Migrations/AuthContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Migrations/AuthContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Interfaces/IOutboxRepository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Interfaces/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Interfaces/IUserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/OutboxRepository.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Entities/OutboxMessage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/OutboxMessage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Entities/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Entities/User.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/JwtOptions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Entities/JwtOptions.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IUserRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Interfaces/IUserRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/OutboxPublisherService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/OutboxPublisherService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/GlobalUsing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,6 +225,8 @@
       <workItem from="1742931662050" duration="2044000" />
       <workItem from="1742998592677" duration="4704000" />
       <workItem from="1743016319466" duration="3870000" />
+      <workItem from="1743245886171" duration="486000" />
+      <workItem from="1743255380187" duration="7585000" />
     </task>
     <option name="localTasksCounter" value="2" />
     <servers />

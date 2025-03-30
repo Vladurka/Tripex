@@ -27,9 +27,8 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ICookiesService, CookiesService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUsersRepository, UserRepository>();
-builder.Services.AddScoped<IOutboxRepository, OutboxRepository>();
 
-builder.Services.AddHostedService<OutboxPublisherService>();
+builder.Services.AddOutboxPattern<AuthContext>();
 
 builder.Services.AddAuthentication(options =>
     {

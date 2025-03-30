@@ -1,4 +1,3 @@
-using Auth.API.Entities;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Auth.API.Data.Interfaces;

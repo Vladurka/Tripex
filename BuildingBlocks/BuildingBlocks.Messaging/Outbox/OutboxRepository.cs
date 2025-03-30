@@ -1,6 +1,8 @@
-namespace Auth.API.Data;
+using Microsoft.EntityFrameworkCore;
 
-public class OutboxRepository(AuthContext context) : IOutboxRepository
+namespace BuildingBlocks.Messaging.Outbox;
+
+public class OutboxRepository<T>(T context) : IOutboxRepository where T : DbContext, IOutboxContext
 {
     public async Task AddOutboxMessageAsync(OutboxMessage message)
     {

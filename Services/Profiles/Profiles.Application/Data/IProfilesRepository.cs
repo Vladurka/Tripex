@@ -1,4 +1,5 @@
 namespace Profiles.Application.Data;
+using Microsoft.EntityFrameworkCore.Storage;
 
 public interface IProfilesRepository
 {
@@ -6,6 +7,7 @@ public interface IProfilesRepository
     public IQueryable<Profile> GetQueryable();
     public Task<Profile?> GetByIdAsync(Guid id, bool asNoTracking);
     public Task<bool> ProfileNameExistsAsync(string userName);
-    public Task UpdateAsync(Profile entity);
     public Task RemoveAsync(Guid id);
+    public Task<IDbContextTransaction> BeginTransactionAsync();
+    public Task SaveChangesAsync(bool shouldUpdate = true);
 }

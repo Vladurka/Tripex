@@ -1,4 +1,6 @@
-namespace Auth.API.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace BuildingBlocks.Messaging.Outbox;
 
 public interface IOutboxRepository
 {

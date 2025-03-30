@@ -1,5 +1,7 @@
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Messaging.Outbox;
 using Carter;
+using Profiles.Infrastructure.Data;
 
 namespace Profiles.API;
 
@@ -10,6 +12,7 @@ public static class DependencyInjection
         services.AddCarter();
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddHealthChecks();
+        services.AddOutboxPattern<ProfilesContext>();
             
         return services;
     }

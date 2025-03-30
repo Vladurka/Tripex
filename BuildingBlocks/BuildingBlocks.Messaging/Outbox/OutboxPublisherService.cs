@@ -1,17 +1,19 @@
 using System.Text.Json;
-using Auth.API.Data;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace Auth.API.Services;
+namespace BuildingBlocks.Messaging.Outbox;
 
-public class OutboxPublisherService(IServiceScopeFactory scopeFactory) : BackgroundService
+public class OutboxPublisherService<T>(IServiceScopeFactory scopeFactory) : BackgroundService where T : DbContext, IOutboxContext
 {
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
         while (!cancellationToken.IsCancellationRequested)
         {
             using var scope = scopeFactory.CreateScope();
-            var db = scope.ServiceProvider.GetRequiredService<AuthContext>();
+            var db = scope.ServiceProvider.GetRequiredService<T>();
             
             var publishEndpoint = scope.ServiceProvider.GetRequiredService<IPublishEndpoint>();
 

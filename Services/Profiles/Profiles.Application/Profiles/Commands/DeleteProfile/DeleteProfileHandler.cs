@@ -1,20 +1,31 @@
-using Mapster;
-using Microsoft.Extensions.Logging;
-
 namespace Profiles.Application.Profiles.Commands.DeleteProfile;
 
 public class DeleteProfileHandler(IProfilesRepository repo, 
-    IPublishEndpoint publishEndpoint, ILogger<DeleteProfileHandler> logger) : ICommandHandler<DeleteProfileCommand, DeleteProfileResult>
+    IPublishEndpoint publishEndpoint, IOutboxRepository outboxRepo) 
+    : ICommandHandler<DeleteProfileCommand, DeleteProfileResult>
 {
     public async Task<DeleteProfileResult> Handle(DeleteProfileCommand command, CancellationToken cancellationToken)
     {
-        var eventMessage = command.Adapt<DeleteUserEvent>();
-        
-        await publishEndpoint.Publish(eventMessage, cancellationToken);
-        logger.LogInformation("DeleteUserEvent was sent with id " + eventMessage.UserId);
-        
-        await repo.RemoveAsync(command.UserId);
+        await using var transaction = await repo.BeginTransactionAsync();
+        try
+        {
+            await repo.RemoveAsync(command.UserId);
 
-        return new DeleteProfileResult(true);
+            var eventMessage = command.Adapt<DeleteUserEvent>();
+            
+            var outboxMessage = new OutboxMessage(typeof(DeleteUserEvent).AssemblyQualifiedName!,
+                JsonSerializer.Serialize(eventMessage));
+            
+            await outboxRepo.AddOutboxMessageAsync(outboxMessage);
+            
+            await transaction.CommitAsync(cancellationToken);
+
+            return new DeleteProfileResult(true);
+        }
+        catch (Exception)
+        {
+            await transaction.RollbackAsync(cancellationToken);
+            throw;
+        }
     }
 }

@@ -1,5 +1,6 @@
 using BuildingBlocks.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Profiles.Application.Data;
 using Profiles.Domain.ValueObjects;
 
@@ -28,21 +29,6 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     public async Task<bool> ProfileNameExistsAsync(string userName) =>
         await context.Profiles.AnyAsync(x => x.ProfileName == ProfileName.Of(userName));
 
-    public async Task UpdateAsync(Profile entity)
-    {
-        var existingProfile = await GetByIdAsync(entity.Id.Value);
-        
-        if (existingProfile == null)
-            throw new NotFoundException(entity, entity.Id);
-
-        existingProfile.Update(entity.AvatarUrl, entity.FirstName, entity.LastName, entity.Description);
-    
-        if (existingProfile.ProfileName != entity.ProfileName)
-            existingProfile.UpdateUserName(entity.ProfileName);
-
-        await SaveChangesAsync();
-    }
-
     public async Task RemoveAsync(Guid id)
     {
         var profile = await GetByIdAsync(id);
@@ -53,10 +39,13 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
         context.Profiles.Remove(profile);
         await SaveChangesAsync();
     }
+    
+    public async Task<IDbContextTransaction> BeginTransactionAsync() =>
+        await context.Database.BeginTransactionAsync();
 
-    private async Task SaveChangesAsync()
+    public async Task SaveChangesAsync(bool shouldUpdate = true)
     {
-        if (await context.SaveChangesAsync() <= 0)
+        if (shouldUpdate && await context.SaveChangesAsync() <= 0)
             throw new InvalidOperationException("Could not save changes");
     }
 }

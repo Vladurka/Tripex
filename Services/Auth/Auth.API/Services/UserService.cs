@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Auth.API.Data;
 using Mapster;
 
 namespace Auth.API.Services;
@@ -52,14 +53,9 @@ public class UserService(IPasswordHasher passwordHasher, ITokenService tokenServ
 
             var eventMessage = dto.Adapt<CreateProfileEvent>();
             eventMessage.UserId = user.Id;
-            
-            var outboxMessage = new OutboxMessage
-            {
-                Type = typeof(CreateProfileEvent).AssemblyQualifiedName!,
-                Payload = JsonSerializer.Serialize(eventMessage),
-                CreatedAt = DateTime.UtcNow,
-                IsPublished = false
-            };
+
+            var outboxMessage = new OutboxMessage(typeof(CreateProfileEvent).AssemblyQualifiedName!,
+                JsonSerializer.Serialize(eventMessage));
             
             await outboxRepo.AddOutboxMessageAsync(outboxMessage);
 

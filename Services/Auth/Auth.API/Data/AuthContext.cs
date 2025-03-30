@@ -1,17 +1,16 @@
-using Auth.API.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auth.API.Data;
 
-public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(options)
+public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(options), IOutboxContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        modelBuilder.Entity<User>(entity =>
+        builder.Entity<User>(entity =>
         {
             entity.HasKey(u => u.Id);
 
@@ -32,13 +31,6 @@ public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(opti
                 .HasMaxLength(255);
         });
         
-        modelBuilder.Entity<OutboxMessage>(entity =>
-        {
-            entity.HasKey(x => x.Id);
-            entity.Property(x => x.Type).IsRequired();
-            entity.Property(x => x.Payload).IsRequired();
-            entity.Property(x => x.IsPublished).HasDefaultValue(false);
-            entity.Property(x => x.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-        });
+        builder.ApplyConfigurationsFromAssembly(typeof(OutboxMessageConfiguration).Assembly);
     }
 }
