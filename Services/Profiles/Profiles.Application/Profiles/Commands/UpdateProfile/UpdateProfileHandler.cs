@@ -12,12 +12,10 @@ public class UpdateProfileHandler(
         await using var transaction = await repo.BeginTransactionAsync();
         try
         {
-            var profile = await repo.GetByIdAsync(command.UserId, false);
-
-            if (profile == null)
+            var profile = await repo.GetByIdAsync(command.UserId, false) ??
                 throw new NotFoundException("Profile", command.UserId);
 
-            profile.Update(command.AvatarUrl, command.FirstName, 
+            profile.Update(command.FirstName, 
                 command.LastName, command.Description);
             
             await repo.SaveChangesAsync(false);
@@ -27,7 +25,7 @@ public class UpdateProfileHandler(
                 if (await repo.ProfileNameExistsAsync(command.ProfileName))
                     throw new ExistsException(command.ProfileName);
 
-                profile.UpdateUserName(ProfileName.Of(command.ProfileName));
+                profile.UpdateProfileName(ProfileName.Of(command.ProfileName));
                 await repo.SaveChangesAsync();
 
                 var eventMessage = command.Adapt<UpdateUserNameEvent>();
