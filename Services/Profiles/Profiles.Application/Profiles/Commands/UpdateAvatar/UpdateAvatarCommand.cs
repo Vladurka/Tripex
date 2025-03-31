@@ -2,13 +2,14 @@ using Microsoft.AspNetCore.Http;
 
 namespace Profiles.Application.Profiles.Commands.UpdateAvatar;
 
-public record UpdateAvatarCommand(Guid UserId, IFormFile Avatar) : ICommand<UpdateAvatarResult>;
-public record UpdateAvatarResult(bool Succeed);
+public class UpdateAvatarCommand : ICommand<UpdateAvatarResult>
+{
+    public Guid UserId { get; set; }
+    public IFormFile? Avatar { get; set; }
+}
+public record UpdateAvatarResult(string AvatarUrl);
 public class UpdateAvatarCommandValidator : AbstractValidator<UpdateAvatarCommand>
 {
-    public UpdateAvatarCommandValidator()
-    {
+    public UpdateAvatarCommandValidator() =>
         RuleFor(x => x.UserId).NotEmpty();
-        RuleFor(x => x.Avatar).NotEmpty();
-    }
 }

@@ -10,12 +10,25 @@ public class UpdateAvatarHandler(IProfilesRepository repo,
     {
         var profile = await repo.GetByIdAsync(command.UserId, false) ??
                       throw new NotFoundException("Profile", command.UserId);
-        
-        var fileName = command.Avatar.FileName;
 
-        var blobClient = containerClient.GetBlobClient(fileName);
+        var blobClient = containerClient.GetBlobClient(command.UserId.ToString());
+    
+        if (command.Avatar == null)
+        {
+            await blobClient.DeleteIfExistsAsync(cancellationToken: cancellationToken);
+            profile.UpdateAvatar(Profile.DEFAULT_AVATAR);
+            await repo.SaveChangesAsync();
+            return new UpdateAvatarResult(profile.AvatarUrl);
+        }
+
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extension = Path.GetExtension(command.Avatar.FileName).ToLowerInvariant();
+
+        if (!allowedExtensions.Contains(extension))
+            throw new InvalidOperationException("Unsupported file type.");
 
         await using var stream = command.Avatar.OpenReadStream();
+        await blobClient.DeleteIfExistsAsync(cancellationToken: cancellationToken);
         await blobClient.UploadAsync(stream, new Azure.Storage.Blobs.Models.BlobUploadOptions
         {
             HttpHeaders = new Azure.Storage.Blobs.Models.BlobHttpHeaders
@@ -23,10 +36,10 @@ public class UpdateAvatarHandler(IProfilesRepository repo,
                 ContentType = command.Avatar.ContentType
             }
         }, cancellationToken);
-
+    
         profile.UpdateAvatar(blobClient.Uri.ToString());
         await repo.SaveChangesAsync();
 
-        return new UpdateAvatarResult(true);
+        return new UpdateAvatarResult(profile.AvatarUrl);
     }
 }
