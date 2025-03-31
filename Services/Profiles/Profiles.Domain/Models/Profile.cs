@@ -4,8 +4,7 @@ using Profiles.Domain.ValueObjects;
 namespace Profiles.Domain.Models;
 public class Profile : Entity<ProfileId>
 {
-    private const string DEFAULT_AVATAR = "https://shorturl.at/xyHKo";
-    
+    public const string DEFAULT_AVATAR = "https://shorturl.at/xyHKo";
     public string AvatarUrl { get; private set; } = DEFAULT_AVATAR;
     public ProfileName ProfileName { get; private set; }
     public string? FirstName { get; private set; }
