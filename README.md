@@ -50,7 +50,7 @@ Each microservice is independently deployable and maintains its own data and bou
 
 ### 👤 Profile Service
 - **Handles**: User profile management (bio, avatar, etc.)
-- **Storage**: PostgreSQL
+- **Storage**: PostgreSQL + Azure Blob Storage(for avatars)
 - **Interface**: REST API
 - **Notes**: Subscribes to Auth events for user onboarding
 
