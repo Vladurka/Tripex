@@ -1,8 +1,8 @@
 using BuildingBlocks.Exceptions.Handler;
 using BuildingBlocks.Messaging.Outbox;
-using Profiles.Infrastructure.Data;
+using Posts.Infrastructure.Data;
 
-namespace Profiles.API;
+namespace Posts.API;
 
 public static class DependencyInjection
 {
@@ -11,7 +11,7 @@ public static class DependencyInjection
         services.AddCarter();
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddHealthChecks();
-        services.AddOutboxPattern<ProfilesContext>();
+        services.AddOutboxPattern<PostsContext>();
             
         return services;
     }
