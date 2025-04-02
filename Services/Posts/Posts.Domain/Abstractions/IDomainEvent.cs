@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Profiles.Domain.Abstractions;
+namespace Posts.Domain.Abstractions;
 
 public interface IDomainEvent : INotification
 {

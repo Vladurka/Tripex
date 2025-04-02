@@ -30,19 +30,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostsContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/GlobalUsing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/Aggregate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/Entity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/IAggregate.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/IDomainEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/IEntity.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/Post.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/ValueObjects/ContentUrl.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/ValueObjects/PostId.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/ValueObjects/ProfileId.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tripex.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tripex.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/GlobalUsing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Posts.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Posts.Domain.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IDomainEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IDomainEvent.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -69,12 +69,12 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0308d995074f4663b87ab86169c72b7d22908/10/1dfc677d/IOptions`1.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/225dd19ef9e59a5b94de2bcd4b7b38cdca205bdfea4a7361ed03c5f79a36/INotification.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d636182b963223f01c9a85951fd78e83e8e3ae45319513b55b67787d3715721c/EF.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Repositories/ICrudRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameQuery.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -94,30 +94,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Auth.API: http.executor": "Run",
-    ".NET Launch Settings Profile.Auth.API: https.executor": "Run",
-    ".NET Launch Settings Profile.Profiles.API: http.executor": "Run",
-    ".NET Launch Settings Profile.Tripex: http.executor": "Run",
-    "Docker.Services: Compose Deployment.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "deletionFromPopupRequiresConfirmation": "false",
-    "git-widget-placeholder": "Backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Auth.API: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.Auth.API: https.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.Profiles.API: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.Tripex: http.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Services: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Backend&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
-      "C#"
+  &quot;keyToStringList&quot;: {
+    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
+      &quot;C#&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Profiles.API: http">
     <configuration name="Posts.API" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -484,7 +484,10 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="docker-deploy" factoryName="dockerfile" temporary="true">
-      <deployment type="dockerfile" />
+      <deployment type="dockerfile">
+        <settings />
+      </deployment>
+      <EXTENSION ID="com.jetbrains.rider.docker.debug" isFastModeEnabled="true" isSslEnabled="false" />
       <method v="2" />
     </configuration>
     <recent_temporary>
@@ -546,6 +549,7 @@
       <workItem from="1743357465121" duration="2906000" />
       <workItem from="1743436223878" duration="4320000" />
       <workItem from="1743520288004" duration="2333000" />
+      <workItem from="1743596368094" duration="1664000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />
