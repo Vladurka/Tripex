@@ -9,3 +9,4 @@ global using Profiles.Domain.ValueObjects;
 global using BuildingBlocks.Messaging.Outbox;
 global using System.Text.Json;
 global using Mapster;
+global using BuildingBlocks.AzureBlob;

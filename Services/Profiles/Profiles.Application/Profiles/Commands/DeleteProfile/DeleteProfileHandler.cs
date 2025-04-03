@@ -1,7 +1,7 @@
 namespace Profiles.Application.Profiles.Commands.DeleteProfile;
 
 public class DeleteProfileHandler(IProfilesRepository repo, 
-    IPublishEndpoint publishEndpoint, IOutboxRepository outboxRepo) 
+    IBlobStorageService blobStorage, IOutboxRepository outboxRepo) 
     : ICommandHandler<DeleteProfileCommand, DeleteProfileResult>
 {
     public async Task<DeleteProfileResult> Handle(DeleteProfileCommand command, CancellationToken cancellationToken)
@@ -10,6 +10,8 @@ public class DeleteProfileHandler(IProfilesRepository repo,
         try
         {
             await repo.RemoveAsync(command.UserId);
+            
+            await blobStorage.DeletePhotoAsync(command.UserId, cancellationToken);
 
             var eventMessage = command.Adapt<DeleteUserEvent>();
             
