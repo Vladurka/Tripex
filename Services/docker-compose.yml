@@ -10,6 +10,7 @@ services:
       POSTGRES_DB: auth
     volumes:
       - auth_data:/var/lib/postgresql/data
+    restart: on-failure
   
   profilesdb:
     image: postgres:latest
@@ -22,18 +23,39 @@ services:
       POSTGRES_DB: profiles
     volumes:
       - profiles_data:/var/lib/postgresql/data
-        
+    restart: on-failure
+  
   postsdb:
-    image: postgres:latest
+    image: cassandra:4.1
     container_name: postsdb
+    ports:
+      - "9043:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=DevCluster
+      - CASSANDRA_DC=dc1
+      - CASSANDRA_RACK=rack1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+    volumes:
+      - posts_data:/var/lib/cassandra
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD-SHELL", "cqlsh localhost 9042 -e 'DESCRIBE KEYSPACES'" ]
+      interval: 20s
+      timeout: 10s
+      retries: 10
+      
+  postscountdb:
+    image: postgres:latest
+    container_name: postscountdb
     ports:
       - "5435:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: posts
+      POSTGRES_DB: posts_count
     volumes:
-      - posts_data:/var/lib/postgresql/data
+      - postscount_data:/var/lib/postgresql/data
+    restart: on-failure
   
   rabbitmq:
     image: rabbitmq:management
@@ -50,3 +72,4 @@ volumes:
   auth_data:
   profiles_data:
   posts_data:
+  postscount_data:

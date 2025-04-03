@@ -1,4 +1,5 @@
 namespace Posts.Domain.Models;
+
 public class Post : Entity<PostId>
 {
     public ProfileId ProfileId { get; private set; }

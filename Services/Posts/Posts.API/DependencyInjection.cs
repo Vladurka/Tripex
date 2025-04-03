@@ -11,7 +11,6 @@ public static class DependencyInjection
         services.AddCarter();
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddHealthChecks();
-        services.AddOutboxPattern<PostsContext>();
             
         return services;
     }

@@ -30,19 +30,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/Aggregate.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/Entity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/IAggregate.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/IDomainEvent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Abstractions/IEntity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/Post.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/ValueObjects/ContentUrl.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/ValueObjects/PostId.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/ValueObjects/ProfileId.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/Configurations/AuthConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostCountContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostDb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostMapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/PostsCount.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Configurations/PostCountConfiguration.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/CassandraSession.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostCountContext.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/GlobalUsing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Posts.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Posts.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IDomainEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Abstractions/IDomainEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/AuthContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Data/AuthContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/GlobalUsing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/Post.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/Post.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostsContext.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Posts.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Posts.Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Configurations/ProfileConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Configurations/ProfileConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +83,7 @@
     <setting file="file://$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Repositories/ICrudRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/PostsCount.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameQuery.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -118,7 +127,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Profiles.API: http">
+  <component name="RunManager" selected="Docker.Services: Compose Deployment">
     <configuration name="Posts.API" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -492,8 +501,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue=".NET Launch Settings Profile.Profiles.API: http" />
         <item itemvalue="Docker.Services: Compose Deployment" />
+        <item itemvalue=".NET Launch Settings Profile.Profiles.API: http" />
       </list>
     </recent_temporary>
   </component>
@@ -550,6 +559,8 @@
       <workItem from="1743436223878" duration="4320000" />
       <workItem from="1743520288004" duration="2333000" />
       <workItem from="1743596368094" duration="1664000" />
+      <workItem from="1743673871482" duration="1539000" />
+      <workItem from="1743675469942" duration="3850000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />
