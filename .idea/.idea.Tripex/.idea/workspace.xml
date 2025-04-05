@@ -30,29 +30,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/Auth/Extensions.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/Auth/IJwtHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/Auth/JwtHelper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/GlobalUsing.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/MassTransit/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/MassTransit/Extensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/Extensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/Endpoints/CreatePost.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/Endpoints/CreatePost.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/Endpoints/DeletePost.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/Endpoints/DeletePost.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/GlobalUsing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/DependencyInjection.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/DeleteProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/DeleteProfile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/UpdateAvatar.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/UpdateAvatar.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/UpdateProfile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/UpdateProfile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/GlobalUsing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +117,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Posts.API: http (1)">
+  <component name="RunManager" selected=".NET Launch Settings Profile.Profiles.API: http">
     <configuration name="Posts.API" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -496,8 +482,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue=".NET Launch Settings Profile.Posts.API: http (1)" />
         <item itemvalue=".NET Launch Settings Profile.Profiles.API: http" />
+        <item itemvalue=".NET Launch Settings Profile.Posts.API: http (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -560,7 +546,7 @@
       <workItem from="1743694880069" duration="1159000" />
       <workItem from="1743840057999" duration="1232000" />
       <workItem from="1743844441750" duration="6288000" />
-      <workItem from="1743864113437" duration="3510000" />
+      <workItem from="1743864113437" duration="6552000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />

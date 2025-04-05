@@ -12,8 +12,8 @@ public class UpdateProfileHandler(
         await using var transaction = await repo.BeginTransactionAsync();
         try
         {
-            var profile = await repo.GetByIdAsync(command.UserId, false) ??
-                throw new NotFoundException("Profile", command.UserId);
+            var profile = await repo.GetByIdAsync(command.ProfileId, false) ??
+                throw new NotFoundException("Profile", command.ProfileId);
 
             profile.Update(command.FirstName, 
                 command.LastName, command.Description);
