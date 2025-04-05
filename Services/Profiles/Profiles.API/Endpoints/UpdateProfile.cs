@@ -12,6 +12,7 @@ public class UpdateProfile : ICarterModule
             var result = await sender.Send(request);
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .WithName("UpdateProfile")
         .Produces<GetProfileResult>()
         .ProducesProblem(StatusCodes.Status400BadRequest)

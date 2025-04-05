@@ -7,11 +7,17 @@ public class DeletePost : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("api/posts", async ([FromBody] DeletePostCommand command, ISender sender) =>
-        {
-            var result = await sender.Send(command);
+        app.MapDelete("api/posts/{postId:guid}", async (Guid postId, ISender sender, IJwtHelper helper) =>
+        { 
+            var result = await sender.Send(
+                new DeletePostCommand() 
+                    { 
+                        PostId = postId, 
+                        ProfileId = helper.GetUserIdByToken()
+                    });
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .DisableAntiforgery()
         .WithName("DeletePost")
         .Produces<DeletePostResult>()

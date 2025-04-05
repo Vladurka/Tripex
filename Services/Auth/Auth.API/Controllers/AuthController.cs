@@ -34,21 +34,21 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
         }
 
         var tokens = await userService.LoginAsync(dto);
-        return Ok(tokens.RefreshToken); 
+        return Ok("Refresh token: " + tokens.RefreshToken); 
     }
 
     [HttpPost("refresh/{refreshToken}")]
     public async Task<ActionResult> Refresh(string refreshToken)
     {
         var tokens = await userService.RefreshAsync(refreshToken);
-        return Ok(tokens.RefreshToken); 
+        return Ok("Refresh token: " + tokens.RefreshToken); 
     }
-
+    
     [Authorize]
     [HttpPost("logout")]
     public ActionResult Logout()
     {
         cookiesService.DeleteCookie(_jwtOptions.TokenName);
-        return Unauthorized(); 
+        return Unauthorized("You are logged out"); 
     }
 }

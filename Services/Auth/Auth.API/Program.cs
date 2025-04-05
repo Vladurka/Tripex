@@ -2,8 +2,8 @@ using System.Reflection;
 using Auth.API.Data;
 using Auth.API.Exceptions;
 using Auth.API.Services;
+using BuildingBlocks.Auth;
 using BuildingBlocks.Messaging.MassTransit;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 
 builder.Services.AddControllers();
-
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<AuthContext>(opt =>
 {
@@ -29,35 +27,12 @@ builder.Services.AddScoped<IUsersRepository, UserRepository>();
 
 builder.Services.AddOutboxPattern<AuthContext>();
 
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        var jwtOptions = builder.Services.BuildServiceProvider().GetRequiredService<IOptions<JwtOptions>>().Value;
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtOptions.Issuer,
-            ValidAudience = jwtOptions.Audience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey))
-        };
-    });
-
-builder.Services.AddAuthorization();
-
+builder.Services.AddAuth(builder.Configuration);
 var app = builder.Build();
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseAuthentication();
-
-app.UseAuthorization();
+app.UseAuth();
 
 app.MapControllers();
 

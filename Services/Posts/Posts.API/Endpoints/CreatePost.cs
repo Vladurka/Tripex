@@ -7,11 +7,13 @@ public class CreatePost : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/posts", async ([FromForm] CreatePostCommand command, ISender sender) =>
+        app.MapPost("api/posts", async ([FromForm] CreatePostCommand command, ISender sender, IJwtHelper helper) =>
         {
+            command.ProfileId = helper.GetUserIdByToken();
             var result = await sender.Send(command);
             return Results.Created($"api/posts", result);
         })
+        .RequireAuthorization()
         .DisableAntiforgery()
         .WithName("CreatePost")
         .Produces<CreatePostResult>()
