@@ -17,10 +17,9 @@ public class PostRepository : IPostRepository
         _posts = new Table<PostDb>(session);
     }
     
-    public async Task SaveAsync(Post post)
+    public async Task AddAsync(PostDb post)
     {
-        var postDb = PostMapper.ToDb(post);
-        await _posts.Insert(postDb).ExecuteAsync();
+        await _posts.Insert(post).ExecuteAsync();
     }
 
     public async Task<Post?> GetByIdAsync(PostId id)
@@ -36,10 +35,20 @@ public class PostRepository : IPostRepository
     public async Task<IEnumerable<Post>> GetAllByUserAsync(ProfileId id)
     { 
         var result = await _posts
-            .Where(p => p.Id == id.Value)
+            .Where(p => p.ProfileId == id.Value)
             .ExecuteAsync();
 
         return result.Select(PostMapper.ToDomain);
+    }
+    
+    public async Task<IEnumerable<Guid>> GetPostIdsByUserAsync(ProfileId id)
+    { 
+        var result = await _posts
+            .Where(p => p.ProfileId == id.Value)
+            .Select(p => p.Id)
+            .ExecuteAsync();
+
+        return result;
     }
 
     public async Task<IEnumerable<Post>> GetAllAsync()

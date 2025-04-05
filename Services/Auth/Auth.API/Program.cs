@@ -1,5 +1,4 @@
 using System.Reflection;
-using Auth.API;
 using Auth.API.Data;
 using Auth.API.Exceptions;
 using Auth.API.Services;

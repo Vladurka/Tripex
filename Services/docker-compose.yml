@@ -67,6 +67,7 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+    restart: on-failure
 
 volumes:
   auth_data:

@@ -19,7 +19,7 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
         }
 
         var response = await userService.RegisterAsync(dto); 
-        return Ok(new { RefreshToken = response.Token.RefreshToken, Id = response.Id }); 
+        return Created($"api/auth", response); 
     }
 
     [HttpPost("login")]
@@ -34,14 +34,14 @@ public class AuthController(IOptions<JwtOptions> jwtOptions, ICookiesService coo
         }
 
         var tokens = await userService.LoginAsync(dto);
-        return Ok(new { RefreshToken = tokens.RefreshToken }); 
+        return Ok(tokens.RefreshToken); 
     }
 
     [HttpPost("refresh/{refreshToken}")]
     public async Task<ActionResult> Refresh(string refreshToken)
     {
         var tokens = await userService.RefreshAsync(refreshToken);
-        return Ok(new { RefreshToken = tokens.RefreshToken }); 
+        return Ok(tokens.RefreshToken); 
     }
 
     [Authorize]
