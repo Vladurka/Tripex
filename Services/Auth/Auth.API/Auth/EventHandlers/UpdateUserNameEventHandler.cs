@@ -1,4 +1,4 @@
-namespace Auth.API.EventHandlers;
+namespace Auth.API.Auth.EventHandlers;
 
 public class UpdateUserNameEventHandler(IUsersRepository repo) : IConsumer<UpdateUserNameEvent>
 {

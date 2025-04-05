@@ -1,4 +1,4 @@
-namespace Auth.API.EventHandlers;
+namespace Auth.API.Auth.EventHandlers;
 
 public class DeleteUserEventHandler(IUsersRepository repo) : IConsumer<DeleteUserEvent>
 {
