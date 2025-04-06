@@ -18,7 +18,6 @@ public class DeletePost : ICarterModule
             return Results.Ok(result);
         })
         .RequireAuthorization()
-        .DisableAntiforgery()
         .WithName("DeletePost")
         .Produces<DeletePostResult>()
         .ProducesProblem(StatusCodes.Status400BadRequest)

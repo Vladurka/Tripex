@@ -1,7 +1,6 @@
 namespace Auth.API.Endpoints;
 
-
-public class Logout
+public class Logout : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {

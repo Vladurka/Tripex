@@ -1,3 +1,4 @@
+using Posts.Application.Posts.Queries;
 using Posts.Domain.Models;
 using Posts.Domain.ValueObjects;
 
@@ -12,7 +13,8 @@ public static class PostMapper
             Id = post.Id.Value,
             ProfileId = post.ProfileId.Value,
             ContentUrl = post.ContentUrl.Value,
-            Description = post.Description
+            Description = post.Description,
+            CreatedAt = post.CreatedAt
         };
     }
 
@@ -23,6 +25,14 @@ public static class PostMapper
             ProfileId.Of(db.ProfileId),
             ContentUrl.Of(db.ContentUrl),
             db.Description
+        );
+    }
+    
+    public static PostDto ToDto(this Post post)
+    {
+        return new PostDto(
+           post.Id.Value, post.ProfileId.Value, post.ContentUrl.Value,
+           post.Description ,post.CreatedAt
         );
     }
 }

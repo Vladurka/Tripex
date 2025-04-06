@@ -18,8 +18,4 @@
       <ProjectReference Include="..\Posts.Domain\Posts.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Posts\Queries\" />
-    </ItemGroup>
-
 </Project>
