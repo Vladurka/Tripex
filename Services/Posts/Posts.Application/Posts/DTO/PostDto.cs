@@ -1,4 +1,4 @@
-namespace Posts.Application.Posts.Queries;
+namespace Posts.Application.Posts.DTO;
 
 public record PostDto(
     Guid Id, Guid ProfileId, 

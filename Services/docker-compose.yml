@@ -43,19 +43,6 @@ services:
       interval: 20s
       timeout: 10s
       retries: 10
-      
-  postscountdb:
-    image: postgres:latest
-    container_name: postscountdb
-    ports:
-      - "5435:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: posts_count
-    volumes:
-      - postscount_data:/var/lib/postgresql/data
-    restart: on-failure
   
   rabbitmq:
     image: rabbitmq:management
@@ -73,4 +60,3 @@ volumes:
   auth_data:
   profiles_data:
   posts_data:
-  postscount_data:

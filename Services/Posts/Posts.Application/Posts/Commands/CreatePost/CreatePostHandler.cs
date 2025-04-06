@@ -18,7 +18,9 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
             Description = command.Description
         };
         
-        await repo.AddAsync(post);
+        await repo.AddPostAsync(post);
+        
+        await repo.IncrementPostCount(command.ProfileId);
         
         return new CreatePostResult(post.Id);
     }

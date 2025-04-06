@@ -30,30 +30,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/Login.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/Logout.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/RefreshToken.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/Register.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/Endpoints/GetPostCount.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostCountDb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostCountDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostCountMapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostCount/GetPostCountHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostCount/GetPostCountQuery.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/LoginDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/RegisterDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/RegisterResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/DeleteUserEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/EventHandlers/DeleteUserEventHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/UpdateUserNameEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/EventHandlers/UpdateUserNameEventHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Exceptions/ApiErrorResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Exceptions/ExceptionMiddleware.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IUserService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostCountContext.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostById/GetPostByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostById/GetPostByIdHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPosts.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPosts/GetPostsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPosts/GetPostsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/PostsCount.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/PostCount.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Configurations/PostCountConfiguration.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403110714_Initial.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403110714_Initial.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403111105_TableRenema.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403111105_TableRenema.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/PostCountContextModelSnapshot.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostCountContext.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -498,8 +500,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue=".NET Launch Settings Profile.Profiles.API: http" />
         <item itemvalue=".NET Launch Settings Profile.Posts.API: http (1)" />
+        <item itemvalue=".NET Launch Settings Profile.Profiles.API: http" />
       </list>
     </recent_temporary>
   </component>
@@ -564,6 +566,9 @@
       <workItem from="1743844441750" duration="6288000" />
       <workItem from="1743864113437" duration="6631000" />
       <workItem from="1743880461380" duration="3776000" />
+      <workItem from="1743931787070" duration="5241000" />
+      <workItem from="1743944581307" duration="1010000" />
+      <workItem from="1743962764322" duration="3520000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />

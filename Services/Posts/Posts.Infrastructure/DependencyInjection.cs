@@ -12,10 +12,7 @@ public static class DependencyInjection
     {
         var connectionString = config.GetConnectionString("PostgresConnection");
 
-        services.AddDbContext<PostCountContext>(options => { options.UseNpgsql(connectionString); });
-
         services.AddScoped<IPostRepository, PostRepository>();
-        services.AddScoped<IPostCountContext, PostCountContext>();
         
         return services;
     }
