@@ -6,11 +6,12 @@ public class DeleteProfile : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/api/profiles/{id:guid}", async (Guid id, ISender sender) =>
+        app.MapDelete("/api/profiles", async (ISender sender, IJwtHelper helper) =>
             {
-                var result = await sender.Send(new DeleteProfileCommand(id));
+                var result = await sender.Send(new DeleteProfileCommand(helper.GetUserIdByToken()));
                 return Results.Ok(result);
             })
+            .RequireAuthorization()
             .WithName("DeleteProfile")
             .Produces<DeleteProfileResult>()
             .ProducesProblem(StatusCodes.Status400BadRequest)

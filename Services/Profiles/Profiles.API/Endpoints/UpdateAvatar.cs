@@ -7,11 +7,13 @@ public class UpdateAvatar : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/profiles/avatar", async ([FromForm] UpdateAvatarCommand request, ISender sender) =>
+        app.MapPatch("/api/profiles/avatar", async ([FromForm] UpdateAvatarCommand command, ISender sender, IJwtHelper helper) =>
         {
-            var result = await sender.Send(request);
+            command.ProfileId = helper.GetUserIdByToken();
+            var result = await sender.Send(command);
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .DisableAntiforgery() 
         .WithName("UpdateAvatar")
         .Produces<UpdateAvatarResult>()

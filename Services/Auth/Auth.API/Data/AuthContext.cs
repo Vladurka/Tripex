@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 
 namespace Auth.API.Data;
@@ -10,27 +11,7 @@ public class AuthContext(DbContextOptions<AuthContext> options) : DbContext(opti
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<User>(entity =>
-        {
-            entity.HasKey(u => u.Id);
-
-            entity.Property(u => u.UserName)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            entity.Property(u => u.Email)
-                .IsRequired()
-                .HasMaxLength(100);
-
-            entity.Property(u => u.PasswordHash)
-                .IsRequired()
-                .HasMaxLength(255);
-            
-            entity.Property(u => u.RefreshToken)
-                .IsRequired()
-                .HasMaxLength(255);
-        });
-        
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         builder.ApplyConfigurationsFromAssembly(typeof(OutboxMessageConfiguration).Assembly);
     }
 }

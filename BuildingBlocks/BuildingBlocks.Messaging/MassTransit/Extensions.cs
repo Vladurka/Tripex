@@ -1,7 +1,5 @@
 using System.Reflection;
 using MassTransit;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace BuildingBlocks.Messaging.MassTransit;
 

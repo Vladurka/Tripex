@@ -7,11 +7,13 @@ public class UpdateProfile : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/profiles", async (UpdateProfileCommand request, ISender sender) =>
+        app.MapPut("/api/profiles", async (UpdateProfileCommand command, ISender sender, IJwtHelper helper) =>
         {
-            var result = await sender.Send(request);
+            command.ProfileId = helper.GetUserIdByToken();
+            var result = await sender.Send(command);
             return Results.Ok(result);
         })
+        .RequireAuthorization()
         .WithName("UpdateProfile")
         .Produces<GetProfileResult>()
         .ProducesProblem(StatusCodes.Status400BadRequest)

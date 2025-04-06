@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Posts.Application.Data;
 using Posts.Infrastructure.Data;
 
 namespace Posts.Infrastructure;
@@ -11,9 +12,11 @@ public static class DependencyInjection
     {
         var connectionString = config.GetConnectionString("PostgresConnection");
 
-        services.AddDbContext<PostsContext>(options => { options.UseNpgsql(connectionString); });
+        services.AddDbContext<PostCountContext>(options => { options.UseNpgsql(connectionString); });
 
-
+        services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<IPostCountContext, PostCountContext>();
+        
         return services;
     }
 }

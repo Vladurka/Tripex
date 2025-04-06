@@ -1,6 +1,3 @@
-namespace Posts.Domain;
-
-public class GlobalUsing
-{
-    
-}
+global using Posts.Domain.Abstractions;
+global using Posts.Domain.ValueObjects;
+global using BuildingBlocks.Exceptions;

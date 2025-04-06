@@ -17,12 +17,18 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
             .ValueGeneratedNever()
             .IsRequired();
         
+        builder.HasIndex(u => u.Id)
+            .IsUnique();
+        
         builder.Property(u => u.ProfileName)
             .HasConversion(name => name.Value, value => ProfileName.Of(value))
             .HasColumnName("ProfileName")
             .ValueGeneratedNever()
             .IsRequired()
             .HasMaxLength(50);
+        
+        builder.HasIndex(u => u.ProfileName)
+            .IsUnique();
 
         builder.Property(u => u.AvatarUrl)
             .IsRequired()

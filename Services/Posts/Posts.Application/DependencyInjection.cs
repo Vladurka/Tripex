@@ -1,5 +1,6 @@
 using System.Reflection;
 using Azure.Storage.Blobs;
+using BuildingBlocks.AzureBlob;
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.Extensions.Configuration;
@@ -18,13 +19,8 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
-        
-        services.AddScoped<BlobContainerClient>(sp =>
-        {
-            var connectionString = config["AzureBlob:ConnectionString"];
-            var containerName = config["AzureBlob:ContainerName"];
-            return new BlobContainerClient(connectionString, containerName);
-        });
+
+        services.AddBlobStorage(config);
         
         services.AddMessageBroker(config, Assembly.GetExecutingAssembly());
             

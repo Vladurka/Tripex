@@ -2,19 +2,19 @@ using Profiles.Application.Profiles.Queries;
 
 namespace Profiles.Application.Profiles.Commands.UpdateProfile;
 
-public record UpdateProfileCommand(
-    Guid UserId, 
-    string? ProfileName,
-    string? FirstName,
-    string? LastName, 
-    string? Description) : ICommand<GetProfileResult>;
+public record UpdateProfileCommand : ICommand<GetProfileResult>
+{
+    public Guid ProfileId { get; set; }
+    public string? ProfileName { get; init; }
+    public string? FirstName { get; init; }
+    public string? LastName { get; init; }
+    public string? Description { get; init; }
+}
 
 public class UpdateProfileCommandValidator : AbstractValidator<UpdateProfileCommand>
 {
     public UpdateProfileCommandValidator()
     {
-        RuleFor(x => x.UserId).NotEmpty();
-
         RuleFor(x => x.ProfileName)
             .MaximumLength(50)
             .When(x => !string.IsNullOrWhiteSpace(x.ProfileName));
