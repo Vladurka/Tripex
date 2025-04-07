@@ -19,6 +19,8 @@ public class UpdateAvatarHandler(IProfilesRepository repo,
         }
         
         profile.UpdateAvatar(await blobStorage.UploadPhotoAsync(command.Avatar, command.ProfileId, cancellationToken));
+        profile.LastModified = DateTime.UtcNow;
+        await repo.SaveChangesAsync();
 
         return new UpdateAvatarResult(profile.AvatarUrl);
     }

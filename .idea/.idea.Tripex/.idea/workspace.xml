@@ -30,31 +30,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/Endpoints/GetPostCount.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostCountDb.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostCountDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostCountMapper.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostCount/GetPostCountHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostCount/GetPostCountQuery.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Cache/CacheProfileEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DTO/CachedProfileDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DTO/ProfileMapper.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRedisRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheProfile/CacheProfileCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheProfile/CacheProfileHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/CacheProfileEventHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRedisRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostCountContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostById/GetPostByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostById/GetPostByIdHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPosts.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPosts/GetPostsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPosts/GetPostsHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/PostsCount.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/PostCount.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Configurations/PostCountConfiguration.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403110714_Initial.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403110714_Initial.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403111105_TableRenema.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/20250403111105_TableRenema.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/Migrations/PostCountContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostCountContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/IOutboxRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Outbox/IOutboxRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/BlobStorageService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/BlobStorageService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/CreatedProfileEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/CreateProfileEventHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBaseInfo/GetBaseInfoHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBaseInfo/GetBaseInfoHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBaseInfo/GetBaseInfoQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBaseInfo/GetBaseInfoQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Profiles.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Profiles.Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -135,7 +133,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Auth.API: http">
+  <component name="RunManager" selected=".NET Launch Settings Profile.Profiles.API: http">
     <configuration name="Posts.API" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -500,8 +498,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue=".NET Launch Settings Profile.Posts.API: http (1)" />
         <item itemvalue=".NET Launch Settings Profile.Profiles.API: http" />
+        <item itemvalue=".NET Launch Settings Profile.Posts.API: http (1)" />
       </list>
     </recent_temporary>
   </component>
@@ -569,6 +567,7 @@
       <workItem from="1743931787070" duration="5241000" />
       <workItem from="1743944581307" duration="1010000" />
       <workItem from="1743962764322" duration="3520000" />
+      <workItem from="1744040054478" duration="8563000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />

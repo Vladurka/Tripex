@@ -8,7 +8,7 @@ public class BlobStorageService(BlobContainerClient containerClient) : IBlobStor
     public async Task<string> UploadPhotoAsync(IFormFile file, Guid id, CancellationToken cancellationToken )
     {
         var blobClient = containerClient.GetBlobClient(id.ToString());
-        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
         var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
 
         if (!allowedExtensions.Contains(extension))

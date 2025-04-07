@@ -26,6 +26,7 @@ public class UpdateProfileHandler(
                     throw new ExistsException(command.ProfileName);
 
                 profile.UpdateProfileName(ProfileName.Of(command.ProfileName));
+                profile.LastModified = DateTime.UtcNow;
                 await repo.SaveChangesAsync();
 
                 var eventMessage = command.Adapt<UpdateUserNameEvent>();

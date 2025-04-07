@@ -45,7 +45,9 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
 
     public async Task SaveChangesAsync(bool shouldUpdate = true)
     {
-        if (shouldUpdate && await context.SaveChangesAsync() <= 0)
+        var result = await context.SaveChangesAsync();
+        
+        if(result <= 0 && shouldUpdate)
             throw new InvalidOperationException("Could not save changes");
     }
 }
