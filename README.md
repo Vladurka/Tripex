@@ -13,7 +13,7 @@
 - Profiles search
 - Real-time notifications
 - Profile management
-- API Gateway with REST & GraphQL
+- API Gateway with REST & gRPC
 
 ---
 
@@ -30,6 +30,7 @@
   - Cassandra
   - Elasticsearch(search)
   - Redis(caching)
+
 - **Media Storage**: Azure Blob Storage
 - **Logging**: Serilog
 - **Containerization**: Docker
@@ -50,7 +51,7 @@ Each microservice is independently deployable and maintains its own data and bou
 
 ### 👤 Profile Service
 - **Handles**: User profile management (bio, avatar, etc.)
-- **Storage**: PostgreSQL + Azure Blob Storage(for avatars)
+- **Storage**: PostgreSQL(Main db) + Azure Blob Storage + Redis(Famous users)
 - **Interface**: REST API
 - **Notes**: Subscribes to Auth events for user onboarding
 
@@ -58,7 +59,7 @@ Each microservice is independently deployable and maintains its own data and bou
 
 ### 🖼️ Post Service
 - **Handles**: Post creation and retrieval (text, images, videos)
-- **Storage**: Cassandra + Azure Blob Storage
+- **Storage**: Cassandra(Main db) + Azure Blob Storage + Redis(Famous users post)
 - **Interface**: REST API
 - **Notes**: Emits events to Feed, Search, and Interaction services
 
@@ -66,6 +67,7 @@ Each microservice is independently deployable and maintains its own data and bou
 
 ### 📰 Feed Service
 - **Handles**: Personalized user news feeds
+- **Storage**: Redis(Main db)
 - **Interface**: gRPC
 - **Notes**: Builds feeds based on events (posts, follows, etc.)
 
