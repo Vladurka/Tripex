@@ -12,10 +12,10 @@ public class Profile : Entity<ProfileId>
     public string? Description { get; private set; }
     public int ViewCount { get; private set; }
     public DateTime ViewCountResetAt { get; private set; } = DateTime.UtcNow;
-    
+    public bool IsCached { get; private set; }
     
     public const int VIEW_COUNT_UPDATE_TIME = 7;
-    public const int COUNT_TRIGGER = 10;
+    public const int COUNT_TRIGGER = 2;
 
     private Profile() { }
 
@@ -43,15 +43,16 @@ public class Profile : Entity<ProfileId>
 
     public void UpdateProfileName(ProfileName newProfileName) =>
         ProfileName = newProfileName;
-    
-    public void UpdateAvatar(string avatarUrl) =>
-        AvatarUrl = avatarUrl;
 
-    #region ViewCount
+    public void UpdateAvatar(string avatarUrl) =>
+        AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl;
+
+    #region Caching
     public void UpdateViewCount()
     {
         ResetViewCountIfOutdated();
         ViewCount++;
+        LastModified = DateTime.UtcNow;
     }
 
     private void ResetViewCountIfOutdated()
@@ -66,6 +67,9 @@ public class Profile : Entity<ProfileId>
         ViewCountResetAt = DateTime.UtcNow;
     }
 
+    public void SetIsCached(bool value) =>
+        IsCached = value;
+
     public bool ShouldBeCached()
     {
         UpdateViewCount();
@@ -73,6 +77,7 @@ public class Profile : Entity<ProfileId>
         if (ViewCount >= COUNT_TRIGGER)
         {
             ResetViewCount();
+            IsCached = true;
             return true;
         }
         

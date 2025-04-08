@@ -1,4 +1,3 @@
-using BuildingBlocks.Exceptions;
 using BuildingBlocks.Messaging.Events.Cache;
 
 namespace Profiles.Application.Profiles.Queries.GetProfileById;
@@ -9,20 +8,31 @@ public class GetProfileByIdHandler(IProfilesRepository repo, IOutboxRepository o
     public async Task<GetProfileResult> Handle(GetProfileByIdQuery query, CancellationToken cancellationToken)
     {
         var profile = await redisRepo.GetCachedProfileAsync(query.ProfileId);
-            
-        if(profile == null)
-            profile = await repo.GetByIdAsync(query.ProfileId, false) ?? 
-                      throw new NotFoundException("Profile", query.ProfileId);
         
-        if (profile.ShouldBeCached())
+        if (profile == null)
         {
-            var eventMessage = query.Adapt<CacheProfileEvent>();
-            var outboxMessage = new OutboxMessage(typeof(CacheProfileEvent).AssemblyQualifiedName!,
-                JsonSerializer.Serialize(eventMessage));
-            await outboxRepo.AddOutboxMessageAsync(outboxMessage);
+            profile = await repo.GetProfileByIdAsync(query.ProfileId, false) ??
+                      throw new NotFoundException("Profile", query.ProfileId);
+
+            if (profile.IsCached)
+            {
+                profile.SetIsCached(false);
+                await repo.SaveChangesAsync();
+                throw new NotFoundException($"Profile with id {query.ProfileId} not found in cache");
+            }
         }
-        
-        await repo.SaveChangesAsync(false);
+
+        if (!profile.IsCached)
+        {
+            if (profile.ShouldBeCached())
+            {
+                var eventMessage = query.Adapt<CacheProfileEvent>();
+                var outboxMessage = new OutboxMessage(typeof(CacheProfileEvent).AssemblyQualifiedName!,
+                    JsonSerializer.Serialize(eventMessage));
+                await outboxRepo.AddOutboxMessageAsync(outboxMessage);
+            }
+            await repo.SaveChangesAsync(false);
+        }
 
         return new GetProfileResult(
             profile.Id.Value,

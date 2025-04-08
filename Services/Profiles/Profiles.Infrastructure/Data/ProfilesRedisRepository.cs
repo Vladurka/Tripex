@@ -1,4 +1,5 @@
 using System.Text.Json;
+using BuildingBlocks.Exceptions;
 using Profiles.Application.Data;
 using Profiles.Application.DTO;
 using StackExchange.Redis;
@@ -20,7 +21,7 @@ public class ProfilesRedisRepository : IProfilesRedisRepository
         {
             var key = $"profile:{profile.Id.Value}";
             var value = JsonSerializer.Serialize(profile.ToCachedDto());
-            await _redisDb.StringSetAsync(key, value, TimeSpan.FromDays(7));
+            await _redisDb.StringSetAsync(key, value);
         }
     }
 
@@ -32,5 +33,23 @@ public class ProfilesRedisRepository : IProfilesRedisRepository
         if (value.IsNullOrEmpty) return null;
 
         return JsonSerializer.Deserialize<CachedProfileDto>(value!).ToDomain();
+    }
+    
+    public async Task UpdateProfileAsync(Profile profile)
+    {
+        var cacheKey = $"profile:{profile.Id.Value}";
+        
+        var serializedProfile = JsonSerializer.Serialize(profile.ToCachedDto());
+        
+        await _redisDb.StringSetAsync(cacheKey, serializedProfile);
+    }
+
+    public async Task DeleteProfileAsync(Guid profileId)
+    {
+        var cacheKey = $"profile:{profileId}";
+        var deleted = await _redisDb.KeyDeleteAsync(cacheKey);
+
+        if (!deleted)
+            throw new NotFoundException($"Profile with id {profileId} not found in cache");
     }
 }

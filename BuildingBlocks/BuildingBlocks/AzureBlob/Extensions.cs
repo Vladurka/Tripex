@@ -13,6 +13,10 @@ public static class Extensions
         {
             var connectionString = config["AzureBlob:ConnectionString"];
             var containerName = config["AzureBlob:ContainerName"];
+            
+            if (string.IsNullOrEmpty(connectionString) || string.IsNullOrEmpty(containerName))
+                throw new InvalidOperationException("Azure Blob Storage configuration is missing.");
+            
             return new BlobContainerClient(connectionString, containerName);
         });
 

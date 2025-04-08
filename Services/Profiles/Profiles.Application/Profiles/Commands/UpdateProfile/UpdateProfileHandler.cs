@@ -4,7 +4,8 @@ using Profiles.Application.Profiles.Queries;
 namespace Profiles.Application.Profiles.Commands.UpdateProfile;
 
 public class UpdateProfileHandler(
-    IProfilesRepository repo, IOutboxRepository outboxRepo) 
+    IProfilesRepository repo, IOutboxRepository outboxRepo,
+    IProfilesRedisRepository redisRepo) 
     : ICommandHandler<UpdateProfileCommand, GetProfileResult>
 {
     public async Task<GetProfileResult> Handle(UpdateProfileCommand command, CancellationToken cancellationToken)
@@ -12,13 +13,14 @@ public class UpdateProfileHandler(
         await using var transaction = await repo.BeginTransactionAsync();
         try
         {
-            var profile = await repo.GetByIdAsync(command.ProfileId, false) ??
+            var profile = await repo.GetProfileByIdAsync(command.ProfileId, false) ??
                 throw new NotFoundException("Profile", command.ProfileId);
 
             profile.Update(command.FirstName, 
                 command.LastName, command.Description);
             
             await repo.SaveChangesAsync(false);
+            
 
             if (!string.IsNullOrWhiteSpace(command.ProfileName) && profile.ProfileName.Value != command.ProfileName)
             {
@@ -36,6 +38,9 @@ public class UpdateProfileHandler(
 
                 await outboxRepo.AddOutboxMessageAsync(outboxMessage);
             }
+            
+            if (profile.IsCached)
+                await redisRepo.UpdateProfileAsync(profile);
 
             await transaction.CommitAsync(cancellationToken);
 
