@@ -1,10 +1,10 @@
 namespace Profiles.Application.Profiles.Queries.GetProfileById;
 
-public record GetProfileByIdQuery(Guid UserId) : IQuery<GetProfileResult>;
+public record GetProfileByIdQuery(Guid ProfileId) : IQuery<GetProfileResult>;
 
 public class GetProfileByIdQueryValidator : AbstractValidator<GetProfileByIdQuery>
 {
     public GetProfileByIdQueryValidator() =>
-        RuleFor(x => x.UserId).NotEmpty();
+        RuleFor(x => x.ProfileId).NotEmpty();
 }
     

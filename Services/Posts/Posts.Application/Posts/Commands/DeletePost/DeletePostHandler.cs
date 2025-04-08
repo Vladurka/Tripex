@@ -13,7 +13,7 @@ public class DeletePostHandler(IPostRepository repo, IBlobStorageService blobSto
         if(!posts.Contains(command.PostId))
             throw new InvalidOperationException($"Post {command.PostId} is not your post or doesn't exist");
         
-        await repo.DeleteAsync(PostId.Of(command.PostId));
+        await repo.DeletePostAsync(PostId.Of(command.PostId));
         await blobStorageService.DeletePhotoAsync(command.PostId, cancellationToken);
 
         return new DeletePostResult(true);

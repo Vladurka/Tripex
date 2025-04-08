@@ -9,7 +9,7 @@ public class GetPostByIdHandler(IPostRepository repo)
 {
     public async Task<GetPostByIdResult> Handle(GetPostByIdQuery query, CancellationToken cancellationToken)
     {
-        var post = await repo.GetByIdAsync(PostId.Of(query.Id));
+        var post = await repo.GetPostByIdAsync(PostId.Of(query.Id));
         
         if(post == null)
             throw new NotFoundException("Post", query.Id);

@@ -8,7 +8,7 @@ public class GetPostsByUserHandler (IPostRepository repo)
 {
     public async Task<GetPostsByUserResult> Handle(GetPostsByUserQuery query, CancellationToken cancellationToken)
     {
-        var posts = await repo.GetAllByUserAsync(ProfileId.Of(query.ProfileId));
+        var posts = await repo.GetAllPostsByUserAsync(ProfileId.Of(query.ProfileId));
         return new GetPostsByUserResult(posts.Select(p => p.ToDto()));
     }
         

@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace BuildingBlocks.Messaging.Outbox;
 
 public interface IOutboxRepository

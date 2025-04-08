@@ -8,7 +8,7 @@ namespace Profiles.Infrastructure.Data;
 
 public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
 {
-    public async Task AddAsync(Profile entity)
+    public async Task CreateProfileAsync(Profile entity)
     {
         await context.Profiles.AddAsync(entity);
         await SaveChangesAsync();
@@ -17,7 +17,7 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     public IQueryable<Profile> GetQueryable() =>
         context.Profiles.AsQueryable();
 
-    public async Task<Profile?> GetByIdAsync(Guid id, bool asNoTracking = true)
+    public async Task<Profile?> GetProfileByIdAsync(Guid id, bool asNoTracking = true)
     {
         IQueryable<Profile> query = context.Profiles;
 
@@ -29,13 +29,19 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     public async Task<bool> ProfileNameExistsAsync(string userName) =>
         await context.Profiles.AnyAsync(x => x.ProfileName == ProfileName.Of(userName));
 
-    public async Task RemoveAsync(Guid id)
+    public async Task RemoveProfileAsync(Guid id)
     {
-        var profile = await GetByIdAsync(id);
+        var profile = await GetProfileByIdAsync(id);
 
         if(profile == null)
             throw new NotFoundException("Profile", id);
 
+        context.Profiles.Remove(profile);
+        await SaveChangesAsync();
+    }
+    
+    public async Task RemoveProfileAsync(Profile profile)
+    {
         context.Profiles.Remove(profile);
         await SaveChangesAsync();
     }
@@ -45,7 +51,9 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
 
     public async Task SaveChangesAsync(bool shouldUpdate = true)
     {
-        if (shouldUpdate && await context.SaveChangesAsync() <= 0)
+        var result = await context.SaveChangesAsync();
+        
+        if(result <= 0 && shouldUpdate)
             throw new InvalidOperationException("Could not save changes");
     }
 }

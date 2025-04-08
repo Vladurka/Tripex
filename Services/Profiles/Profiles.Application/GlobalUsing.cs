@@ -10,3 +10,4 @@ global using BuildingBlocks.Messaging.Outbox;
 global using System.Text.Json;
 global using Mapster;
 global using BuildingBlocks.AzureBlob;
+global using BuildingBlocks.Exceptions;

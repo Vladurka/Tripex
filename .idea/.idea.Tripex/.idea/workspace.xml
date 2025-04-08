@@ -30,30 +30,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/Login.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/Logout.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/RefreshToken.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/Register.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth.API.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Controllers/AuthController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/LoginDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/RegisterDto.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/DTOs/RegisterResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/DeleteUserEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/EventHandlers/DeleteUserEventHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/EventHandlers/UpdateUserNameEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/EventHandlers/UpdateUserNameEventHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Exceptions/ApiErrorResponse.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Exceptions/ExceptionMiddleware.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/GlobalUsing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/Interfaces/IUserService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/UserService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/Extensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRedisRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRedisRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/GlobalUsing.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheProfile/CacheProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheProfile/CacheProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRedisRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRedisRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -564,6 +557,12 @@
       <workItem from="1743844441750" duration="6288000" />
       <workItem from="1743864113437" duration="6631000" />
       <workItem from="1743880461380" duration="3776000" />
+      <workItem from="1743931787070" duration="5241000" />
+      <workItem from="1743944581307" duration="1010000" />
+      <workItem from="1743962764322" duration="3520000" />
+      <workItem from="1744040054478" duration="8563000" />
+      <workItem from="1744053429602" duration="140000" />
+      <workItem from="1744127751839" duration="3656000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />

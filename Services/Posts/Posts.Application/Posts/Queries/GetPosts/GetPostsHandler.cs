@@ -8,7 +8,7 @@ public class GetPostsHandler(IPostRepository repo)
 {
     public async Task<GetPostsResult> Handle(GetPostsQuery query, CancellationToken cancellationToken)
     {
-        var posts = await repo.GetAllAsync();
+        var posts = await repo.GetAllPostsAsync();
         return new GetPostsResult(posts.Select(x => x.ToDto()));
     }
 }

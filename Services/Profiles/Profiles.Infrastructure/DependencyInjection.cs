@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Profiles.Application.Data;
 using Profiles.Infrastructure.Data;
+using StackExchange.Redis;
 
 namespace Profiles.Infrastructure;
 
@@ -18,8 +19,15 @@ public static class DependencyInjection
         {
             options.UseNpgsql(connectionString);
         });
+        
+        services.AddSingleton<IConnectionMultiplexer>(sp =>
+        {
+            return ConnectionMultiplexer.Connect(config.GetConnectionString("RedisConnection")!);
+        });
+
 
         services.AddScoped<IProfilesRepository, ProfilesRepository>();
+        services.AddScoped<IProfilesRedisRepository, ProfilesRedisRepository>();
 
         return services;
     }

@@ -1,6 +1,6 @@
 namespace Profiles.Application.Profiles.Commands.DeleteProfile;
 
-public class DeleteProfileHandler(IProfilesRepository repo, 
+public class DeleteProfileHandler(IProfilesRepository repo, IProfilesRedisRepository redisRepo,
     IBlobStorageService blobStorage, IOutboxRepository outboxRepo) 
     : ICommandHandler<DeleteProfileCommand, DeleteProfileResult>
 {
@@ -9,9 +9,17 @@ public class DeleteProfileHandler(IProfilesRepository repo,
         await using var transaction = await repo.BeginTransactionAsync();
         try
         {
-            await repo.RemoveAsync(command.UserId);
+            var profile = await repo.GetProfileByIdAsync(command.ProfileId);
+
+            if (profile == null)
+                throw new NotFoundException("Profile", command.ProfileId);
             
-            await blobStorage.DeletePhotoAsync(command.UserId, cancellationToken);
+            await repo.RemoveProfileAsync(profile);
+            
+            if(profile.IsCached)
+                await redisRepo.DeleteProfileAsync(command.ProfileId);
+            
+            await blobStorage.DeletePhotoAsync(command.ProfileId, cancellationToken);
 
             var eventMessage = command.Adapt<DeleteUserEvent>();
             

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Profiles.Infrastructure.Data;
@@ -11,9 +12,11 @@ using Profiles.Infrastructure.Data;
 namespace Profiles.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ProfilesContext))]
-    partial class ProfilesContextModelSnapshot : ModelSnapshot
+    [Migration("20250407155551_ViewCountUpdate")]
+    partial class ViewCountUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +74,6 @@ namespace Profiles.Infrastructure.Data.Migrations
                     b.Property<string>("FirstName")
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
-
-                    b.Property<bool>("IsCached")
-                        .HasColumnType("boolean");
 
                     b.Property<DateTime>("LastModified")
                         .HasColumnType("timestamp with time zone");

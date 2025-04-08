@@ -10,6 +10,12 @@ public class Profile : Entity<ProfileId>
     public string? FirstName { get; private set; }
     public string? LastName { get; private set; }
     public string? Description { get; private set; }
+    public int ViewCount { get; private set; }
+    public DateTime ViewCountResetAt { get; private set; } = DateTime.UtcNow;
+    public bool IsCached { get; private set; }
+    
+    public const int VIEW_COUNT_UPDATE_TIME = 7;
+    public const int COUNT_TRIGGER = 2;
 
     private Profile() { }
 
@@ -23,7 +29,8 @@ public class Profile : Entity<ProfileId>
             AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl,
             FirstName = firstName,
             LastName = lastName,
-            Description = description
+            Description = description,
+            ViewCount = 1
         };
     }
     
@@ -36,7 +43,45 @@ public class Profile : Entity<ProfileId>
 
     public void UpdateProfileName(ProfileName newProfileName) =>
         ProfileName = newProfileName;
-    
+
     public void UpdateAvatar(string avatarUrl) =>
-        AvatarUrl = avatarUrl;
+        AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl;
+
+    #region Caching
+    public void UpdateViewCount()
+    {
+        ResetViewCountIfOutdated();
+        ViewCount++;
+        LastModified = DateTime.UtcNow;
+    }
+
+    private void ResetViewCountIfOutdated()
+    {
+        if ((DateTime.UtcNow - ViewCountResetAt).TotalDays > VIEW_COUNT_UPDATE_TIME)
+            ResetViewCount();
+    }
+
+    private void ResetViewCount()
+    {
+        ViewCount = 0;
+        ViewCountResetAt = DateTime.UtcNow;
+    }
+
+    public void SetIsCached(bool value) =>
+        IsCached = value;
+
+    public bool ShouldBeCached()
+    {
+        UpdateViewCount();
+
+        if (ViewCount >= COUNT_TRIGGER)
+        {
+            ResetViewCount();
+            IsCached = true;
+            return true;
+        }
+        
+        return false;
+    }
+    #endregion
 }
