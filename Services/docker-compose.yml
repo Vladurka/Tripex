@@ -51,6 +51,14 @@ services:
       interval: 20s
       timeout: 10s
       retries: 10
+      
+  postsredisdb:
+    image: redis:latest
+    ports:
+      - "6381:6379"
+    restart: on-failure
+    volumes:
+      - "postsRedis-data:/data"
   
   rabbitmq:
     image: rabbitmq:management
@@ -69,3 +77,4 @@ volumes:
   profiles_data:
   profilesRedis-data:
   posts_data:
+  postsRedis-data:
