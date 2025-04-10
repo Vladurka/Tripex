@@ -35,7 +35,7 @@ public class PostRepository : IPostRepository
         return db?.ToDomain();
     }
 
-    public async Task<IEnumerable<Post>> GetAllPostsByUserAsync(ProfileId id)
+    public async Task<IEnumerable<Post>> GetPostsByUserAsync(ProfileId id)
     { 
         var result = await _posts
             .Where(p => p.ProfileId == id.Value)

@@ -9,8 +9,6 @@ public record DeletePostResult(bool IsSucceed);
 
 public class DeletePostCommandValidator : AbstractValidator<DeletePostCommand>
 {
-    DeletePostCommandValidator()
-    {
+    public DeletePostCommandValidator() =>
         RuleFor(x => x.PostId).NotEmpty();
-    }
 }

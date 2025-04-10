@@ -12,8 +12,6 @@ public record CreatePostResult(Guid Id);
 
 public class CreatePostCommandValidator : AbstractValidator<CreatePostCommand>
 {
-    public CreatePostCommandValidator()
-    {
+    public CreatePostCommandValidator() =>
         RuleFor(x => x.Photo).NotNull();
-    }
 }

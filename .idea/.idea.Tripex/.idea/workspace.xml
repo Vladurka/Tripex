@@ -30,22 +30,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostsRedisRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CachePosts/CachePostsCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CachePosts/CachePostsHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/CachedPostDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/EventHandlers/Rabbit/CacheUserEventHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostsRedisRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/Extensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/Extensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRedisRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRedisRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/GlobalUsing.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/GlobalUsing.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheProfile/CacheProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheProfile/CacheProfileHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CreateProfile/CreateProfileHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Cache/CacheProfileEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Cache/CacheUserEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/DeleteUserEvent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/DeleteUserEvent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/EventHandlers/DeleteUserEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/EventHandlers/DeleteUserEventHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/Posts.API.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/Posts.API.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePost/DeletePostHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Posts.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Posts.Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/CacheProfileEventHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/CacheProfileEventHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/GetProfileResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileResult.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRedisRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRedisRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRepository.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -126,7 +135,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected=".NET Launch Settings Profile.Auth.API: http">
+  <component name="RunManager" selected=".NET Launch Settings Profile.Profiles.API: http">
     <configuration name="Posts.API" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -563,6 +572,9 @@
       <workItem from="1744040054478" duration="8563000" />
       <workItem from="1744053429602" duration="140000" />
       <workItem from="1744127751839" duration="3656000" />
+      <workItem from="1744201309037" duration="3114000" />
+      <workItem from="1744212369847" duration="55000" />
+      <workItem from="1744301403565" duration="6031000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />

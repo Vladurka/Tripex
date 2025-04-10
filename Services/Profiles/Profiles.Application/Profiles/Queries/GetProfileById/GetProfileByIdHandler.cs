@@ -26,8 +26,8 @@ public class GetProfileByIdHandler(IProfilesRepository repo, IOutboxRepository o
         {
             if (profile.ShouldBeCached())
             {
-                var eventMessage = query.Adapt<CacheProfileEvent>();
-                var outboxMessage = new OutboxMessage(typeof(CacheProfileEvent).AssemblyQualifiedName!,
+                var eventMessage = query.Adapt<CacheUserEvent>();
+                var outboxMessage = new OutboxMessage(typeof(CacheUserEvent).AssemblyQualifiedName!,
                     JsonSerializer.Serialize(eventMessage));
                 await outboxRepo.AddOutboxMessageAsync(outboxMessage);
             }

@@ -1,6 +1,6 @@
 namespace BuildingBlocks.Messaging.Events.Cache;
 
-public record CacheProfileEvent : IntegrationEvent
+public record CacheUserEvent : IntegrationEvent
 {
     public Guid ProfileId { get; set; }
 }

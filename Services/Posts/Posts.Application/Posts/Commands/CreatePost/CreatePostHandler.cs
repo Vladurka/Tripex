@@ -1,10 +1,11 @@
 using BuildingBlocks.AzureBlob;
 using Posts.Application.Data;
+using Posts.Application.Posts.Extensions;
 
 namespace Posts.Application.Posts.Commands.CreatePost;
 
-public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobStorageService) 
-    : ICommandHandler<CreatePostCommand, CreatePostResult>
+public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobStorageService,
+    IPostsRedisRepository redisRepo) : ICommandHandler<CreatePostCommand, CreatePostResult>
 {
     public async Task<CreatePostResult> Handle(CreatePostCommand command, CancellationToken cancellationToken)
     {
@@ -19,6 +20,9 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
         };
         
         await repo.AddPostAsync(post);
+
+        if (await redisRepo.ArePostsCachedAsync(ProfileId.Of(command.ProfileId)))
+            await redisRepo.AddPostAsync(post.ToDomain());
         
         await repo.IncrementPostCount(command.ProfileId);
         
