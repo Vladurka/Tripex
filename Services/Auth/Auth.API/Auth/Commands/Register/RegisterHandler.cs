@@ -15,10 +15,10 @@ public class RegisterHandler(IPasswordHasher passwordHasher, ITokenService token
         {
             var userCheck = await repo.GetUserByEmailAsync(command.Email);
             if (userCheck != null)
-                throw new ExistsException(command, command.Email);
+                throw new ExistsException("User", command.Email);
 
             if (await repo.UsernameExistsAsync(command.UserName))
-                throw new ExistsException(command, command.UserName);
+                throw new ExistsException("User", command.UserName);
             
             var user = new User(command.UserName, command.Email, passwordHasher.HashPassword(command.Password));
             
