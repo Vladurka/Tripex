@@ -35,19 +35,19 @@ public class PostRepository : IPostRepository
         return db?.ToDomain();
     }
 
-    public async Task<IEnumerable<Post>> GetPostsByUserAsync(ProfileId id)
+    public async Task<IEnumerable<Post>> GetPostsByUserAsync(ProfileId profileId)
     { 
         var result = await _posts
-            .Where(p => p.ProfileId == id.Value)
+            .Where(p => p.ProfileId == profileId.Value)
             .ExecuteAsync();
 
         return result.Select(PostMapper.ToDomain);
     }
     
-    public async Task<IEnumerable<Guid>> GetPostIdsByUserAsync(ProfileId id)
+    public async Task<IEnumerable<Guid>> GetPostIdsByUserAsync(ProfileId profileId)
     { 
         var result = await _posts
-            .Where(p => p.ProfileId == id.Value)
+            .Where(p => p.ProfileId == profileId.Value)
             .Select(p => p.Id)
             .ExecuteAsync();
 
@@ -68,15 +68,23 @@ public class PostRepository : IPostRepository
             .ExecuteAsync();
     }
     
-    public async Task IncrementPostCount(Guid profileId)
+    public async Task DeletePostsAsync(ProfileId profileId)
     {
-        var post = await _postCount.FirstOrDefault(p => p.ProfileId == profileId).ExecuteAsync();
+        await _posts
+            .Where(p => p.ProfileId == profileId.Value)
+            .Delete()
+            .ExecuteAsync();
+    }
+    
+    public async Task IncrementPostCount(ProfileId profileId)
+    {
+        var post = await _postCount.FirstOrDefault(p => p.ProfileId == profileId.Value).ExecuteAsync();
 
         if (post == null)
         {
             post = new PostCountDb
             {
-                ProfileId = profileId,
+                ProfileId = profileId.Value,
                 Count = 1
             };
             await _postCount.Insert(post).ExecuteAsync();
@@ -86,16 +94,42 @@ public class PostRepository : IPostRepository
             post.Count += 1;
             
             await _postCount
-                .Where(p => p.ProfileId == profileId)
+                .Where(p => p.ProfileId == profileId.Value)
                 .Select(p => new PostCountDb { Count = post.Count })
                 .Update()
                 .ExecuteAsync();
         }
     }
-
-    public async Task<int> GetPostCount(Guid profileId)
+    
+    public async Task DecrementPostCount(ProfileId profileId)
     {
-        var profile = await _postCount.FirstOrDefault(p => p.ProfileId == profileId).ExecuteAsync();
+        var postCount = await _postCount
+            .FirstOrDefault(p => p.ProfileId == profileId.Value).ExecuteAsync();
+
+        if (postCount == null)
+            throw new NotFoundException("PostCount", profileId);
+        
+        postCount.Count -= 1;
+        
+        await _postCount
+            .Where(p => p.ProfileId == profileId.Value)
+            .Select(p => new PostCountDb { Count = postCount.Count })
+            .Update()
+            .ExecuteAsync();
+    }
+
+    public async Task DeletePostCountAsync(ProfileId profileId)
+    {
+        await _postCount
+            .Where(p => p.ProfileId == profileId.Value)
+            .Delete()
+            .ExecuteAsync();
+    }
+
+    public async Task<int> GetPostCount(ProfileId profileId)
+    {
+        var profile = await _postCount
+            .FirstOrDefault(p => p.ProfileId == profileId.Value).ExecuteAsync();
         
         if(profile == null)
             return 0;

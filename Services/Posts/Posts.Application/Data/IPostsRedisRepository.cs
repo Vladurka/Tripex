@@ -7,4 +7,5 @@ public interface IPostsRedisRepository
     public Task<bool> ArePostsCachedAsync(ProfileId profileId);
     public Task AddPostAsync(Post post);
     public Task DeletePostAsync(PostId postId, ProfileId profileId);
+    public Task DeletePostsAsync(ProfileId profileId);
 }

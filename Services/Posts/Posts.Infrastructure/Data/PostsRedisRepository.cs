@@ -51,15 +51,27 @@ public class PostsRedisRepository : IPostsRedisRepository
 
     public async Task DeletePostAsync(PostId postId, ProfileId profileId)
     {
-        var key = ConvertToKey(profileId);
-        var posts = await GetCachedPostsAsync(profileId);
+        if (await ArePostsCachedAsync(profileId))
+        {
+            var key = ConvertToKey(profileId);
+            var posts = await GetCachedPostsAsync(profileId);
 
-        var updatedPosts = posts
-            .Where(p => p.Id.Value != postId.Value)
-            .Select(p => p.ToCachedPostDto());
+            var updatedPosts = posts
+                .Where(p => p.Id.Value != postId.Value)
+                .Select(p => p.ToCachedPostDto());
 
-        var serialized = JsonSerializer.Serialize(updatedPosts);
-        await _redisDb.StringSetAsync(key, serialized);
+            var serialized = JsonSerializer.Serialize(updatedPosts);
+            await _redisDb.StringSetAsync(key, serialized);
+        }
+    }
+    
+    public async Task DeletePostsAsync(ProfileId profileId)
+    {
+        if (await ArePostsCachedAsync(profileId))
+        {
+            var key = ConvertToKey(profileId);
+            await _redisDb.KeyDeleteAsync(key);
+        }
     }
     
     private string ConvertToKey(ProfileId profileId) =>

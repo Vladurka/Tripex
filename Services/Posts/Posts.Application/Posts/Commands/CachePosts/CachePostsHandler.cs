@@ -1,11 +1,12 @@
+using MediatR;
 using Posts.Application.Data;
 
 namespace Posts.Application.Posts.Commands.CachePosts;
 
 public class CachePostsHandler(IPostsRedisRepository redisRepo, IPostRepository repo) 
-    : ICommandHandler<CachePostsCommand, CachePostsResult>
+    : ICommandHandler<CachePostsCommand>
 {
-    public async Task<CachePostsResult> Handle(CachePostsCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CachePostsCommand command, CancellationToken cancellationToken)
     {
         var profileId = ProfileId.Of(command.ProfileId);
         
@@ -13,6 +14,6 @@ public class CachePostsHandler(IPostsRedisRepository redisRepo, IPostRepository 
         
         await redisRepo.CachePostsAsync(posts, profileId);
         
-        return new CachePostsResult(true);
+        return Unit.Value;
     }
 }
