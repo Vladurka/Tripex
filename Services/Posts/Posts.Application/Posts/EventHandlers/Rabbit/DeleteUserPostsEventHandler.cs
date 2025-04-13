@@ -6,7 +6,7 @@ using Posts.Application.Posts.Commands.DeletePostsByProfile;
 
 namespace Posts.Application.Posts.EventHandlers.Rabbit;
 
-public class DeleteUserEventHandler(ISender sender, ILogger<DeleteUserEventHandler> logger)
+public class DeleteUserPostsEventHandler(ISender sender, ILogger<DeleteUserPostsEventHandler> logger)
     : IConsumer<DeleteUserEvent>
 {
     public async Task Consume(ConsumeContext<DeleteUserEvent> context)

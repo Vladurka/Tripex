@@ -6,7 +6,7 @@ using Posts.Application.Posts.Commands.CachePosts;
 
 namespace Posts.Application.Posts.EventHandlers.Rabbit;
 
-public class CacheUserEventHandler(ISender sender, ILogger<CacheUserEventHandler> logger) 
+public class CacheUserPostsEventHandler(ISender sender, ILogger<CacheUserPostsEventHandler> logger) 
     : IConsumer<CacheUserEvent>
 {
     public async Task Consume(ConsumeContext<CacheUserEvent> context)
