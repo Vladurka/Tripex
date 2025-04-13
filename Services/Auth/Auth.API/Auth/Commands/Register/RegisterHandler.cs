@@ -10,14 +10,14 @@ public class RegisterHandler(IPasswordHasher passwordHasher, ITokenService token
     private JwtOptions _options => options.Value;
     public async Task<RegisterResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        await using var transaction = await repo.BeginTransactionAsync();
+        await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try
         {
-            var userCheck = await repo.GetUserByEmailAsync(command.Email);
+            var userCheck = await repo.GetUserByEmailAsync(command.Email, cancellationToken);
             if (userCheck != null)
                 throw new ExistsException("User", command.Email);
 
-            if (await repo.UsernameExistsAsync(command.UserName))
+            if (await repo.UsernameExistsAsync(command.UserName, cancellationToken))
                 throw new ExistsException("User", command.UserName);
             
             var user = new User(command.UserName, command.Email, passwordHasher.HashPassword(command.Password));
@@ -26,7 +26,7 @@ public class RegisterHandler(IPasswordHasher passwordHasher, ITokenService token
             user.RefreshToken = tokens.RefreshToken;
             user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays);
 
-            await repo.AddUserAsync(user);
+            await repo.AddUserAsync(user, cancellationToken);
 
             var eventMessage = command.Adapt<CreateProfileEvent>();
             eventMessage.UserId = user.Id;

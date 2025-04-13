@@ -7,7 +7,7 @@ public class CreateProfileHandler(IProfilesRepository repo)
     {
         var profile = Profile.Create(ProfileId.Of(command.Id), ProfileName.Of(command.ProfileName), null, null,
             null, null);
-        await repo.CreateProfileAsync(profile);
+        await repo.CreateProfileAsync(profile, cancellationToken);
 
         return Unit.Value;
     }

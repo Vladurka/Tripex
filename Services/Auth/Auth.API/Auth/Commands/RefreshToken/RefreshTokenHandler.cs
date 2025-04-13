@@ -6,7 +6,7 @@ public class RefreshTokenHandler( ITokenService tokenService, IOptions<JwtOption
     private JwtOptions _options => options.Value;
     public async Task<RefreshTokenResult> Handle(RefreshTokenCommand command, CancellationToken cancellationToken)
     {
-        var user = await repo.GetUserByRefreshTokenAsync(command.RefreshToken);
+        var user = await repo.GetUserByRefreshTokenAsync(command.RefreshToken, cancellationToken);
 
         if (user == null || user.RefreshTokenExpiry < DateTime.UtcNow)
             throw new Exception("Invalid or expired refresh token");
@@ -17,7 +17,7 @@ public class RefreshTokenHandler( ITokenService tokenService, IOptions<JwtOption
         
         user.RefreshToken = tokens.RefreshToken;
         user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays);
-        await repo.UpdateAsync(user);
+        await repo.UpdateAsync(user, cancellationToken);
 
         return new RefreshTokenResult(tokens.RefreshToken);
     }

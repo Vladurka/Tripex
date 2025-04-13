@@ -4,7 +4,7 @@ public class DeleteUserHandler(IUsersRepository repo) : ICommandHandler<DeleteUs
 {
     public async Task<Unit> Handle(DeleteUserCommand command, CancellationToken cancellationToken)
     {
-        await repo.DeleteAsync(command.UserId);
+        await repo.DeleteAsync(command.UserId, cancellationToken);
         return Unit.Value;
     }
 }

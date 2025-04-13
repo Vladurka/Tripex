@@ -4,13 +4,13 @@ public class UpdateUserNameHandler(IUsersRepository repo) : ICommandHandler<Upda
 {
     public async Task<Unit> Handle(UpdateUserNameCommand command, CancellationToken cancellationToken)
     {
-        var user = await repo.GetUserByIdAsync(command.UserId);
+        var user = await repo.GetUserByIdAsync(command.UserId, cancellationToken);
 
         if (user == null)
             throw new NotFoundException("User", command.UserId);
 
         user.UserName = command.UserName;
-        await repo.SaveChangesAsync();
+        await repo.SaveChangesAsync(cancellationToken);
         return Unit.Value;
     }
 }

@@ -20,10 +20,8 @@ public class PostRepository : IPostRepository
         _postCount = new Table<PostCountDb>(session);
     }
     
-    public async Task AddPostAsync(PostDb post)
-    {
+    public async Task AddPostAsync(PostDb post) =>
         await _posts.Insert(post).ExecuteAsync();
-    }
 
     public async Task<Post?> GetPostByIdAsync(PostId id)
     {

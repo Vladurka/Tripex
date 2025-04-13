@@ -5,13 +5,13 @@ public class CacheProfileHandler(IProfilesRedisRepository redisRepo, IProfilesRe
 {
     public async Task<Unit> Handle(CacheProfileCommand command, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetProfileByIdAsync(command.ProfileId) ??
+        var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken) ??
                       throw new NotFoundException("Profile", command.ProfileId);
 
         await redisRepo.CacheProfileAsync(profile);
 
         profile.SetIsCached(true);
-        await repo.SaveChangesAsync();
+        await repo.SaveChangesAsync(cancellationToken);
         
         return Unit.Value;
     }
