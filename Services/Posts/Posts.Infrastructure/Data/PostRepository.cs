@@ -68,10 +68,17 @@ public class PostRepository : IPostRepository
     
     public async Task DeletePostsAsync(ProfileId profileId)
     {
-        await _posts
+        var posts = await _posts
             .Where(p => p.ProfileId == profileId.Value)
-            .Delete()
-            .ExecuteAsync();
+            .ExecuteAsync(); 
+
+        foreach (var post in posts)
+        {
+            await _posts
+                .Where(p => p.Id == post.Id)
+                .Delete()
+                .ExecuteAsync();
+        }
     }
     
     public async Task IncrementPostCount(ProfileId profileId)
