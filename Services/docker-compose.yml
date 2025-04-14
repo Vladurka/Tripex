@@ -59,6 +59,25 @@ services:
     restart: on-failure
     volumes:
       - "postsRedis-data:/data"
+        
+  interactiondb:
+    image: cassandra:4.1
+    container_name: interactiondb
+    ports:
+      - "9044:9042"
+    environment:
+      - CASSANDRA_CLUSTER_NAME=DevCluster
+      - CASSANDRA_DC=dc1
+      - CASSANDRA_RACK=rack1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+    volumes:
+      - interaction_data:/var/lib/cassandra
+    restart: on-failure
+    healthcheck:
+      test: [ "CMD-SHELL", "cqlsh localhost 9042 -e 'DESCRIBE KEYSPACES'" ]
+      interval: 20s
+      timeout: 10s
+      retries: 10
   
   rabbitmq:
     image: rabbitmq:management
@@ -78,3 +97,4 @@ volumes:
   profilesRedis-data:
   posts_data:
   postsRedis-data:
+  interaction_data:
