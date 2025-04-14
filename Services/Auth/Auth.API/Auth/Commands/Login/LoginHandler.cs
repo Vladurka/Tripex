@@ -6,10 +6,10 @@ public class LoginHandler(IPasswordHasher passwordHasher, ITokenService tokenSer
     private JwtOptions _options => options.Value;
     public async Task<LoginResult> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
-        var user = await repo.GetUserByEmailAsync(command.Email);
+        var user = await repo.GetUserByEmailAsync(command.Email, cancellationToken);
 
         if (user == null)
-            throw new NotFoundException(command, command.Email);
+            throw new NotFoundException("User", command.Email);
 
         if (!passwordHasher.VerifyPassword(user.PasswordHash, command.Password))
             throw new Exception("Bad password");
@@ -20,7 +20,7 @@ public class LoginHandler(IPasswordHasher passwordHasher, ITokenService tokenSer
         
         user.RefreshToken = tokens.RefreshToken;
         user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays);
-        await repo.UpdateAsync(user); 
+        await repo.UpdateAsync(user, cancellationToken); 
 
         return new LoginResult(tokens.RefreshToken);
     }

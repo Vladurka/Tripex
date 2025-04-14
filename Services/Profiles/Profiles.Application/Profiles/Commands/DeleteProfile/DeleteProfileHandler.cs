@@ -6,15 +6,15 @@ public class DeleteProfileHandler(IProfilesRepository repo, IProfilesRedisReposi
 {
     public async Task<DeleteProfileResult> Handle(DeleteProfileCommand command, CancellationToken cancellationToken)
     {
-        await using var transaction = await repo.BeginTransactionAsync();
+        await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try
         {
-            var profile = await repo.GetProfileByIdAsync(command.ProfileId);
+            var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken);
 
             if (profile == null)
                 throw new NotFoundException("Profile", command.ProfileId);
             
-            await repo.RemoveProfileAsync(profile);
+            await repo.RemoveProfileAsync(profile, cancellationToken);
             
             if(profile.IsCached)
                 await redisRepo.DeleteProfileAsync(command.ProfileId);

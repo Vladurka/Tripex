@@ -10,7 +10,8 @@ public static class Extensions
     {
         services.AddMassTransit(config =>
         {
-            config.SetKebabCaseEndpointNameFormatter();
+            var servicePrefix = configuration["MessageBroker:ServicePrefix"];
+            config.SetEndpointNameFormatter(new KebabCaseEndpointNameFormatter(servicePrefix, false));
 
             if (assembly != null)
                 config.AddConsumers(assembly);
@@ -25,6 +26,7 @@ public static class Extensions
                 configurator.ConfigureEndpoints(context);
             });
         });
+
 
         return services;
     }

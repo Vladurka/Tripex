@@ -12,8 +12,8 @@ using Profiles.Infrastructure.Data;
 namespace Profiles.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ProfilesContext))]
-    [Migration("20250408161024_IsCached")]
-    partial class IsCached
+    [Migration("20250411095410_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -1,18 +1,18 @@
 namespace Profiles.Application.Profiles.Commands.CacheProfile;
 
 public class CacheProfileHandler(IProfilesRedisRepository redisRepo, IProfilesRepository repo) 
-    : ICommandHandler<CacheProfileCommand, CacheProfileResult>
+    : ICommandHandler<CacheProfileCommand>
 {
-    public async Task<CacheProfileResult> Handle(CacheProfileCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CacheProfileCommand command, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetProfileByIdAsync(command.ProfileId) ??
+        var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken) ??
                       throw new NotFoundException("Profile", command.ProfileId);
 
         await redisRepo.CacheProfileAsync(profile);
 
         profile.SetIsCached(true);
-        await repo.SaveChangesAsync();
+        await repo.SaveChangesAsync(cancellationToken);
         
-        return new CacheProfileResult(true);
+        return Unit.Value;
     }
 }

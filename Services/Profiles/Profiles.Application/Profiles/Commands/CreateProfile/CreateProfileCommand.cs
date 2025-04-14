@@ -1,7 +1,6 @@
 namespace Profiles.Application.Profiles.Commands.CreateProfile;
 
-public record CreateProfileCommand(Guid Id, string ProfileName) : ICommand<CreateProfileResult>;
-public record CreateProfileResult(Guid Id);
+public record CreateProfileCommand(Guid Id, string ProfileName) : ICommand;
 
 public class CreateProfileCommandValidator : AbstractValidator<CreateProfileCommand>
 {

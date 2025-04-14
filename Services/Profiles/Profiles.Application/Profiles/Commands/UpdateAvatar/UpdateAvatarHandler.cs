@@ -5,14 +5,14 @@ public class UpdateAvatarHandler(IProfilesRepository repo, IProfilesRedisReposit
 {
     public async Task<UpdateAvatarResult> Handle(UpdateAvatarCommand command, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetProfileByIdAsync(command.ProfileId, false) ??
+        var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken, false) ??
                       throw new NotFoundException("Profile", command.ProfileId);
     
         if (command.Avatar == null)
         {
             await blobStorage.DeletePhotoAsync(command.ProfileId, cancellationToken);
             profile.UpdateAvatar(Profile.DEFAULT_AVATAR);
-            await repo.SaveChangesAsync();
+            await repo.SaveChangesAsync(cancellationToken);
             
             if(profile.IsCached)
                 await redisRepo.UpdateProfileAsync(profile);
@@ -22,7 +22,7 @@ public class UpdateAvatarHandler(IProfilesRepository repo, IProfilesRedisReposit
         
         profile.UpdateAvatar(await blobStorage.UploadPhotoAsync(command.Avatar, command.ProfileId, cancellationToken));
         profile.LastModified = DateTime.UtcNow;
-        await repo.SaveChangesAsync();
+        await repo.SaveChangesAsync(cancellationToken);
 
         return new UpdateAvatarResult(profile.AvatarUrl);
     }

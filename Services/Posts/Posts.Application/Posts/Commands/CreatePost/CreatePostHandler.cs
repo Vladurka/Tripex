@@ -21,10 +21,12 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
         
         await repo.AddPostAsync(post);
 
-        if (await redisRepo.ArePostsCachedAsync(ProfileId.Of(command.ProfileId)))
+        var profileId = ProfileId.Of(command.ProfileId);
+
+        if (await redisRepo.ArePostsCachedAsync(profileId));
             await redisRepo.AddPostAsync(post.ToDomain());
         
-        await repo.IncrementPostCount(command.ProfileId);
+        await repo.IncrementPostCount(profileId);
         
         return new CreatePostResult(post.Id);
     }

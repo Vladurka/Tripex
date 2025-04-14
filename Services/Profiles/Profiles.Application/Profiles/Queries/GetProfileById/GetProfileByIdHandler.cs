@@ -11,13 +11,13 @@ public class GetProfileByIdHandler(IProfilesRepository repo, IOutboxRepository o
         
         if (profile == null)
         {
-            profile = await repo.GetProfileByIdAsync(query.ProfileId, false) ??
+            profile = await repo.GetProfileByIdAsync(query.ProfileId, cancellationToken, false) ??
                       throw new NotFoundException("Profile", query.ProfileId);
 
             if (profile.IsCached)
             {
                 profile.SetIsCached(false);
-                await repo.SaveChangesAsync();
+                await repo.SaveChangesAsync(cancellationToken);
                 throw new NotFoundException($"Profile with id {query.ProfileId} not found in cache");
             }
         }
@@ -31,7 +31,7 @@ public class GetProfileByIdHandler(IProfilesRepository repo, IOutboxRepository o
                     JsonSerializer.Serialize(eventMessage));
                 await outboxRepo.AddOutboxMessageAsync(outboxMessage);
             }
-            await repo.SaveChangesAsync(false);
+            await repo.SaveChangesAsync(cancellationToken, false);
         }
 
         return new GetProfileResult(

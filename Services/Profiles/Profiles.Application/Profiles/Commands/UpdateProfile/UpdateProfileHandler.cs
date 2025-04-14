@@ -10,26 +10,26 @@ public class UpdateProfileHandler(
 {
     public async Task<GetProfileResult> Handle(UpdateProfileCommand command, CancellationToken cancellationToken)
     {
-        await using var transaction = await repo.BeginTransactionAsync();
+        await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try
         {
-            var profile = await repo.GetProfileByIdAsync(command.ProfileId, false) ??
+            var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken, false) ??
                 throw new NotFoundException("Profile", command.ProfileId);
 
             profile.Update(command.FirstName, 
                 command.LastName, command.Description);
             
-            await repo.SaveChangesAsync(false);
+            await repo.SaveChangesAsync(cancellationToken, false);
             
 
             if (!string.IsNullOrWhiteSpace(command.ProfileName) && profile.ProfileName.Value != command.ProfileName)
             {
-                if (await repo.ProfileNameExistsAsync(command.ProfileName))
+                if (await repo.ProfileNameExistsAsync(command.ProfileName, cancellationToken))
                     throw new ExistsException(command.ProfileName);
 
                 profile.UpdateProfileName(ProfileName.Of(command.ProfileName));
                 profile.LastModified = DateTime.UtcNow;
-                await repo.SaveChangesAsync();
+                await repo.SaveChangesAsync(cancellationToken);
 
                 var eventMessage = command.Adapt<UpdateUserNameEvent>();
 

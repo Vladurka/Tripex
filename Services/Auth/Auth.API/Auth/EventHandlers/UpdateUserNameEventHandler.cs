@@ -1,15 +1,16 @@
+using Auth.API.Auth.Commands.UpdateUserName;
+
 namespace Auth.API.Auth.EventHandlers;
 
-public class UpdateUserNameEventHandler(IUsersRepository repo) : IConsumer<UpdateUserNameEvent>
+public class UpdateUserNameEventHandler(ISender sender, ILogger<UpdateUserNameEventHandler> logger) 
+    : IConsumer<UpdateUserNameEvent>
 {
     public async Task Consume(ConsumeContext<UpdateUserNameEvent> context)
     {
-        var user = await repo.GetUserByIdAsync(context.Message.UserId);
-
-        if (user == null)
-            throw new NotFoundException("User", context.Message.UserId);
-
-        user.UserName = context.Message.ProfileName;
-        await repo.SaveChangesAsync();
+        logger.LogInformation("Updating username");
+        var command = new UpdateUserNameCommand
+            (context.Message.Id, context.Message.ProfileName);
+        await sender.Send(command);
+        logger.LogInformation("Username updated");
     }
 }
