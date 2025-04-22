@@ -29,8 +29,7 @@ public class Profile : Entity<ProfileId>
             AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl,
             FirstName = firstName,
             LastName = lastName,
-            Description = description,
-            ViewCount = 1
+            Description = description
         };
     }
     

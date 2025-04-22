@@ -14,6 +14,15 @@ public static class ProfileMapper
             Description = profile.Description
         };
     }
+    
+    public static BasicInfoDto ToBasicInfoDto(this Profile profile)
+    {
+        return new BasicInfoDto
+        {
+            ProfileName = profile.ProfileName.Value,
+            AvatarUrl = profile.AvatarUrl,
+        };
+    }
 
     public static Profile ToDomain(this CachedProfileDto? dto)
     {

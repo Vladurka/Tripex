@@ -37,6 +37,7 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
 builder.Services.AddAuth(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseAuth();

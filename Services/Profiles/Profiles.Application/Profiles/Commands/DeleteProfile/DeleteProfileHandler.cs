@@ -19,6 +19,8 @@ public class DeleteProfileHandler(IProfilesRepository repo, IProfilesRedisReposi
             if(profile.IsCached)
                 await redisRepo.DeleteProfileAsync(command.ProfileId);
             
+            await redisRepo.DeleteBasicInfoAsync(command.ProfileId);
+            
             await blobStorage.DeletePhotoAsync(command.ProfileId, cancellationToken);
 
             var eventMessage = command.Adapt<DeleteUserEvent>();

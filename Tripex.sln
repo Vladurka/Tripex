@@ -59,6 +59,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interaction.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interaction.Infrastructure", "Services\Interaction\Interaction.Infrastructure\Interaction.Infrastructure.csproj", "{19A5EFBF-7A2D-4FA4-AF01-6D7C79017090}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{52786D4B-3FEF-4B3C-959D-FAA5F28E6ECF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway.YARP", "Gateway\Gateway.YARP\Gateway.YARP.csproj", "{20C66F5C-AEDF-4FEC-AD4E-CE9DCFB14414}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +149,10 @@ Global
 		{19A5EFBF-7A2D-4FA4-AF01-6D7C79017090}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19A5EFBF-7A2D-4FA4-AF01-6D7C79017090}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19A5EFBF-7A2D-4FA4-AF01-6D7C79017090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20C66F5C-AEDF-4FEC-AD4E-CE9DCFB14414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20C66F5C-AEDF-4FEC-AD4E-CE9DCFB14414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20C66F5C-AEDF-4FEC-AD4E-CE9DCFB14414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20C66F5C-AEDF-4FEC-AD4E-CE9DCFB14414}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -174,5 +182,6 @@ Global
 		{B645B2AC-15E2-45EA-9859-60270F216B73} = {3A7AFE51-F97C-4F71-A9A2-75BA006DE264}
 		{A335ED18-3532-4CF8-BD68-875D8EDF1B9E} = {3A7AFE51-F97C-4F71-A9A2-75BA006DE264}
 		{19A5EFBF-7A2D-4FA4-AF01-6D7C79017090} = {3A7AFE51-F97C-4F71-A9A2-75BA006DE264}
+		{20C66F5C-AEDF-4FEC-AD4E-CE9DCFB14414} = {52786D4B-3FEF-4B3C-959D-FAA5F28E6ECF}
 	EndGlobalSection
 EndGlobal

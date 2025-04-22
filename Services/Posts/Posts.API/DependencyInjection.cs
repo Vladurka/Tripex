@@ -1,7 +1,4 @@
-using BuildingBlocks.Auth;
 using BuildingBlocks.Exceptions.Handler;
-using BuildingBlocks.Messaging.Outbox;
-using Posts.Infrastructure.Data;
 
 namespace Posts.API;
 

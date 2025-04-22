@@ -20,6 +20,7 @@ public class UpdateProfileHandler(
                 command.LastName, command.Description);
             
             await repo.SaveChangesAsync(cancellationToken, false);
+            await redisRepo.UpdateBasicInfoAsync(profile);
             
 
             if (!string.IsNullOrWhiteSpace(command.ProfileName) && profile.ProfileName.Value != command.ProfileName)
@@ -30,6 +31,7 @@ public class UpdateProfileHandler(
                 profile.UpdateProfileName(ProfileName.Of(command.ProfileName));
                 profile.LastModified = DateTime.UtcNow;
                 await repo.SaveChangesAsync(cancellationToken);
+                await redisRepo.UpdateBasicInfoAsync(profile);
 
                 var eventMessage = command.Adapt<UpdateUserNameEvent>();
 
