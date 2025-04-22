@@ -1,8 +1,4 @@
-using BuildingBlocks.Auth;
-using BuildingBlocks.CORS;
 using BuildingBlocks.Exceptions.Handler;
-using BuildingBlocks.Messaging.Outbox;
-using Posts.Infrastructure.Data;
 
 namespace Posts.API;
 
@@ -15,8 +11,6 @@ public static class DependencyInjection
         services.AddHealthChecks();
 
         services.AddAuth(configuration);
-
-        services.AllowFrontend();
             
         return services;
     }
@@ -28,8 +22,6 @@ public static class DependencyInjection
         app.UseHealthChecks("/health");
 
         app.UseAuth();
-        
-        app.UseCors("AllowFrontend");
             
         return app;
     }

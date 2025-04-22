@@ -12,11 +12,12 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
 {
     public async Task<CreatePostResult> Handle(CreatePostCommand command, CancellationToken cancellationToken)
     {
-        var url = await blobStorageService.UploadPhotoAsync(command.Photo, command.ProfileId, cancellationToken);
+        var id = Guid.NewGuid();
+        var url = await blobStorageService.UploadPhotoAsync(command.Photo, id, cancellationToken);
         
         var post = new PostDb()
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             ProfileId = command.ProfileId,
             ContentUrl = url,
             Description = command.Description

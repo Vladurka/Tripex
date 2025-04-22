@@ -1,5 +1,3 @@
-using BuildingBlocks.Auth;
-using BuildingBlocks.CORS;
 using BuildingBlocks.Exceptions.Handler;
 using BuildingBlocks.Messaging.Outbox;
 using Profiles.Infrastructure.Data;
@@ -16,8 +14,6 @@ public static class DependencyInjection
         services.AddOutboxPattern<ProfilesContext>();
         
         services.AddAuth(configuration);
-
-        services.AllowFrontend();
             
         return services;
     }
@@ -29,8 +25,6 @@ public static class DependencyInjection
         app.UseHealthChecks("/health");
 
         app.UseAuth();
-        
-        app.UseCors("AllowFrontend");
             
         return app;
     }
