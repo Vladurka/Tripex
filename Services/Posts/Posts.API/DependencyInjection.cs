@@ -1,4 +1,5 @@
 using BuildingBlocks.Auth;
+using BuildingBlocks.CORS;
 using BuildingBlocks.Exceptions.Handler;
 using BuildingBlocks.Messaging.Outbox;
 using Posts.Infrastructure.Data;
@@ -14,17 +15,8 @@ public static class DependencyInjection
         services.AddHealthChecks();
 
         services.AddAuth(configuration);
-        
-        services.AddCors(options =>
-        {
-            options.AddPolicy("AllowFrontend", policy =>
-            {
-                policy.WithOrigins("http://localhost:3000")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowCredentials(); 
-            });
-        });
+
+        services.AllowFrontend();
             
         return services;
     }

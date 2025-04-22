@@ -3,6 +3,7 @@ using Auth.API.Data;
 using Auth.API.Services;
 using BuildingBlocks.Auth;
 using BuildingBlocks.Behaviors;
+using BuildingBlocks.CORS;
 using BuildingBlocks.Exceptions.Handler;
 using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,9 @@ builder.Services.AddMediatR(cfg =>
 builder.Services.AddMessageBroker(builder.Configuration, Assembly.GetExecutingAssembly());
 
 builder.Services.AddAuth(builder.Configuration);
+
+builder.Services.AllowFrontend();
+
 var app = builder.Build();
 
 app.UseAuth();
@@ -44,5 +48,7 @@ app.UseAuth();
 app.MapCarter();
 app.UseExceptionHandler(opts => { });
 app.UseHealthChecks("/health");
+
+app.UseCors("AllowFrontend");
 
 app.Run();
