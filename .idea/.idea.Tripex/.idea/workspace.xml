@@ -33,18 +33,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.API/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.API/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.API/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.Application/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.Application/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.Domain/GlobalUsing.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Interaction/Interaction.Infrastructure/GlobalUsing.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Cache/CacheBasicInfoEvent.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DTO/BasicInfoDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheBasicInfo/CacheBasicInfoCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/CacheBasicInfo/CacheBasicInfoHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/CacheBasicInfoEventHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/DependencyInjection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/Services/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Tripex.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tripex.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.API/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.API/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/GetBaseInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.API/Endpoints/GetBaseInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DTO/CachedProfileDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DTO/CachedProfileDto.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DTO/ProfileMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/DTO/ProfileMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRedisRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Data/IProfilesRedisRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/DeleteProfile/DeleteProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateAvatar/UpdateAvatarHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBaseInfo/GetBaseInfoHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBasicInfo/GetBaseInfoHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBaseInfo/GetBaseInfoQuery.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetBasicInfo/GetBaseInfoQuery.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRedisRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/ProfilesRedisRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,35 +106,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.Auth.API: http.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.Auth.API: https.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.Posts.API: http (1).executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.Posts.API: http.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.Profiles.API: http.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Launch Settings Profile.Tripex: http.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.Auth.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.Posts.executor&quot;: &quot;Run&quot;,
-    &quot;.NET Project.Profiles.executor&quot;: &quot;Run&quot;,
-    &quot;Docker.Services: Compose Deployment.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Launch Settings Profile.Auth.API: http.executor": "Run",
+    ".NET Launch Settings Profile.Auth.API: https.executor": "Run",
+    ".NET Launch Settings Profile.Interaction.API: http.executor": "Run",
+    ".NET Launch Settings Profile.Posts.API: http (1).executor": "Run",
+    ".NET Launch Settings Profile.Posts.API: http.executor": "Run",
+    ".NET Launch Settings Profile.Profiles.API: http.executor": "Run",
+    ".NET Launch Settings Profile.Tripex: http.executor": "Run",
+    ".NET Project.Auth.executor": "Run",
+    ".NET Project.Posts.executor": "Run",
+    ".NET Project.Profiles.executor": "Run",
+    "Docker.Services: Compose Deployment.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "deletionFromPopupRequiresConfirmation": "false",
+    "git-widget-placeholder": "Backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File&quot;: [
-      &quot;C#&quot;
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "C#"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Compound.tripex">
     <configuration name="tripex" type="CompoundRunConfigurationType">
       <toRun name="Auth.API: http" type="LaunchSettings" />
@@ -378,7 +387,9 @@
       <workItem from="1744480751710" duration="3247000" />
       <workItem from="1744540226178" duration="751000" />
       <workItem from="1744627420530" duration="948000" />
-      <workItem from="1744638883602" duration="1043000" />
+      <workItem from="1744638883602" duration="1181000" />
+      <workItem from="1745309825255" duration="6201000" />
+      <workItem from="1745322743219" duration="6090000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />

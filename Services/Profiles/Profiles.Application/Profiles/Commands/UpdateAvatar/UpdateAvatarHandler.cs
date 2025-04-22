@@ -22,6 +22,8 @@ public class UpdateAvatarHandler(IProfilesRepository repo, IProfilesRedisReposit
         
         profile.UpdateAvatar(await blobStorage.UploadPhotoAsync(command.Avatar, command.ProfileId, cancellationToken));
         profile.LastModified = DateTime.UtcNow;
+        
+        await redisRepo.UpdateBasicInfoAsync(profile);
         await repo.SaveChangesAsync(cancellationToken);
 
         return new UpdateAvatarResult(profile.AvatarUrl);

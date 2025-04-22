@@ -14,6 +14,17 @@ public static class DependencyInjection
         services.AddHealthChecks();
 
         services.AddAuth(configuration);
+        
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowFrontend", policy =>
+            {
+                policy.WithOrigins("http://localhost:3000")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowCredentials(); 
+            });
+        });
             
         return services;
     }
@@ -25,6 +36,8 @@ public static class DependencyInjection
         app.UseHealthChecks("/health");
 
         app.UseAuth();
+        
+        app.UseCors("AllowFrontend");
             
         return app;
     }

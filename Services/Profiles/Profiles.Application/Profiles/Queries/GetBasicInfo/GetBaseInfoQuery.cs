@@ -1,4 +1,4 @@
-namespace Profiles.Application.Profiles.Queries.GetBaseInfo;
+namespace Profiles.Application.Profiles.Queries.GetBasicInfo;
 
 public record GetBaseInfoQuery(Guid ProfileId) : IQuery<GetBaseInfoResult>;
 public record GetBaseInfoResult(Guid ProfileId, string ProfileName, string AvatarUrl);

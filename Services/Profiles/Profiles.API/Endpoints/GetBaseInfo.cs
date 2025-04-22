@@ -1,4 +1,4 @@
-using Profiles.Application.Profiles.Queries.GetBaseInfo;
+using Profiles.Application.Profiles.Queries.GetBasicInfo;
 
 namespace Profiles.API.Endpoints;
 
