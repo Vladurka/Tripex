@@ -13,7 +13,7 @@ public class CreateProfileEventHandler(ISender sender, ILogger<CreateProfileEven
         var command = new CreateProfileCommand(context.Message.UserId, 
             context.Message.UserName);
         
-        await sender.Send(command);
+        await sender.Send(command, context.CancellationToken);
         
         logger.LogInformation("Profile created");
     }

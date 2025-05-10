@@ -6,4 +6,6 @@ public record GetProfileResult(
     string AvatarUrl,
     string? FirstName,
     string? LastName,
-    string? Description);
+    string? Description,
+    int FollowersCount,
+    int FollowingCount);

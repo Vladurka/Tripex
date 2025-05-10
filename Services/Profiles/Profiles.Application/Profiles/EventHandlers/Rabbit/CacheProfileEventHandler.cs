@@ -11,7 +11,7 @@ public class CacheProfileEventHandler(ISender sender, ILogger<CacheProfileEventH
     {
         logger.LogInformation("Caching profile");
         var command = new CacheProfileCommand(context.Message.ProfileId);
-        await sender.Send(command);
+        await sender.Send(command, context.CancellationToken);
         logger.LogInformation("Profile cached");
     }
 }

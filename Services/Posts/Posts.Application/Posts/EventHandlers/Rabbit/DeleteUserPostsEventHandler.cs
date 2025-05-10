@@ -13,7 +13,7 @@ public class DeleteUserPostsEventHandler(ISender sender, ILogger<DeleteUserPosts
     {
         logger.LogInformation("Deleting posts");
         var command = new DeletePostsByProfileCommand(context.Message.ProfileId);
-        await sender.Send(command);
+        await sender.Send(command, context.CancellationToken);
         logger.LogInformation("Posts deleted");
     }
 }
