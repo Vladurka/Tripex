@@ -1,10 +1,10 @@
 namespace Auth.API.Auth.Commands.RefreshToken;
 
 public class RefreshTokenHandler( ITokenService tokenService, IOptions<JwtOptions> options, 
-    IUsersRepository repo) : ICommandHandler<RefreshTokenCommand, RefreshTokenResult>
+    IUsersRepository repo) : ICommandHandler<RefreshTokenCommand>
 {
     private JwtOptions _options => options.Value;
-    public async Task<RefreshTokenResult> Handle(RefreshTokenCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(RefreshTokenCommand command, CancellationToken cancellationToken)
     {
         var user = await repo.GetUserByRefreshTokenAsync(command.RefreshToken, cancellationToken);
 
@@ -19,6 +19,6 @@ public class RefreshTokenHandler( ITokenService tokenService, IOptions<JwtOption
         user.RefreshTokenExpiry = DateTime.UtcNow.AddDays(_options.RefreshTokenExpirationDays);
         await repo.UpdateAsync(user, cancellationToken);
 
-        return new RefreshTokenResult(tokens.RefreshToken);
+        return Unit.Value;
     }
 }

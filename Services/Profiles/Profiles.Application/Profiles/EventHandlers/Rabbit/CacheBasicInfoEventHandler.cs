@@ -11,7 +11,7 @@ public class CacheBasicInfoEventHandler(ISender sender,
     {
         logger.LogInformation("Caching basic info");
         var command = new CacheBasicInfoCommand(context.Message.ProfileId);
-        await sender.Send(command);
+        await sender.Send(command, context.CancellationToken);
         logger.LogInformation("Basic info cached");
     }
 }

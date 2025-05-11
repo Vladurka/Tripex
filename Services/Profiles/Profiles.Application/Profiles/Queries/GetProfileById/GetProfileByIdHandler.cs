@@ -39,7 +39,9 @@ public class GetProfileByIdHandler(IProfilesRepository repo, IOutboxRepository o
             profile.AvatarUrl,
             profile.FirstName,
             profile.LastName,
-            profile.Description
+            profile.Description,
+            profile.FollowersCount,
+            profile.FollowingCount
         );
     }
 }

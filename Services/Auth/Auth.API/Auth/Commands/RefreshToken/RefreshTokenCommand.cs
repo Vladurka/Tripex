@@ -1,7 +1,6 @@
 namespace Auth.API.Auth.Commands.RefreshToken;
 
-public record RefreshTokenCommand(string RefreshToken) : ICommand<RefreshTokenResult>;
-public record RefreshTokenResult(string RefreshToken);
+public record RefreshTokenCommand(string RefreshToken) : ICommand;
 
 public class RefreshTokenCommandValidator : AbstractValidator<RefreshTokenCommand>
 {

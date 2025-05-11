@@ -2,6 +2,7 @@ using System.Reflection;
 using Azure.Storage.Blobs;
 using BuildingBlocks.AzureBlob;
 using BuildingBlocks.Behaviors;
+using BuildingBlocks.ContentModeration;
 using BuildingBlocks.Messaging.MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +21,7 @@ public static class DependencyInjection
             cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
         });
 
+        services.AddContentModeration(config);
         services.AddBlobStorage(config);
         
         services.AddMessageBroker(config, Assembly.GetExecutingAssembly());

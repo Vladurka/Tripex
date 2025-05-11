@@ -10,6 +10,8 @@ public class Profile : Entity<ProfileId>
     public string? FirstName { get; private set; }
     public string? LastName { get; private set; }
     public string? Description { get; private set; }
+    public int FollowersCount { get; private set; }
+    public int FollowingCount { get; private set; }
     public int ViewCount { get; private set; }
     public DateTime ViewCountResetAt { get; private set; } = DateTime.UtcNow;
     public bool IsCached { get; private set; }
@@ -45,6 +47,12 @@ public class Profile : Entity<ProfileId>
 
     public void UpdateAvatar(string avatarUrl) =>
         AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl;
+    
+    public void AddFollower() =>
+        FollowersCount++;
+    
+    public void AddFollowing() =>
+        FollowingCount++;
 
     #region Caching
     public void UpdateViewCount()

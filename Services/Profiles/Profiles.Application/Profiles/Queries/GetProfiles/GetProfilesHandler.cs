@@ -14,7 +14,9 @@ public class GetProfilesHandler(IProfilesRepository repo)
                 p.AvatarUrl,
                 p.FirstName,
                 p.LastName,
-                p.Description))
+                p.Description,
+                p.FollowersCount,
+                p.FollowingCount))
             .AsNoTracking()
             .ToListAsync(cancellationToken);
 

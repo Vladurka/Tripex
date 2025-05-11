@@ -13,7 +13,7 @@ public class CacheUserPostsEventHandler(ISender sender, ILogger<CacheUserPostsEv
     {
         logger.LogInformation("Caching user");
         var command = new CachePostsCommand(context.Message.ProfileId);
-        await sender.Send(command);
+        await sender.Send(command, context.CancellationToken);
         logger.LogInformation("User cached");
     }
 }

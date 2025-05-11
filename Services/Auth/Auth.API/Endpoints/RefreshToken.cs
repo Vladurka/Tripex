@@ -8,11 +8,10 @@ public class RefreshToken : ICarterModule
     {
         app.MapPost("api/auth/refresh/{token}", async (string token, ISender sender) =>{
             {
-                var result = await sender.Send(new RefreshTokenCommand(token));
-                return Results.Ok(result);
+                await sender.Send(new RefreshTokenCommand(token));
+                return Results.Ok(true);
             }})
             .WithName("RefreshToken")
-            .Produces<RefreshTokenResult>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
             .WithSummary("RefreshToken")

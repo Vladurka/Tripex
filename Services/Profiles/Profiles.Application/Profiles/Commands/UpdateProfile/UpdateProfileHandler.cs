@@ -52,7 +52,9 @@ public class UpdateProfileHandler(
                 profile.AvatarUrl,
                 profile.FirstName,
                 profile.LastName,
-                profile.Description
+                profile.Description,
+                profile.FollowersCount,
+                profile.FollowingCount
             );
         }
         
