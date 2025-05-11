@@ -36,22 +36,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/AddFollowEvent.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/AddFollow/AddFollowCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/AddFollow/AddFollowHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/EventHandlers/Rabbit/AddFollowEventHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/ContentModeration/ContentModerationService.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/ContentModeration/Extensions.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/ContentModeration/IContentModerationService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/RefreshToken.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Endpoints/RefreshToken.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Commands/UpdateProfile/UpdateProfileHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileResult.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileResult.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfiles/GetProfilesHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfiles/GetProfilesHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Domain/Models/Profile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Profiles/Profiles.Infrastructure/Data/Migrations/ProfilesContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/BlobStorageService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/BlobStorageService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/IBlobStorageService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/AzureBlob/IBlobStorageService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/DependencyInjection.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts.Application.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts.Application.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,13 +73,13 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/0308d995074f4663b87ab86169c72b7d22908/10/1dfc677d/IOptions`1.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/225dd19ef9e59a5b94de2bcd4b7b38cdca205bdfea4a7361ed03c5f79a36/INotification.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6cfb6a3a9cfddaefef9bdee588a670ff173718b4f1abd22bdd558c22dfdde/Enums.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/92915fc433708d54b82f7e51aa6c115b21ca2f9695264db0585bf5cd6e9e1959/Results.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d636182b963223f01c9a85951fd78e83e8e3ae45319513b55b67787d3715721c/EF.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e22aa88644c23239bca185129cb6849c9377ffc28d6d77a16678d818e9aea33a/ContentSafetyImageData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f645154fd123ae691055915c58519223d5e998caac4810db20ce69a7be29fb2/ImageCategoriesAnalysis.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Repositories/ICrudRepository.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/RefreshToken/RefreshTokenHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
@@ -394,7 +388,8 @@
       <workItem from="1746699541882" duration="46000" />
       <workItem from="1746699863149" duration="30000" />
       <workItem from="1746820978338" duration="369000" />
-      <workItem from="1746858976181" duration="2816000" />
+      <workItem from="1746858976181" duration="3005000" />
+      <workItem from="1746890283627" duration="6939000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />
