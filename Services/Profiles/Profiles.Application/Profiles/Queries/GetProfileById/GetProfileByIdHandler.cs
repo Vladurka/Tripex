@@ -7,11 +7,13 @@ public class GetProfileByIdHandler(IProfilesRepository repo, IOutboxRepository o
 {
     public async Task<GetProfileResult> Handle(GetProfileByIdQuery query, CancellationToken cancellationToken)
     {
-        var profile = await redisRepo.GetCachedProfileAsync(query.ProfileId);
+        var profileId = ProfileId.Of(query.ProfileId);
+        var profile = 
+            await redisRepo.GetCachedProfileAsync(profileId);
         
         if (profile == null)
         {
-            profile = await repo.GetProfileByIdAsync(query.ProfileId, cancellationToken, false) ?? 
+            profile = await repo.GetProfileByIdAsync(profileId, cancellationToken, false) ?? 
                       throw new NotFoundException("Profile", query.ProfileId);
 
             if (profile.IsCached)

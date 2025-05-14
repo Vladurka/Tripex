@@ -43,7 +43,10 @@ public class UserRepository(AuthContext context) : IUsersRepository
 
     public async Task<bool> UsernameExistsAsync(string userName, CancellationToken cancellationToken) =>
         await context.Users.AnyAsync(x => x.UserName == userName, cancellationToken);
-    
+
+    public async Task<bool> UserExists(string email, CancellationToken cancellationToken) =>
+        await context.Users.AnyAsync(x => x.Email == email, cancellationToken);
+
     public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken) =>
         await context.Database.BeginTransactionAsync(cancellationToken);
 

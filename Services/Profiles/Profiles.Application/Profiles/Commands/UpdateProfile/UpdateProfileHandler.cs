@@ -13,7 +13,7 @@ public class UpdateProfileHandler(
         await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try
         {
-            var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken, false) ??
+            var profile = await repo.GetProfileByIdAsync(ProfileId.Of(command.ProfileId), cancellationToken, false) ??
                 throw new NotFoundException("Profile", command.ProfileId);
 
             profile.Update(command.FirstName, 

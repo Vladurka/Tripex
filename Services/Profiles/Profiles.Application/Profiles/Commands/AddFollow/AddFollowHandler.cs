@@ -4,10 +4,11 @@ public class AddFollowHandler(IProfilesRepository repo) : ICommandHandler<AddFol
 {
     public async Task<Unit> Handle(AddFollowCommand command, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken, false) ??
+        var profileId = ProfileId.Of(command.ProfileId);
+        var profile = await repo.GetProfileByIdAsync(profileId, cancellationToken, false) ??
                       throw new NotFoundException("Profile", command.ProfileId);
         
-        var follower = await repo.GetProfileByIdAsync(command.FollowerId, cancellationToken, false) ??
+        var follower = await repo.GetProfileByIdAsync(profileId, cancellationToken, false) ??
                       throw new NotFoundException("Profile", command.FollowerId);
         
         profile.AddFollower();

@@ -15,11 +15,10 @@ public class DeletePostHandler(IPostRepository repo, IBlobStorageService blobSto
 
         var profileId = ProfileId.Of(command.ProfileId);
         var postId = PostId.Of(command.PostId);
-        
-        await repo.DeletePostAsync(postId);
-        await repo.DecrementPostCount(profileId);
-        await redisRepo.DeletePostAsync(postId, profileId);
-        await blobStorageService.DeletePhotoAsync(postId.Value, cancellationToken);
+
+        await Task.WhenAll(repo.DeletePostAsync(postId, profileId), 
+            redisRepo.DeletePostAsync(postId, profileId), 
+            blobStorageService.DeletePhotoAsync(postId.Value, cancellationToken));
 
         return new DeletePostResult(true);
     }
