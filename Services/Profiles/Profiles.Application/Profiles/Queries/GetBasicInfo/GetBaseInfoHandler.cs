@@ -7,7 +7,10 @@ public class GetBaseInfoHandler(IProfilesRepository repo,
 {
     public async Task<GetBaseInfoResult> Handle(GetBaseInfoQuery query, CancellationToken cancellationToken)
     {
-        var profileFromCache = await redisRepo.GetCachedBasicInfoAsync(query.ProfileId);
+        var profileId = ProfileId.Of(query.ProfileId);       
+        
+        var profileFromCache = 
+            await redisRepo.GetCachedBasicInfoAsync(profileId);
 
         if (profileFromCache == null)
         {
@@ -19,9 +22,7 @@ public class GetBaseInfoHandler(IProfilesRepository repo,
                     p.AvatarUrl
                 })
                 .FirstOrDefaultAsync(p => p.Id ==
-                    ProfileId.Of(query.ProfileId), cancellationToken: cancellationToken);
-            
-            if (profile == null)
+                    profileId, cancellationToken: cancellationToken) ??
                 throw new NotFoundException("Profile", query.ProfileId);
             
             return new GetBaseInfoResult(query.ProfileId, profile.ProfileName.Value, profile.AvatarUrl);

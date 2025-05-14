@@ -13,8 +13,9 @@ public class RegisterHandler(IPasswordHasher passwordHasher, ITokenService token
         await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try
         {
-            var userCheck = await repo.GetUserByEmailAsync(command.Email, cancellationToken);
-            if (userCheck != null)
+            var userExists = await repo.UserExists(command.Email, cancellationToken);
+            
+            if (userExists)
                 throw new ExistsException("User", command.Email);
 
             if (await repo.UsernameExistsAsync(command.UserName, cancellationToken))

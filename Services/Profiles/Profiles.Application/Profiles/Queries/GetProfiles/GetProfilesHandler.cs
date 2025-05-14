@@ -18,7 +18,7 @@ public class GetProfilesHandler(IProfilesRepository repo)
                 p.FollowersCount,
                 p.FollowingCount))
             .AsNoTracking()
-            .ToListAsync(cancellationToken);
+            .ToArrayAsync(cancellationToken);
 
         return new GetProfilesResult(profiles);
     }

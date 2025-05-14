@@ -11,6 +11,7 @@ public interface IUsersRepository
     public Task UpdateAsync(User user, CancellationToken cancellationToken);
     public Task DeleteAsync(Guid id, CancellationToken cancellationToken);
     public Task<bool> UsernameExistsAsync(string userName, CancellationToken cancellationToken);
+    public Task<bool> UserExists(string email, CancellationToken cancellationToken);
     public Task SaveChangesAsync(CancellationToken cancellationToken);
     public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
 }

@@ -6,9 +6,7 @@ public class LoginHandler(IPasswordHasher passwordHasher, ITokenService tokenSer
     private JwtOptions _options => options.Value;
     public async Task<LoginResult> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
-        var user = await repo.GetUserByEmailAsync(command.Email, cancellationToken);
-
-        if (user == null)
+        var user = await repo.GetUserByEmailAsync(command.Email, cancellationToken)??
             throw new NotFoundException("User", command.Email);
 
         if (!passwordHasher.VerifyPassword(user.PasswordHash, command.Password))

@@ -25,55 +25,56 @@ public class PostsRedisRepository : IPostsRedisRepository
 
     public async Task<IEnumerable<Post>> GetCachedPostsAsync(ProfileId profileId)
     {
-        var key = ConvertToKey(profileId);
-        var value = await _redisDb.StringGetAsync(key);
-
-        if (value.IsNullOrEmpty)
-            return [];
-
-        return JsonSerializer.Deserialize<IEnumerable<CachedPostDto>>(value!)!
-            .Select(p => p.ToDomain());
+        var value = await _redisDb.StringGetAsync(ConvertToKey(profileId));
+        return value.IsNullOrEmpty
+            ? Enumerable.Empty<Post>()
+            : JsonSerializer.Deserialize<IEnumerable<CachedPostDto>>(value!)!.Select(p => p.ToDomain());
     }
 
-    public async Task<bool> ArePostsCachedAsync(ProfileId profileId) =>
-        await _redisDb.KeyExistsAsync(ConvertToKey(profileId));
+    public Task<bool> ArePostsCachedAsync(ProfileId profileId) =>
+        _redisDb.KeyExistsAsync(ConvertToKey(profileId));
 
     public async Task AddPostAsync(Post post)
     {
         var key = ConvertToKey(post.ProfileId);
-        var posts = await GetCachedPostsAsync(post.ProfileId);
+        var value = await _redisDb.StringGetAsync(key);
 
-        var updatedPosts = posts.Append(post).Select(p => p.ToCachedPostDto());
-        var serialized = JsonSerializer.Serialize(updatedPosts);
+        IEnumerable<Post> posts = value.IsNullOrEmpty
+            ? new[] { post }
+            : JsonSerializer.Deserialize<IEnumerable<CachedPostDto>>(value!)!.Select(p => p.ToDomain()).Append(post);
 
+        var serialized = JsonSerializer.Serialize(posts.Select(p => p.ToCachedPostDto()));
         await _redisDb.StringSetAsync(key, serialized);
     }
 
     public async Task DeletePostAsync(PostId postId, ProfileId profileId)
     {
-        if (await ArePostsCachedAsync(profileId))
-        {
-            var key = ConvertToKey(profileId);
-            var posts = await GetCachedPostsAsync(profileId);
+        var key = ConvertToKey(profileId);
+        var value = await _redisDb.StringGetAsync(key);
 
-            var updatedPosts = posts
-                .Where(p => p.Id.Value != postId.Value)
-                .Select(p => p.ToCachedPostDto());
+        if (value.IsNullOrEmpty)
+            throw new NotFoundException($"Post with id {postId.Value} not found in cache");
 
-            var serialized = JsonSerializer.Serialize(updatedPosts);
-            await _redisDb.StringSetAsync(key, serialized);
-        }
-    }
+        var posts = JsonSerializer.Deserialize<List<CachedPostDto>>(value!)!;
     
-    public async Task DeletePostsAsync(ProfileId profileId)
+        var initialCount = posts.Count;
+        var updatedPosts = posts.Where(p => p.Id != postId.Value).ToList();
+
+        if (updatedPosts.Count == initialCount)
+            throw new NotFoundException($"Post with id {postId.Value} not found in cache");
+
+        var serialized = JsonSerializer.Serialize(updatedPosts);
+        await _redisDb.StringSetAsync(key, serialized);
+    }
+
+    public async Task DeletePostsByProfileAsync(ProfileId profileId)
     {
-        if (await ArePostsCachedAsync(profileId))
-        {
-            var key = ConvertToKey(profileId);
-            await _redisDb.KeyDeleteAsync(key);
-        }
+        var deleted = await _redisDb.KeyDeleteAsync(ConvertToKey(profileId));
+        
+        if(!deleted)
+            throw new NotFoundException($"Profile with id {profileId.Value} not found in cache");
     }
-    
-    private string ConvertToKey(ProfileId profileId) =>
+
+    private static string ConvertToKey(ProfileId profileId) =>
         $"profile:{profileId.Value}";
 }

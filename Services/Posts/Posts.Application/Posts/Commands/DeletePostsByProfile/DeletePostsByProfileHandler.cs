@@ -9,9 +9,10 @@ public class DeletePostsByProfileHandler(IPostsRedisRepository redisRepo, IPostR
     public async Task<Unit> Handle(DeletePostsByProfileCommand command, CancellationToken cancellationToken)
     {
         var profileId = ProfileId.Of(command.ProfileId);
-        await repo.DeletePostsAsync(profileId);
-        await repo.DeletePostCountAsync(profileId);
-        await redisRepo.DeletePostsAsync(profileId);
+
+        await Task.WhenAll(repo.DeletePostsAsync(profileId), 
+            repo.DeletePostCountAsync(profileId), 
+            redisRepo.DeletePostsByProfileAsync(profileId));
         
         return Unit.Value;
     }

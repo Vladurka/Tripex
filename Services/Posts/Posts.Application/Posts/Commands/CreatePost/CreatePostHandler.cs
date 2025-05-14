@@ -28,19 +28,23 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
             ContentUrl = url,
             Description = command.Description
         };
-
-        await repo.AddPostAsync(post);
-
-        var profileId = ProfileId.Of(command.ProfileId);
-
-        if (await redisRepo.ArePostsCachedAsync(profileId))
-            await redisRepo.AddPostAsync(post.ToDomain());
-
-        await repo.IncrementPostCount(profileId);
-
+        
         var eventMessage = command.Adapt<CacheBasicInfoEvent>();
+        var profileId = ProfileId.Of(command.ProfileId);
+        
+        var arePostsCachedTask = redisRepo.ArePostsCachedAsync(profileId);
 
-        await publishEndpoint.Publish(eventMessage, cancellationToken);
+        var tasks = new List<Task>
+        {
+            repo.AddPostAsync(post),
+            publishEndpoint.Publish(eventMessage, cancellationToken),
+            arePostsCachedTask 
+        };
+
+        await Task.WhenAll(tasks);
+
+        if (arePostsCachedTask.Result) 
+            await redisRepo.AddPostAsync(post.ToDomain());
 
         return new CreatePostResult(post.Id);
     }

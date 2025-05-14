@@ -17,20 +17,20 @@ public class ProfilesRepository(ProfilesContext context) : IProfilesRepository
     public IQueryable<Profile> GetQueryable() =>
         context.Profiles.AsQueryable();
 
-    public async Task<Profile?> GetProfileByIdAsync(Guid id, CancellationToken cancellationToken, bool asNoTracking = true)
+    public async Task<Profile?> GetProfileByIdAsync(ProfileId id, CancellationToken cancellationToken, bool asNoTracking = true)
     {
         IQueryable<Profile> query = context.Profiles;
 
         if (asNoTracking)
             query = query.AsNoTracking();
 
-        return await query.FirstOrDefaultAsync(p => p.Id == ProfileId.Of(id), cancellationToken);
+        return await query.FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
     }
 
     public async Task<bool> ProfileNameExistsAsync(string userName, CancellationToken cancellationToken) =>
         await context.Profiles.AnyAsync(x => x.ProfileName == ProfileName.Of(userName), cancellationToken);
 
-    public async Task RemoveProfileAsync(Guid id, CancellationToken cancellationToken)
+    public async Task RemoveProfileAsync(ProfileId id, CancellationToken cancellationToken)
     {
         var profile = await GetProfileByIdAsync(id, cancellationToken);
 

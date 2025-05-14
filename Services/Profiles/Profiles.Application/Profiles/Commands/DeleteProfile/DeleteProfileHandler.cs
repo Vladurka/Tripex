@@ -9,27 +9,30 @@ public class DeleteProfileHandler(IProfilesRepository repo, IProfilesRedisReposi
         await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try
         {
-            var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken);
-
-            if (profile == null)
-                throw new NotFoundException("Profile", command.ProfileId);
-            
-            await repo.RemoveProfileAsync(profile, cancellationToken);
-            
-            if(profile.IsCached)
-                await redisRepo.DeleteProfileAsync(command.ProfileId);
-            
-            await redisRepo.DeleteBasicInfoAsync(command.ProfileId);
-            
-            await blobStorage.DeletePhotoAsync(command.ProfileId, cancellationToken);
+            var profileId = ProfileId.Of(command.ProfileId);
+            var profile = await repo.GetProfileByIdAsync(profileId, cancellationToken)
+                ?? throw new NotFoundException("Profile", command.ProfileId);
 
             var eventMessage = command.Adapt<DeleteUserEvent>();
-            
-            var outboxMessage = new OutboxMessage(typeof(DeleteUserEvent).AssemblyQualifiedName!,
+
+            var outboxMessage = new OutboxMessage(
+                typeof(DeleteUserEvent).AssemblyQualifiedName!,
                 JsonSerializer.Serialize(eventMessage));
+
+            await repo.RemoveProfileAsync(profile, cancellationToken);
             
-            await outboxRepo.AddOutboxMessageAsync(outboxMessage);
-            
+            var tasks = new List<Task>
+            {
+                redisRepo.DeleteBasicInfoAsync(profileId),
+                blobStorage.DeletePhotoAsync(profileId.Value, cancellationToken),
+                outboxRepo.AddOutboxMessageAsync(outboxMessage)
+            };
+
+            if (profile.IsCached)
+                tasks.Add(redisRepo.DeleteProfileAsync(profileId));
+    
+            await Task.WhenAll(tasks);
+
             await transaction.CommitAsync(cancellationToken);
 
             return new DeleteProfileResult(true);
