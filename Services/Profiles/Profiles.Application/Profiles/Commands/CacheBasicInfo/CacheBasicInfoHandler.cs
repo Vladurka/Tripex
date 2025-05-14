@@ -5,9 +5,7 @@ public class CacheBasicInfoHandler(IProfilesRepository repo,
 {
     public async Task<Unit> Handle(CacheBasicInfoCommand command, CancellationToken cancellationToken)
     {
-        var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken);
-        
-        if(profile == null)
+        var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken) ??
             throw new NotFoundException($"Profile with id {command.ProfileId} not found");
         
         await redisRepo.CacheBasicInfo(profile);

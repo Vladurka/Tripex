@@ -19,9 +19,7 @@ public class GetBaseInfoHandler(IProfilesRepository repo,
                     p.AvatarUrl
                 })
                 .FirstOrDefaultAsync(p => p.Id ==
-                    ProfileId.Of(query.ProfileId), cancellationToken: cancellationToken);
-            
-            if (profile == null)
+                    ProfileId.Of(query.ProfileId), cancellationToken: cancellationToken) ??
                 throw new NotFoundException("Profile", query.ProfileId);
             
             return new GetBaseInfoResult(query.ProfileId, profile.ProfileName.Value, profile.AvatarUrl);

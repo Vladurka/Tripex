@@ -9,9 +9,7 @@ public class DeleteProfileHandler(IProfilesRepository repo, IProfilesRedisReposi
         await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try
         {
-            var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken);
-
-            if (profile == null)
+            var profile = await repo.GetProfileByIdAsync(command.ProfileId, cancellationToken)??
                 throw new NotFoundException("Profile", command.ProfileId);
             
             await repo.RemoveProfileAsync(profile, cancellationToken);
