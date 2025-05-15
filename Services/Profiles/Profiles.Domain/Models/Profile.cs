@@ -10,8 +10,9 @@ public class Profile : Entity<ProfileId>
     public string? FirstName { get; private set; }
     public string? LastName { get; private set; }
     public string? Description { get; private set; }
-    public int FollowersCount { get; private set; }
+    public int FollowerCount { get; private set; }
     public int FollowingCount { get; private set; }
+    public int PostCount { get; private set; }
     public int ViewCount { get; private set; }
     public DateTime ViewCountResetAt { get; private set; } = DateTime.UtcNow;
     public bool IsCached { get; private set; }
@@ -21,8 +22,22 @@ public class Profile : Entity<ProfileId>
 
     private Profile() { }
 
+    
+    public static Profile Create(ProfileId id, ProfileName profileName)
+    {
+        return new Profile
+        {
+            Id = id,
+            ProfileName = profileName,
+            AvatarUrl =  DEFAULT_AVATAR,
+            FirstName = string.Empty,
+            LastName = string.Empty,
+            Description = string.Empty,
+        };
+    }
     public static Profile Create(ProfileId id, ProfileName profileName, string? avatarUrl,
-        string? firstName, string? lastName, string? description)
+        string? firstName, string? lastName, string? description, 
+        int followerCount, int followingCount, int postCount)
     {
         return new Profile
         {
@@ -31,7 +46,10 @@ public class Profile : Entity<ProfileId>
             AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl,
             FirstName = firstName,
             LastName = lastName,
-            Description = description
+            Description = description,
+            FollowerCount = followerCount,
+            FollowingCount = followingCount,
+            PostCount = postCount
         };
     }
     
@@ -49,10 +67,16 @@ public class Profile : Entity<ProfileId>
         AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl;
     
     public void AddFollower() =>
-        FollowersCount++;
+        FollowerCount++;
     
     public void AddFollowing() =>
-        FollowingCount++;
+        FollowingCount++;   
+    
+    public void IncrementPostCount() =>
+        PostCount++;
+    
+    public void DecrementPostCount() =>
+        PostCount--;
 
     #region Caching
     public void UpdateViewCount()

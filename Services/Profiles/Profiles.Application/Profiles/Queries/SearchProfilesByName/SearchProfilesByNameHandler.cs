@@ -16,7 +16,7 @@ public class SearchProfilesByNameHandler(IProfilesRepository repo)
                 p.FirstName,
                 p.LastName,
                 p.Description,
-                p.FollowersCount,
+                p.FollowerCount,
                 p.FollowingCount))
             .ToListAsync(cancellationToken);
 

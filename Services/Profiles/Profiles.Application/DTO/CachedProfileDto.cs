@@ -8,5 +8,8 @@ public class CachedProfileDto
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Description { get; set; }
+    public int FollowerCount { get; set; }
+    public int FollowingCount { get; set; }
+    public int PostCount { get; set; }
     public CachedProfileDto(){}
 }

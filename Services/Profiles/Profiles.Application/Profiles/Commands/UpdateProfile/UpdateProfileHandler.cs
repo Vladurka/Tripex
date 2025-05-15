@@ -53,7 +53,7 @@ public class UpdateProfileHandler(
                 profile.FirstName,
                 profile.LastName,
                 profile.Description,
-                profile.FollowersCount,
+                profile.FollowerCount,
                 profile.FollowingCount
             );
         }

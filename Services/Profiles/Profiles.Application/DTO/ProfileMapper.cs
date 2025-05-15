@@ -11,7 +11,10 @@ public static class ProfileMapper
             AvatarUrl = profile.AvatarUrl,
             FirstName = profile.FirstName,
             LastName = profile.LastName,
-            Description = profile.Description
+            Description = profile.Description,
+            FollowerCount = profile.FollowerCount,
+            FollowingCount = profile.FollowingCount,
+            PostCount = profile.PostCount
         };
     }
     
@@ -32,7 +35,10 @@ public static class ProfileMapper
            dto.AvatarUrl,
            dto.FirstName,
            dto.LastName,
-           dto.Description
+           dto.Description,
+           dto.FollowerCount,
+           dto.FollowingCount,
+           dto.PostCount
         );
     }
 }
