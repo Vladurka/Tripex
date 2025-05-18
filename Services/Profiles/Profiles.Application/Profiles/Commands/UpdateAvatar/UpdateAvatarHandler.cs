@@ -11,7 +11,7 @@ public class UpdateAvatarHandler(IProfilesRepository repo, IProfilesRedisReposit
         if (command.Avatar == null)
         {
             await blobStorage.DeletePhotoAsync(command.ProfileId, cancellationToken);
-            profile.UpdateAvatar(Profile.DEFAULT_AVATAR);
+            profile.UpdateAvatar(string.Empty);
             await repo.SaveChangesAsync(cancellationToken);
             
             if(profile.IsCached)

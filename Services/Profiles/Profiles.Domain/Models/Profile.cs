@@ -4,12 +4,11 @@ using Profiles.Domain.ValueObjects;
 namespace Profiles.Domain.Models;
 public class Profile : Entity<ProfileId>
 {
-    public const string DEFAULT_AVATAR = "https://shorturl.at/xyHKo";
-    public string AvatarUrl { get; private set; } = DEFAULT_AVATAR;
+    public string AvatarUrl { get; private set; } = string.Empty;
     public ProfileName ProfileName { get; private set; }
-    public string? FirstName { get; private set; }
-    public string? LastName { get; private set; }
-    public string? Description { get; private set; }
+    public string FirstName { get; private set; } = string.Empty;
+    public string LastName { get; private set; } = string.Empty;
+    public string Description { get; private set; } = string.Empty;
     public int FollowerCount { get; private set; }
     public int FollowingCount { get; private set; }
     public int PostCount { get; private set; }
@@ -29,21 +28,17 @@ public class Profile : Entity<ProfileId>
         {
             Id = id,
             ProfileName = profileName,
-            AvatarUrl =  DEFAULT_AVATAR,
-            FirstName = string.Empty,
-            LastName = string.Empty,
-            Description = string.Empty,
         };
     }
-    public static Profile Create(ProfileId id, ProfileName profileName, string? avatarUrl,
-        string? firstName, string? lastName, string? description, 
+    public static Profile Create(ProfileId id, ProfileName profileName, string avatarUrl,
+        string firstName, string lastName, string description, 
         int followerCount, int followingCount, int postCount)
     {
         return new Profile
         {
             Id = id,
             ProfileName = profileName,
-            AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl,
+            AvatarUrl = avatarUrl,
             FirstName = firstName,
             LastName = lastName,
             Description = description,
@@ -53,18 +48,18 @@ public class Profile : Entity<ProfileId>
         };
     }
     
-    public void Update(string? firstName, string? lastName, string? description)
+    public void Update(string firstName, string lastName, string description)
     {
-        FirstName = string.IsNullOrWhiteSpace(firstName) ? string.Empty : firstName;
-        LastName = string.IsNullOrWhiteSpace(lastName) ? string.Empty : lastName;
-        Description = string.IsNullOrWhiteSpace(description) ? string.Empty : description;
+        FirstName = firstName;
+        LastName = lastName;
+        Description = description;
     }
 
     public void UpdateProfileName(ProfileName newProfileName) =>
         ProfileName = newProfileName;
 
     public void UpdateAvatar(string avatarUrl) =>
-        AvatarUrl = string.IsNullOrWhiteSpace(avatarUrl) ? DEFAULT_AVATAR : avatarUrl;
+        AvatarUrl = avatarUrl;
     
     public void AddFollower() =>
         FollowerCount++;
