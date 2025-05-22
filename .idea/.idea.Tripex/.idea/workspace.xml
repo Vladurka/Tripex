@@ -36,7 +36,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Tripex.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Tripex.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,11 +73,12 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e22aa88644c23239bca185129cb6849c9377ffc28d6d77a16678d818e9aea33a/ContentSafetyImageData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f645154fd123ae691055915c58519223d5e998caac4810db20ce69a7be29fb2/ImageCategoriesAnalysis.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Monolith/Tripex.Core/Domain/Interfaces/Repositories/ICrudRepository.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameQuery.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/WebApi/Tripex/Services/Profiles/Profiles.Domain/Models/Profile.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/WebApi/Tripex/Services/Profiles/Profiles.Domain/Models/Profile.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -389,6 +390,9 @@
       <workItem from="1747238696146" duration="4918000" />
       <workItem from="1747324367288" duration="4183000" />
       <workItem from="1747553866220" duration="68000" />
+      <workItem from="1747557149958" duration="4077000" />
+      <workItem from="1747575594527" duration="265000" />
+      <workItem from="1747932663597" duration="263000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />
@@ -414,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1743440463167</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="MinorChanges">
+      <option name="closed" value="true" />
+      <created>1747561026560</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1747561026560</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -427,6 +439,7 @@
     <MESSAGE value="GitIgnore2" />
     <MESSAGE value="hide appsettings" />
     <MESSAGE value="update .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="update .gitignore" />
+    <MESSAGE value="MinorChanges" />
+    <option name="LAST_COMMIT_MESSAGE" value="MinorChanges" />
   </component>
 </project>

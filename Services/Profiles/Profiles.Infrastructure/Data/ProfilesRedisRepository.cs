@@ -69,10 +69,7 @@ public class ProfilesRedisRepository : IProfilesRedisRepository
     public async Task DeleteBasicInfoAsync(ProfileId profileId)
     {
         var key = GetBasicInfoKey(profileId);
-        var deleted = await _redisDb.KeyDeleteAsync(key);
-        
-        if (!deleted)
-            throw new NotFoundException($"Basic profile with id {profileId.Value} not found in cache");
+        await _redisDb.KeyDeleteAsync(key);
     }
 
     private static string GetProfileKey(ProfileId profileId) => $"profile:{profileId.Value}";
