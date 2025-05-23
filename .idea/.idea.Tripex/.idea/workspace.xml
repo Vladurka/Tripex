@@ -37,6 +37,11 @@
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/CookiesService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/CookiesService.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,12 +78,15 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e22aa88644c23239bca185129cb6849c9377ffc28d6d77a16678d818e9aea33a/ContentSafetyImageData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f645154fd123ae691055915c58519223d5e998caac4810db20ce69a7be29fb2/ImageCategoriesAnalysis.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Services/CookiesService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/WebApi/Tripex/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameQuery.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Profiles/Profiles.Domain/Models/Profile.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Profiles/Profiles.Domain/Models/Profile.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
   <component name="KubernetesApiProvider">{
@@ -393,6 +401,11 @@
       <workItem from="1747557149958" duration="4077000" />
       <workItem from="1747575594527" duration="265000" />
       <workItem from="1747932663597" duration="263000" />
+      <workItem from="1747934161637" duration="7280000" />
+      <workItem from="1748012582787" duration="10000" />
+      <workItem from="1748012879117" duration="2814000" />
+      <workItem from="1748016783234" duration="635000" />
+      <workItem from="1748029317493" duration="1976000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />
@@ -426,7 +439,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747561026560</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="CheckAuth">
+      <option name="closed" value="true" />
+      <created>1747941755699</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1747941755699</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -440,6 +461,7 @@
     <MESSAGE value="hide appsettings" />
     <MESSAGE value="update .gitignore" />
     <MESSAGE value="MinorChanges" />
-    <option name="LAST_COMMIT_MESSAGE" value="MinorChanges" />
+    <MESSAGE value="CheckAuth" />
+    <option name="LAST_COMMIT_MESSAGE" value="CheckAuth" />
   </component>
 </project>

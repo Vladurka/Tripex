@@ -3,7 +3,7 @@ namespace Auth.API.Auth.Commands.Register;
 public record RegisterCommand(string UserName, string Email,
     string Password, string ConfirmPassword) : ICommand<RegisterResult>;
 
-public record RegisterResult(Guid Id, string RefreshToken);
+public record RegisterResult(Guid UserId);
 
 public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {

@@ -3,7 +3,7 @@
 namespace Auth.API.Auth.Commands.Login;
 
 public record LoginCommand(string Email, string Password) : ICommand<LoginResult>;
-public record LoginResult(string RefreshToken);
+public record LoginResult(Guid UserId);
 
 public class LoginCommandValidator : AbstractValidator<LoginCommand>
 {
