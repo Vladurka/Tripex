@@ -1,10 +1,13 @@
 using BuildingBlocks.AzureBlob;
+using BuildingBlocks.Messaging.Events.Profiles;
+using Mapster;
+using MassTransit;
 using Posts.Application.Data;
 
 namespace Posts.Application.Posts.Commands.DeletePost;
 
 public class DeletePostHandler(IPostRepository repo, IBlobStorageService blobStorageService,
-    IPostsRedisRepository redisRepo) : ICommandHandler<DeletePostCommand, DeletePostResult>
+    IPostsRedisRepository redisRepo, IPublishEndpoint publishEndpoint) : ICommandHandler<DeletePostCommand, DeletePostResult>
 {
     public async Task<DeletePostResult> Handle(DeletePostCommand command, CancellationToken cancellationToken)
     {
@@ -15,10 +18,13 @@ public class DeletePostHandler(IPostRepository repo, IBlobStorageService blobSto
 
         var profileId = ProfileId.Of(command.ProfileId);
         var postId = PostId.Of(command.PostId);
-
-        await Task.WhenAll(repo.DeletePostAsync(postId, profileId), 
+        
+        var decrementPostCountMessage = command.Adapt<DecrementPostCountEvent>();
+        
+        await Task.WhenAll(repo.DeletePostAsync(postId), 
             redisRepo.DeletePostAsync(postId, profileId), 
-            blobStorageService.DeletePhotoAsync(postId.Value, cancellationToken));
+            blobStorageService.DeletePhotoAsync(postId.Value, cancellationToken),
+            publishEndpoint.Publish(decrementPostCountMessage, cancellationToken));
 
         return new DeletePostResult(true);
     }

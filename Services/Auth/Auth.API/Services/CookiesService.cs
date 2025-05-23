@@ -13,6 +13,7 @@
             {
                 HttpOnly = true,
                 Secure = true,
+                SameSite = SameSiteMode.None,
                 Expires = DateTimeOffset.UtcNow.AddMinutes(minutes)
             });
         }
@@ -44,6 +45,7 @@
             {
                 HttpOnly = true,
                 Secure = true,
+                SameSite = SameSiteMode.None,
                 Expires = DateTimeOffset.UtcNow.AddMinutes(minutes)
             });
         }

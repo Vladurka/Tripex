@@ -1,6 +1,7 @@
 using BuildingBlocks.AzureBlob;
 using BuildingBlocks.ContentModeration;
 using BuildingBlocks.Messaging.Events.Cache;
+using BuildingBlocks.Messaging.Events.Profiles;
 using Mapster;
 using MassTransit;
 using Posts.Application.Data;
@@ -29,7 +30,9 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
             Description = command.Description
         };
         
-        var eventMessage = command.Adapt<CacheBasicInfoEvent>();
+        var cacheInfoMessage = command.Adapt<CacheBasicInfoEvent>();
+        var incrementPostCountMessage = command.Adapt<IncrementPostCountEvent>();
+        
         var profileId = ProfileId.Of(command.ProfileId);
         
         var arePostsCachedTask = redisRepo.ArePostsCachedAsync(profileId);
@@ -37,7 +40,8 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
         var tasks = new List<Task>
         {
             repo.AddPostAsync(post),
-            publishEndpoint.Publish(eventMessage, cancellationToken),
+            publishEndpoint.Publish(cacheInfoMessage, cancellationToken),
+            publishEndpoint.Publish(incrementPostCountMessage, cancellationToken),
             arePostsCachedTask 
         };
 

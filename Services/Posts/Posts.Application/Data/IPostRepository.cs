@@ -7,8 +7,6 @@ public interface IPostRepository
     public Task<IEnumerable<Post>> GetPostsByUserAsync(ProfileId profileId);
     public Task<IEnumerable<Guid>> GetPostIdsByUserAsync(ProfileId profileId);
     public Task<IEnumerable<Post>> GetAllPostsAsync();
-    public Task DeletePostAsync(PostId id, ProfileId profileId);
+    public Task DeletePostAsync(PostId id);
     public Task DeletePostsAsync(ProfileId profileId);
-    public Task DeletePostCountAsync(ProfileId profileId);
-    public Task<int> GetPostCount(ProfileId profileId);
 }

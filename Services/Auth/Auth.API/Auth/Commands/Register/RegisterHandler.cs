@@ -41,7 +41,7 @@ public class RegisterHandler(IPasswordHasher passwordHasher, ITokenService token
             
             tokenService.SetTokenWithId(user.Id, _options.TokenName, _options.AccessTokenExpirationMinutes);
 
-            return new RegisterResult(user.Id, tokens.RefreshToken); 
+            return new RegisterResult(user.Id); 
         }
         catch (Exception)
         {
