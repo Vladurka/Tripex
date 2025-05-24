@@ -25,7 +25,7 @@ public class UpdateProfileHandler(
             if (!string.IsNullOrWhiteSpace(command.ProfileName) && profile.ProfileName.Value != command.ProfileName)
             {
                 if (await repo.ProfileNameExistsAsync(command.ProfileName, cancellationToken))
-                    throw new ExistsException(command.ProfileName);
+                    throw new ExistsException("Profile", "username" , command.ProfileName);
 
                 profile.UpdateProfileName(ProfileName.Of(command.ProfileName));
                 profile.LastModified = DateTime.UtcNow;

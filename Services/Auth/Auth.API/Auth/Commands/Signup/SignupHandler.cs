@@ -16,10 +16,10 @@ public class SignupHandler(IPasswordHasher passwordHasher, ITokenService tokenSe
             var userExists = await repo.UserExists(command.Email, cancellationToken);
             
             if (userExists)
-                throw new ExistsException("User", command.Email);
+                throw new ExistsException("User", "email", command.Email);
 
             if (await repo.UsernameExistsAsync(command.UserName, cancellationToken))
-                throw new ExistsException("User", command.UserName);
+                throw new ExistsException("User", "username", command.UserName);
             
             var user = new User(command.UserName, command.Email, passwordHasher.HashPassword(command.Password));
             
