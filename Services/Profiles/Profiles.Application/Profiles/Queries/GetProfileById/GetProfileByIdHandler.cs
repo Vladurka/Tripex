@@ -14,7 +14,7 @@ public class GetProfileByIdHandler(IProfilesRepository repo, IOutboxRepository o
         if (profile == null)
         {
             profile = await repo.GetProfileByIdAsync(profileId, cancellationToken, false) ?? 
-                      throw new NotFoundException("Profile", query.ProfileId);
+                throw new NotFoundException("Profile", query.ProfileId);
 
             if (profile.IsCached)
             {

@@ -1,4 +1,3 @@
-using BuildingBlocks.Exceptions;
 using Profiles.Application.Profiles.Queries;
 
 namespace Profiles.Application.Profiles.Commands.UpdateProfile;

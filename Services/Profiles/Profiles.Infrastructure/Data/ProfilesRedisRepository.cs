@@ -1,5 +1,4 @@
 using System.Text.Json;
-using BuildingBlocks.Exceptions;
 using Profiles.Application.Data;
 using Profiles.Application.DTO;
 using Profiles.Domain.ValueObjects;
@@ -60,10 +59,7 @@ public class ProfilesRedisRepository : IProfilesRedisRepository
     public async Task DeleteProfileAsync(ProfileId profileId)
     {
         var key = GetProfileKey(profileId);
-        var deleted = await _redisDb.KeyDeleteAsync(key);
-        
-        if (!deleted)
-            throw new NotFoundException($"Profile with id {profileId.Value} not found in cache");
+        await _redisDb.KeyDeleteAsync(key);
     }
 
     public async Task DeleteBasicInfoAsync(ProfileId profileId)

@@ -7,4 +7,4 @@ public class UpdateAvatarCommand : ICommand<UpdateAvatarResult>
     public Guid ProfileId { get; set; }
     public IFormFile? Avatar { get; set; }
 }
-public record UpdateAvatarResult(string AvatarUrl);
+public record UpdateAvatarResult(string? AvatarUrl);

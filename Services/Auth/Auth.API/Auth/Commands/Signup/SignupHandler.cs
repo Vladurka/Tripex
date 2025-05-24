@@ -1,14 +1,14 @@
 using System.Text.Json;
 using Mapster;
 
-namespace Auth.API.Auth.Commands.Register;
+namespace Auth.API.Auth.Commands.Signup;
 
-public class RegisterHandler(IPasswordHasher passwordHasher, ITokenService tokenService, 
+public class SignupHandler(IPasswordHasher passwordHasher, ITokenService tokenService, 
     IOptions<JwtOptions> options, IUsersRepository repo, 
-    IOutboxRepository outboxRepo) : ICommandHandler<RegisterCommand, RegisterResult>
+    IOutboxRepository outboxRepo) : ICommandHandler<SignupCommand, RegisterResult>
 {
     private JwtOptions _options => options.Value;
-    public async Task<RegisterResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<RegisterResult> Handle(SignupCommand command, CancellationToken cancellationToken)
     {
         await using var transaction = await repo.BeginTransactionAsync(cancellationToken);
         try

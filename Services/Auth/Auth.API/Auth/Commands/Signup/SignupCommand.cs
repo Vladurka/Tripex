@@ -1,11 +1,11 @@
-namespace Auth.API.Auth.Commands.Register;
+namespace Auth.API.Auth.Commands.Signup;
 
-public record RegisterCommand(string UserName, string Email,
+public record SignupCommand(string UserName, string Email,
     string Password, string ConfirmPassword) : ICommand<RegisterResult>;
 
 public record RegisterResult(Guid UserId);
 
-public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+public class RegisterCommandValidator : AbstractValidator<SignupCommand>
 {
     public RegisterCommandValidator()
     {

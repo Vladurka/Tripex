@@ -9,8 +9,8 @@ public class UpdateUserNameEventHandler(ISender sender, ILogger<UpdateUserNameEv
     {
         logger.LogInformation("Updating username");
         var command = new UpdateUserNameCommand
-            (context.Message.Id, context.Message.ProfileName);
+            (context.Message.ProfileId, context.Message.ProfileName);
         await sender.Send(command);
-        logger.LogInformation("Username updated");
+        logger.LogInformation("Username updated " + command.UserName);
     }
 }
