@@ -24,7 +24,8 @@ public static class PostMapper
             PostId.Of(db.Id),
             ProfileId.Of(db.ProfileId),
             ContentUrl.Of(db.ContentUrl),
-            db.Description
+            db.Description,
+            db.CreatedAt
         );
     }
     
@@ -34,7 +35,7 @@ public static class PostMapper
             PostId.Of(db.Id),
             ProfileId.Of(db.ProfileId),
             ContentUrl.Of(db.ContentUrl),
-            db.Description
+            db.Description, db.CreatedAt
         );
     }
     
@@ -42,7 +43,7 @@ public static class PostMapper
     {
         return new PostDto(
            post.Id.Value, post.ProfileId.Value, post.ContentUrl.Value,
-           post.Description ,post.CreatedAt
+           post.Description, post.CreatedAt
         );
     }
     
@@ -53,7 +54,8 @@ public static class PostMapper
             Id = post.Id.Value, 
             ProfileId = post.ProfileId.Value, 
             ContentUrl = post.ContentUrl.Value,
-            Description = post.Description
+            Description = post.Description,
+            CreatedAt = post.CreatedAt
         };
     }
 }

@@ -6,6 +6,7 @@ public class CachedPostDto
     public Guid ProfileId { get; set; }
     public string ContentUrl { get; set; }
     public string? Description { get; set; }
+    public DateTime CreatedAt { get; set; }
     
     public CachedPostDto(){}
 }

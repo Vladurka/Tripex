@@ -28,6 +28,7 @@ public class PostRepository : IPostRepository
             .ExecuteAsync();
 
         var db = result.FirstOrDefault();
+        Console.WriteLine(db?.CreatedAt);
         return db?.ToDomain();
     }
 
