@@ -35,12 +35,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="ExceptionsFix">
+    <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/CachedPostDto.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/CachedPostDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostMapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/Post.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Domain/Models/Post.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -403,7 +399,10 @@
       <workItem from="1748016783234" duration="635000" />
       <workItem from="1748029317493" duration="1976000" />
       <workItem from="1748073392946" duration="4114000" />
-      <workItem from="1748100505748" duration="6954000" />
+      <workItem from="1748100505748" duration="7929000" />
+      <workItem from="1748113352898" duration="1629000" />
+      <workItem from="1748164600483" duration="854000" />
+      <workItem from="1748535367089" duration="2000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />
@@ -453,7 +452,15 @@
       <option name="project" value="LOCAL" />
       <updated>1748105316582</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="PostCreatedAtFix">
+      <option name="closed" value="true" />
+      <created>1748107890650</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748107890650</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -469,6 +476,7 @@
     <MESSAGE value="MinorChanges" />
     <MESSAGE value="CheckAuth" />
     <MESSAGE value="ExceptionsFix" />
-    <option name="LAST_COMMIT_MESSAGE" value="ExceptionsFix" />
+    <MESSAGE value="PostCreatedAtFix" />
+    <option name="LAST_COMMIT_MESSAGE" value="PostCreatedAtFix" />
   </component>
 </project>
