@@ -22,13 +22,7 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
 
         var url = await blobStorageService.UploadPhotoAsync(command.Photo, id, cancellationToken);
 
-        var post = new PostDb
-        {
-            Id = id,
-            ProfileId = command.ProfileId,
-            ContentUrl = url,
-            Description = command.Description
-        };
+        var post = Post.Create(PostId.Of(id), ProfileId.Of(command.ProfileId), ContentUrl.Of(url), command.Description, DateTime.UtcNow);
         
         var cacheInfoMessage = command.Adapt<CacheBasicInfoEvent>();
         var incrementPostCountMessage = command.Adapt<IncrementPostCountEvent>();
@@ -46,10 +40,10 @@ public class CreatePostHandler(IPostRepository repo, IBlobStorageService blobSto
         };
 
         await Task.WhenAll(tasks);
-
+        
         if (arePostsCachedTask.Result) 
-            await redisRepo.AddPostAsync(post.ToDomain());
+            await redisRepo.AddPostAsync(post);
 
-        return new CreatePostResult(post.Id);
+        return new CreatePostResult(post.Id.Value);
     }
 }

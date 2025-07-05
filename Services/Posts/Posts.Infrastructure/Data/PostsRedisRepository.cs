@@ -53,27 +53,22 @@ public class PostsRedisRepository : IPostsRedisRepository
         var value = await _redisDb.StringGetAsync(key);
 
         if (value.IsNullOrEmpty)
-            throw new NotFoundException($"Post with id {postId.Value} not found in cache");
-
+           return;
+        
         var posts = JsonSerializer.Deserialize<List<CachedPostDto>>(value!)!;
     
         var initialCount = posts.Count;
         var updatedPosts = posts.Where(p => p.Id != postId.Value).ToList();
 
         if (updatedPosts.Count == initialCount)
-            throw new NotFoundException($"Post with id {postId.Value} not found in cache");
+            return;
 
         var serialized = JsonSerializer.Serialize(updatedPosts);
         await _redisDb.StringSetAsync(key, serialized);
     }
 
-    public async Task DeletePostsByProfileAsync(ProfileId profileId)
-    {
-        var deleted = await _redisDb.KeyDeleteAsync(ConvertToKey(profileId));
-        
-        if(!deleted)
-            throw new NotFoundException($"Profile with id {profileId.Value} not found in cache");
-    }
+    public async Task DeletePostsByProfileAsync(ProfileId profileId)=>
+        await _redisDb.KeyDeleteAsync(ConvertToKey(profileId));
 
     private static string ConvertToKey(ProfileId profileId) =>
         $"profile:{profileId.Value}";

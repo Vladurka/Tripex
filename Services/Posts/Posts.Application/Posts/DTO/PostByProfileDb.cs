@@ -2,13 +2,13 @@ using Cassandra.Mapping.Attributes;
 
 namespace Posts.Application.Posts.DTO;
 
-[Table("posts")]
-public class PostDb
+[Table("posts_by_author")]
+public class PostByProfileDb : IPostDb
 {
-    [PartitionKey]
     [Column("id")]
     public Guid Id { get; set; }
-
+    
+    [PartitionKey]
     [Column("profile_id")]
     public Guid ProfileId { get; set; }
 

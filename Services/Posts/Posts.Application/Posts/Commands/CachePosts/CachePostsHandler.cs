@@ -10,7 +10,7 @@ public class CachePostsHandler(IPostsRedisRepository redisRepo, IPostRepository 
     {
         var profileId = ProfileId.Of(command.ProfileId);
         
-        var posts = await repo.GetPostsByUserAsync(profileId);
+        var posts = await repo.GetPostsByProfileAsync(profileId);
         
         await redisRepo.CachePostsAsync(posts, profileId);
         

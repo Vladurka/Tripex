@@ -1,19 +1,24 @@
 using Cassandra;
+using Microsoft.Extensions.Options;
 
-public static class CassandraSession
+namespace Posts.Infrastructure.Data
 {
-    private static ISession _session;
-
-    public static ISession Connect()
+    public static class CassandraSession
     {
-        if (_session != null) return _session;
+        private static ISession _session;
 
-        var cluster = Cluster.Builder()
-            .AddContactPoint("localhost") 
-            .WithPort(9043)               
-            .Build();
+        public static ISession Connect(IOptions<CassandraSettings> options)
+        {
+            if (_session != null) return _session;
+            var settings = options.Value;
 
-        _session = cluster.Connect("tripex");
-        return _session;
+            var cluster = Cluster.Builder()
+                .AddContactPoints(settings.ScyllaDbContactPoints.ToArray())
+                .WithCredentials(settings.ScyllaDbUsername, settings.ScyllaDbPassword) 
+                .Build();
+
+            _session = cluster.Connect(settings.ScyllaDbKeyspace); 
+            return _session;
+        }
     }
 }
