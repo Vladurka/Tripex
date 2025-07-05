@@ -31,7 +31,6 @@ public class ProfileConfiguration : IEntityTypeConfiguration<Profile>
             .IsUnique();
 
         builder.Property(u => u.AvatarUrl)
-            .IsRequired()
             .HasMaxLength(500);
     
         builder.Property(u => u.Description)

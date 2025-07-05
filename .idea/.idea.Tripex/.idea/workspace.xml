@@ -36,12 +36,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="848bc158-5900-4489-b1a7-ebf11ad8d4c2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/IPostDb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostByProfileDb.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/CassandraSettings.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Tripex/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/CookiesService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Auth/Auth.API/Services/CookiesService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Data/IPostRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CachePosts/CachePostsHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CachePosts/CachePostsHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/CreatePost/CreatePostHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePostsByProfile/DeletePostsByProfileHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Commands/DeletePostsByProfile/DeletePostsByProfileHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostDb.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/DTO/PostByIdDb.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostMapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Extensions/PostMapper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Application/Posts/Queries/GetPostsByUser/GetPostsByUserHandler.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/CassandraSession.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/CassandraSession.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostsRedisRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/Data/PostsRedisRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Services/Posts/Posts.Infrastructure/DependencyInjection.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,21 +80,19 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/225dd19ef9e59a5b94de2bcd4b7b38cdca205bdfea4a7361ed03c5f79a36/INotification.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3df2bce56e8d898bb30c9a5a0a4cadc134c013a263c1931e4fc61db8aac1/ImageCategory.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6cfb6a3a9cfddaefef9bdee588a670ff173718b4f1abd22bdd558c22dfdde/Enums.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/6f90c6c13479b8c2a5be98f3d75dfc3bd885a055652d8a32904ca2448132949e/Future.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/9125a745a3e268a8dbcc5ed04e6d21d6913419a6b229dc43050c53b81d0e772/ContentSafetyImageData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/92915fc433708d54b82f7e51aa6c115b21ca2f9695264db0585bf5cd6e9e1959/Results.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/b4f8b29071cfcf73e927671b936ba53110f1b613a1cc9bef4fc4f07dd0fbe9/Exception.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d43085bfaba09c561677c83229dfd826395ba4748da2a4631129457c4a8/ContentSafetyClient.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d636182b963223f01c9a85951fd78e83e8e3ae45319513b55b67787d3715721c/EF.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/e22aa88644c23239bca185129cb6849c9377ffc28d6d77a16678d818e9aea33a/ContentSafetyImageData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/f645154fd123ae691055915c58519223d5e998caac4810db20ce69a7be29fb2/ImageCategoriesAnalysis.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/fd5f2a75d480e8c786b15cfa0ac11aa9bf445a667ad13d25dc9db61f2cb1b/IConnectionMultiplexer.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/BuildingBlocks/BuildingBlocks.Messaging/Events/Profiles/CreateProfileEvent.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/Login/LoginHandler.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/Register/RegisterCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Auth/Commands/Register/RegisterHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Auth/Auth.API/Services/CookiesService.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Auth/Auth.API/appsettings.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.API/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="mock://C:/WebApi/Tripex/Services/Profiles/Profiles.Application/Profiles/Queries/GetProfileById/GetProfileByIdHandler.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Services/Profiles/Profiles.Application/Profiles/Queries/SearchProfilesByName/SearchProfilesByNameQuery.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="KubernetesApiPersistence">{}</component>
@@ -121,7 +128,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;deletionFromPopupRequiresConfirmation&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Backend&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Development&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -406,6 +413,18 @@
       <workItem from="1748012879117" duration="2814000" />
       <workItem from="1748016783234" duration="635000" />
       <workItem from="1748029317493" duration="1976000" />
+      <workItem from="1748073392946" duration="4114000" />
+      <workItem from="1748100505748" duration="7929000" />
+      <workItem from="1748113352898" duration="1629000" />
+      <workItem from="1748164600483" duration="854000" />
+      <workItem from="1748535367089" duration="2000" />
+      <workItem from="1749485629153" duration="40000" />
+      <workItem from="1749567109340" duration="937000" />
+      <workItem from="1750858341540" duration="2098000" />
+      <workItem from="1750874158677" duration="1033000" />
+      <workItem from="1750951246065" duration="847000" />
+      <workItem from="1751106549393" duration="421000" />
+      <workItem from="1751725731925" duration="3499000" />
     </task>
     <task id="LOCAL-00002" summary="GitIgnore2">
       <option name="closed" value="true" />
@@ -447,7 +466,23 @@
       <option name="project" value="LOCAL" />
       <updated>1747941755699</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ExceptionsFix">
+      <option name="closed" value="true" />
+      <created>1748105316582</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1748105316582</updated>
+    </task>
+    <task id="LOCAL-00008" summary="PostCreatedAtFix">
+      <option name="closed" value="true" />
+      <created>1748107890650</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1748107890650</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -462,6 +497,8 @@
     <MESSAGE value="update .gitignore" />
     <MESSAGE value="MinorChanges" />
     <MESSAGE value="CheckAuth" />
-    <option name="LAST_COMMIT_MESSAGE" value="CheckAuth" />
+    <MESSAGE value="ExceptionsFix" />
+    <MESSAGE value="PostCreatedAtFix" />
+    <option name="LAST_COMMIT_MESSAGE" value="PostCreatedAtFix" />
   </component>
 </project>

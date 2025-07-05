@@ -4,11 +4,11 @@ using Profiles.Domain.ValueObjects;
 namespace Profiles.Domain.Models;
 public class Profile : Entity<ProfileId>
 {
-    public string AvatarUrl { get; private set; } = string.Empty;
+    public string? AvatarUrl { get; private set; }
     public ProfileName ProfileName { get; private set; }
-    public string FirstName { get; private set; } = string.Empty;
-    public string LastName { get; private set; } = string.Empty;
-    public string Description { get; private set; } = string.Empty;
+    public string? FirstName { get; private set; }
+    public string? LastName { get; private set; }
+    public string? Description { get; private set; }
     public int FollowerCount { get; private set; }
     public int FollowingCount { get; private set; }
     public int PostCount { get; private set; }
@@ -16,11 +16,10 @@ public class Profile : Entity<ProfileId>
     public DateTime ViewCountResetAt { get; private set; } = DateTime.UtcNow;
     public bool IsCached { get; private set; }
     
-    public const int VIEW_COUNT_UPDATE_TIME = 7;
-    public const int COUNT_TRIGGER = 2;
+    private const int ViewCountUpdateTime = 7;
+    private const int CountTrigger = 2;
 
     private Profile() { }
-
     
     public static Profile Create(ProfileId id, ProfileName profileName)
     {
@@ -48,7 +47,7 @@ public class Profile : Entity<ProfileId>
         };
     }
     
-    public void Update(string firstName, string lastName, string description)
+    public void Update(string? firstName, string? lastName, string? description)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -83,7 +82,7 @@ public class Profile : Entity<ProfileId>
 
     private void ResetViewCountIfOutdated()
     {
-        if ((DateTime.UtcNow - ViewCountResetAt).TotalDays > VIEW_COUNT_UPDATE_TIME)
+        if ((DateTime.UtcNow - ViewCountResetAt).TotalDays > ViewCountUpdateTime)
             ResetViewCount();
     }
 
@@ -100,7 +99,7 @@ public class Profile : Entity<ProfileId>
     {
         UpdateViewCount();
 
-        if (ViewCount >= COUNT_TRIGGER)
+        if (ViewCount >= CountTrigger)
         {
             ResetViewCount();
             IsCached = true;

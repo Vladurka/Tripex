@@ -13,7 +13,7 @@ public class GetPostsByUserHandler (IPostRepository repo, IPostsRedisRepository 
         var posts = await redisRepo.GetCachedPostsAsync(profileId);
         
         if(!posts.Any())
-            posts = await repo.GetPostsByUserAsync(profileId);
+            posts = await repo.GetPostsByProfileAsync(profileId);
         
         return new GetPostsByUserResult(posts.Select(p => p.ToDto()));
     }

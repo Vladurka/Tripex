@@ -6,9 +6,21 @@ namespace Posts.Application.Posts.Extensions;
 
 public static class PostMapper
 {
-    public static PostDb ToDb(this Post post)
+    public static PostByIdDb ToDbById(this Post post)
     {
-        return new PostDb
+        return new PostByIdDb
+        {
+            Id = post.Id.Value,
+            ProfileId = post.ProfileId.Value,
+            ContentUrl = post.ContentUrl.Value,
+            Description = post.Description,
+            CreatedAt = post.CreatedAt
+        };
+    }
+    
+    public static PostByProfileDb ToDbByProfile(this Post post)
+    {
+        return new PostByProfileDb
         {
             Id = post.Id.Value,
             ProfileId = post.ProfileId.Value,
@@ -18,13 +30,14 @@ public static class PostMapper
         };
     }
 
-    public static Post ToDomain(this PostDb db)
+    public static Post ToDomain(this IPostDb postDb)
     {
         return Post.Create(
-            PostId.Of(db.Id),
-            ProfileId.Of(db.ProfileId),
-            ContentUrl.Of(db.ContentUrl),
-            db.Description
+            PostId.Of(postDb.Id),
+            ProfileId.Of(postDb.ProfileId),
+            ContentUrl.Of(postDb.ContentUrl),
+            postDb.Description,
+            postDb.CreatedAt
         );
     }
     
@@ -34,7 +47,7 @@ public static class PostMapper
             PostId.Of(db.Id),
             ProfileId.Of(db.ProfileId),
             ContentUrl.Of(db.ContentUrl),
-            db.Description
+            db.Description, db.CreatedAt
         );
     }
     
@@ -42,7 +55,7 @@ public static class PostMapper
     {
         return new PostDto(
            post.Id.Value, post.ProfileId.Value, post.ContentUrl.Value,
-           post.Description ,post.CreatedAt
+           post.Description, post.CreatedAt
         );
     }
     
@@ -53,7 +66,8 @@ public static class PostMapper
             Id = post.Id.Value, 
             ProfileId = post.ProfileId.Value, 
             ContentUrl = post.ContentUrl.Value,
-            Description = post.Description
+            Description = post.Description,
+            CreatedAt = post.CreatedAt
         };
     }
 }

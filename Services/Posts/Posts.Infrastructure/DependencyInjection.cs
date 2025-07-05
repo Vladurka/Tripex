@@ -11,6 +11,9 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
         IConfiguration config)
     {
+        services.Configure<CassandraSettings>(
+            config.GetSection("ConnectionStrings"));
+        
         services.AddScoped<IPostRepository, PostRepository>();
         
         services.AddSingleton<IConnectionMultiplexer>(sp =>

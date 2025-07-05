@@ -1,21 +1,21 @@
-using Auth.API.Auth.Commands.Register;
+using Auth.API.Auth.Commands.Signup;
 
 namespace Auth.API.Endpoints;
 
-public class Register : ICarterModule
+public class Signup : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("api/auth/register", async (RegisterCommand command, ISender sender) =>{
+        app.MapPost("api/auth/signup", async (SignupCommand command, ISender sender) =>{
             {
                 var result = await sender.Send(command);
                 return Results.Ok(result);
             }})
-            .WithName("Register")
+            .WithName("Signup")
             .Produces<RegisterResult>()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .WithSummary("Register")
-            .WithDescription("Register");
+            .WithSummary("Signup")
+            .WithDescription("Signup");
     }
 }

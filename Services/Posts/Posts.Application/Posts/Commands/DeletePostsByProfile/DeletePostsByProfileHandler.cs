@@ -4,8 +4,7 @@ using Posts.Application.Data;
 
 namespace Posts.Application.Posts.Commands.DeletePostsByProfile;
 
-public class DeletePostsByProfileHandler(IPostsRedisRepository redisRepo, IPostRepository repo,
-    IPublishEndpoint publishEndpoint) 
+public class DeletePostsByProfileHandler(IPostsRedisRepository redisRepo, IPostRepository repo) 
     : ICommandHandler<DeletePostsByProfileCommand>
 {
     public async Task<Unit> Handle(DeletePostsByProfileCommand command, CancellationToken cancellationToken)

@@ -32,11 +32,14 @@ namespace Profiles.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    AvatarUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false),
+                    AvatarUrl = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
                     ProfileName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     FirstName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     LastName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: true),
                     Description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    FollowerCount = table.Column<int>(type: "integer", nullable: false),
+                    FollowingCount = table.Column<int>(type: "integer", nullable: false),
+                    PostCount = table.Column<int>(type: "integer", nullable: false),
                     ViewCount = table.Column<int>(type: "integer", nullable: false),
                     ViewCountResetAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     IsCached = table.Column<bool>(type: "boolean", nullable: false),

@@ -9,14 +9,15 @@ public class Post : Entity<PostId>
     private Post() { }
 
     public static Post Create(PostId id, ProfileId profileId, 
-        ContentUrl contentUrlUrl, string? description)
+        ContentUrl contentUrlUrl, string? description, DateTime createdAt)
     {
         return new Post
         {
             Id = id,
             ProfileId = profileId,
             ContentUrl = contentUrlUrl,
-            Description = description
+            Description = description,
+            CreatedAt = createdAt
         };
     }
 }

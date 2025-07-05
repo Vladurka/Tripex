@@ -12,8 +12,8 @@ using Profiles.Infrastructure.Data;
 namespace Profiles.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ProfilesContext))]
-    [Migration("20250518093619_ProfileAvatarUpdate")]
-    partial class ProfileAvatarUpdate
+    [Migration("20250609132755_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,6 @@ namespace Profiles.Infrastructure.Data.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
@@ -68,12 +67,10 @@ namespace Profiles.Infrastructure.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
@@ -90,7 +87,6 @@ namespace Profiles.Infrastructure.Data.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 

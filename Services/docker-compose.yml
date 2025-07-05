@@ -1,83 +1,19 @@
 services:
-  authdb:
-    image: postgres:latest
-    container_name: authdb
-    ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: auth
-    volumes:
-      - auth_data:/var/lib/postgresql/data
-    restart: on-failure
-  
-  profilesdb:
-    image: postgres:latest
-    container_name: profilesdb
-    ports:
-      - "5434:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: profiles
-    volumes:
-      - profiles_data:/var/lib/postgresql/data
-    restart: on-failure
-    
-  profilesredisdb:
+  profiles-redis-db:
     image: redis:latest
     ports:
       - "6380:6379"
     restart: on-failure
     volumes:
-      - "profilesRedis-data:/data"
-  
-  postsdb:
-    image: cassandra:4.1
-    container_name: postsdb
-    ports:
-      - "9043:9042"
-    environment:
-      - CASSANDRA_CLUSTER_NAME=DevCluster
-      - CASSANDRA_DC=dc1
-      - CASSANDRA_RACK=rack1
-      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
-    volumes:
-      - posts_data:/var/lib/cassandra
-    restart: on-failure
-    healthcheck:
-      test: [ "CMD-SHELL", "cqlsh localhost 9042 -e 'DESCRIBE KEYSPACES'" ]
-      interval: 20s
-      timeout: 10s
-      retries: 10
-      
-  postsredisdb:
+      - "profiles-redis-data:/data"
+        
+  posts-redis-db:
     image: redis:latest
     ports:
       - "6381:6379"
     restart: on-failure
     volumes:
-      - "postsRedis-data:/data"
-        
-  interactiondb:
-    image: cassandra:4.1
-    container_name: interactiondb
-    ports:
-      - "9044:9042"
-    environment:
-      - CASSANDRA_CLUSTER_NAME=DevCluster
-      - CASSANDRA_DC=dc1
-      - CASSANDRA_RACK=rack1
-      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
-    volumes:
-      - interaction_data:/var/lib/cassandra
-    restart: on-failure
-    healthcheck:
-      test: [ "CMD-SHELL", "cqlsh localhost 9042 -e 'DESCRIBE KEYSPACES'" ]
-      interval: 20s
-      timeout: 10s
-      retries: 10
+      - "posts-redis-data:/data"
   
   rabbitmq:
     image: rabbitmq:management
@@ -92,9 +28,5 @@ services:
     restart: on-failure
 
 volumes:
-  auth_data:
-  profiles_data:
-  profilesRedis-data:
-  posts_data:
-  postsRedis-data:
-  interaction_data:
+  profiles-redis-data:
+  posts-redis-data:
